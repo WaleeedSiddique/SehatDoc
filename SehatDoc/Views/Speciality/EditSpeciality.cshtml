@@ -1,0 +1,13 @@
+﻿@model SpecialityDTO
+@{
+    ViewBag.Title = "Edit Speciality";
+    Layout = "_AdminDashboard";
+}
+<div class="container">
+    <form asp-controller="Speciality" asp-action="EditSpeciality">
+        <input asp-for="id" hidden />
+        <label class="form-label" asp-for="name">Speciality Name</label>
+        <input asp-for="name" class="form-control" />
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>

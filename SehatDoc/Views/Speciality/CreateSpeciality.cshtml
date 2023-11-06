@@ -1,0 +1,13 @@
+﻿@model Specialities
+@{
+    ViewBag.Title = "Add Speciality";
+    Layout = "_AdminDashboard";
+}
+<div class="container">
+<form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
+        <span class="text-danger">@ViewBag.Message</span>
+    <label class="form-label" asp-for="SpecialityName">Speciality Name</label>
+    <input asp-for="SpecialityName" class="form-control" />
+    <button type="submit" class="btn btn-success mt-1">Submit</button>
+</form>
+</div>

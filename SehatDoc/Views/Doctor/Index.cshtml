@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Doctor>
+@{
+    ViewBag.Title = "Doctors";
+}
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Specialization</th>
+            <th scope="col">City</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Details</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var docs in Model)
+        {
+            var photopath = "~/images/" + docs.PhotoPath;
+            <tr>
+                <td><img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" /></td>
+                <th scope="row">@docs.DoctorId</th>
+                <td>@docs.FirstName</td>
+                <td>@docs.LastName</td>
+                <td>@docs.Speciality.SpecialityName</td>
+                <td>@docs.City</td>
+                <td>@docs.Gender</td>
+                <td><a asp-controller="Doctor" asp-action="Edit" asp-route-id="@docs.DoctorId" class="btn btn-secondary">Edit</a></td>
+                <td><a asp-controller="Doctor" asp-action="Details" asp-route-id="@docs.DoctorId" class="btn btn-warning">Details</a></td>
+                <td><a asp-controller="Doctor" asp-action="Delete" asp-route-id="@docs.DoctorId" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+       
+     
+    </tbody>
+</table>
