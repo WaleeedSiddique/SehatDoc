@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Doctor>
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+        <div class="row">
+            @foreach(var group in Model.GroupBy(d => d.Speciality.SpecialityName))
+            {
+            <div class="col-lg-4 col-md-6 mt-5">
+            <div class="card" style="width: 18rem;">
+                    <div class="card-header bg-info" style="padding-left:65px">@group.Key</div>
+            <ul class="list-group list-group-flush">
+             @foreach(var docs in group.Take(3))
+              {
+                var photopath = "~/images/" + docs.PhotoPath;
+               <li class="list-group-item"><img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" />
+                 <a class="text-decoration-none text-dark hov" asp-controller="Doctor" asp-action="Details" asp-route-id="@docs.DoctorId">@docs.FirstName @docs.LastName</a>
+               </li>
+              }
+                        <li class="list-group-item"> <a style="padding-left:60px" class="text-decoration-none text-dark hov " asp-controller="Doctor" asp-action="DoctorsinCategory" asp-route-name="@group.Key">More @group.Key></a></li>
+            </ul>
+        </div>
+        </div>
+            }     
+    </div>
+</div>

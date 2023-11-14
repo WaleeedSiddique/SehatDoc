@@ -27,6 +27,24 @@ namespace SehatDoc.Controllers
             return View(Doctors);   
         }
         [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var doc = _doctorInteraface.GetDoctor(id);
+            if(doc != null)
+            {
+                return View(doc);
+            }
+            return NotFound();
+        }
+        [HttpGet]
+        public IActionResult ListDoctors()
+        {
+            var doctors = _doctorInteraface.GetAllDoctors();
+            var specialites = _speciality.GetAllSpecialities();
+            ViewBag.speciality = new SelectList(specialites, "Id", "SpecialityName");
+            return View(doctors);
+        }
+        [HttpGet]
         public IActionResult Create()
         {
             var speclities = _speciality.GetAllSpecialities();
@@ -116,5 +134,12 @@ namespace SehatDoc.Controllers
             }
             return NotFound();
         }
+        [HttpGet]
+        public IActionResult DoctorsinCategory(string name)
+        {
+            var doctors = _doctorInteraface.GetAllDoctors().Where(x => x.Speciality.SpecialityName == name).ToList();
+            return View(doctors);
+        }
+       
     }
 }

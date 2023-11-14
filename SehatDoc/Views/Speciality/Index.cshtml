@@ -19,7 +19,7 @@
         {            
         <tr>
                 <td scope="col">@specialities.Id</td>
-            <td scope="col">@specialities.SpecialityName</td>
+            <td scope="col">@specialities.SpecialityName.ToUpper()</td>
             <td scope="col">@specialities.doctors.Count()</td>
                 <td scope="col"><a class="btn btn-secondary" asp-controller="Speciality" asp-action="EditSpeciality" asp-route-id="@specialities.Id">Edit</a></td>
                 <td scope="col"><a class="btn btn-warning" asp-controller="Speciality" asp-action="SpecialityDetails" asp-route-id="@specialities.Id">Details</a></td>

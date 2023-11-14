@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Speciality Details";
 }
-<div class="card" style="width: 18rem;">
+<div class="card" >
     <div class="card-body">
         <h5 class="card-title">@Model.SpecialityName</h5>
         <h6 class="card-subtitle mb-2 text-muted">Number of Doctors : @Model.doctors.Count()</h6>
@@ -18,9 +18,9 @@
                 @foreach(var doc in Model.doctors)
                 {
                     <tr>
-                        <td>@doc.DoctorId</td>
-                        <td>@doc.FirstName</td>
-                        <td>@doc.City</td>
+                        <td scope="col">@doc.DoctorId</td>
+                        <td scope="col">@doc.FirstName</td>
+                        <td scope="col">@doc.City</td>
                     </tr>
                 }
                 

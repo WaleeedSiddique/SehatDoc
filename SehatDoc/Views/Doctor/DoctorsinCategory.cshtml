@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Doctor>
+@{
+    ViewBag.Title = "Doctor";
+}
+@foreach(var doctor in Model)
+{
+    var photopath = "~/images/" + doctor.PhotoPath;
+    <div class="card mt-2">
+        <div class="card-header card-head bg-info">            
+        </div>
+        <div class="card-body">
+            <img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" />
+            <h5 class="card-title">@doctor.FirstName @doctor.LastName</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a  class="btn btn-warning">Book Appointment</a>
+        </div>
+    </div>
+}

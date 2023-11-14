@@ -26,6 +26,7 @@ namespace SehatDoc.DoctorRepositories
             if(doc != null)
             {
                 _context.Doctors.Remove(doc);
+                _context.SaveChanges();
             }
         }
 

@@ -16,3 +16,20 @@ html {
 body {
   margin-bottom: 60px;
 }
+.hov:hover{
+    color:dodgerblue !important;
+}
+.card-head {
+    background-color: lightskyblue;
+    padding: 20px;
+}
+.signup-btn{
+    border:1px solid gray;
+    border-radius:6px;
+    margin-right:20px;
+}
+.doc-btn {
+    border: 1px solid yellow;
+    border-radius: 6px;
+    margin-right:20px;
+}
