@@ -1,0 +1,42 @@
+﻿@using SehatDoc.Models;
+@model IEnumerable<HospitalProfile>
+@{
+    ViewBag.Title = "HospitalProfile";
+}
+
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Hospital Name</th>
+            <th scope="col">Hospital Location</th>
+            <th scope="col">Hospital Number</th>
+            <th scope="col">Department</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Details</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hospital in Model)
+        {
+            var photopath = "~/images/" + hospital.HospitalLogo;
+            <tr>
+                <td><img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" /></td>
+                <th scope="row">@hospital.HospitalID</th>
+                <td>@hospital.HospitalName</td>
+                <td>@hospital.HospitalLocation</td>
+                <td>@hospital.HospitalNumber</td>
+                <td>@hospital.Department.DepartmentName</td>
+
+                <td><a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-secondary">Edit</a></td>
+                <td><a asp-controller="HospitalProfile" asp-action="Details" asp-route-id="@hospital.HospitalID" class="btn btn-warning">Details</a></td>
+                <td><a asp-controller="HospitalProfile" asp-action="Delete" asp-route-id="@hospital.HospitalID" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>

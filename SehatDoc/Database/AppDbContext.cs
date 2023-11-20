@@ -11,5 +11,7 @@ namespace SehatDoc.DatabaseContext
         public DbSet<Specialities> Specialities { get; set; }
         public DbSet<Disease> Diseases { get; set; }
         public DbSet<Symptoms> Symptoms { get; set;}
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<HospitalProfile> HospitalProfiles { get; set; }
     }
 }
