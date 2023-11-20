@@ -1,0 +1,37 @@
+﻿@using SehatDoc.Models;
+@model IEnumerable<Symptoms>
+@{
+    ViewBag.Title = "Symptoms";
+}
+
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Details</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var symptoms in Model)
+        {
+            var photopath = "~/images/" + symptoms.SymptomImage;
+            <tr>
+                <td><img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" /></td>
+                <th scope="row">@symptoms.SymptomID</th>
+                <td>@symptoms.SymptomName</td>
+                <td>@symptoms.SymptomDescription</td>
+                <td><a asp-controller="Symptoms" asp-action="Edit" asp-route-id="@symptoms.SymptomID" class="btn btn-secondary">Edit</a></td>
+                <td><a asp-controller="Symptoms" asp-action="Details" asp-route-id="@symptoms.SymptomID" class="btn btn-warning">Details</a></td>
+                <td><a asp-controller="Symptoms" asp-action="Delete" asp-route-id="@symptoms.SymptomID" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>

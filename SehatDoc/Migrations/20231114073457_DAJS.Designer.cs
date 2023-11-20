@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SehatDoc.DatabaseContext;
 
@@ -10,9 +11,10 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231114073457_DAJS")]
+    partial class DAJS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,55 +80,6 @@ namespace SehatDoc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Specialities");
-                });
-
-            modelBuilder.Entity("SehatDoc.Models.Disease", b =>
-                {
-                    b.Property<int>("DiseaseID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiseaseID"), 1L, 1);
-
-                    b.Property<string>("DiseaseImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DiseaseName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("DiseaseID");
-
-                    b.ToTable("Diseases");
-                });
-
-            modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
-                {
-                    b.Property<int>("SymptomID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymptomID"), 1L, 1);
-
-                    b.Property<string>("SymptomDescription")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("SymptomImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SymptomName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("SymptomID");
-
-                    b.ToTable("Symptoms");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Doctor", b =>

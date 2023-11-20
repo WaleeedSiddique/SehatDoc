@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
+using SehatDoc.DiseaseInterfaces;
 using SehatDoc.DoctorRepositories;
+using SehatDoc.DiseaseRepositories;
+using SehatDoc.SymptomsInterfaces;
+using SehatDoc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 builder.Services.AddScoped<ISpecialityInterface,SpecialityService>();
 builder.Services.AddScoped<IDoctorInteraface,DoctorService>();
+builder.Services.AddScoped<IDiseaseInterface, DiseaseService>();
+builder.Services.AddScoped<ISymptomsInterface, SymptomsService>();
 
 var app = builder.Build();
 

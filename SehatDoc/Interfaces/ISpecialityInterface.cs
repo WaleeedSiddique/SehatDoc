@@ -9,5 +9,6 @@ namespace SehatDoc.DoctorInterfaces
         public Specialities AddSpeciality(Specialities speciality);
         public Specialities UpdateSpeciality(Specialities SpecialityChanges);
         public Specialities DeleteSpeciality(Specialities speciality);
+
     }
 }
