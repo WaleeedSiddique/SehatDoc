@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SehatDoc.DatabaseContext;
 
@@ -10,9 +11,10 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115145251_symptom")]
+    partial class symptom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,29 +82,6 @@ namespace SehatDoc.Migrations
                     b.ToTable("Specialities");
                 });
 
-            modelBuilder.Entity("SehatDoc.Models.Department", b =>
-                {
-                    b.Property<int>("DepartmentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"), 1L, 1);
-
-                    b.Property<string>("DepartmentDescription")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("DepartmentID");
-
-                    b.ToTable("Departments");
-                });
-
             modelBuilder.Entity("SehatDoc.Models.Disease", b =>
                 {
                     b.Property<int>("DiseaseID")
@@ -123,42 +102,6 @@ namespace SehatDoc.Migrations
                     b.HasKey("DiseaseID");
 
                     b.ToTable("Diseases");
-                });
-
-            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
-                {
-                    b.Property<int>("HospitalID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HospitalID"), 1L, 1);
-
-                    b.Property<int>("DepartmentID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HospitalLocation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("HospitalLogo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HospitalName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("HospitalNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HospitalID");
-
-                    b.HasIndex("DepartmentID");
-
-                    b.ToTable("HospitalProfiles");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
@@ -197,17 +140,6 @@ namespace SehatDoc.Migrations
                         .IsRequired();
 
                     b.Navigation("Speciality");
-                });
-
-            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
-                {
-                    b.HasOne("SehatDoc.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>

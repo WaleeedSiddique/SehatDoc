@@ -1,0 +1,38 @@
+﻿@using SehatDoc.Models;
+@model IEnumerable<Department>
+@{
+    ViewBag.Title = "Department";
+}
+
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+          
+            <th scope="col">Id</th>
+            <th scope="col">Department Name</th>
+            <th scope="col">Department Description</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Details</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dep in Model)
+        {
+        
+            <tr>
+
+                <th scope="row">@dep.DepartmentID</th>
+                <td>@dep.DepartmentName</td>
+                <td>@dep.DepartmentDescription</td>
+     
+                <td><a asp-controller="Department" asp-action="Edit" asp-route-id="@dep.DepartmentID" class="btn btn-secondary">Edit</a></td>
+                <td><a asp-controller="Department" asp-action="Details" asp-route-id="@dep.DepartmentID" class="btn btn-warning">Details</a></td>
+                <td><a asp-controller="Department" asp-action="Delete" asp-route-id="@dep.DepartmentID" class="btn btn-danger">Delete</a></td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
