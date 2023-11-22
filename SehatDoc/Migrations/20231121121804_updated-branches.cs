@@ -4,7 +4,7 @@
 
 namespace SehatDoc.Migrations
 {
-    public partial class diseaseremovedfromsymptoms : Migration
+    public partial class updatedbranches : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,16 +23,45 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Diseases",
+                columns: table => new
+                {
+                    DiseaseID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DiseaseName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DiseaseImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diseases", x => x.DiseaseID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specialities",
                 columns: table => new
                 {
-                    SpecialityId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SpecialityName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialities", x => x.SpecialityId);
+                    table.PrimaryKey("PK_Specialities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Symptoms",
+                columns: table => new
+                {
+                    SymptomID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SymptomName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    SymptomImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SymptomDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Symptoms", x => x.SymptomID);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,27 +88,6 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diseases",
-                columns: table => new
-                {
-                    DiseaseID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DiseaseName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    DiseaseImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpecialtyId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Diseases", x => x.DiseaseID);
-                    table.ForeignKey(
-                        name: "FK_Diseases_Specialities_SpecialtyId",
-                        column: x => x.SpecialtyId,
-                        principalTable: "Specialities",
-                        principalColumn: "SpecialityId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
@@ -100,35 +108,9 @@ namespace SehatDoc.Migrations
                         name: "FK_Doctors_Specialities_specialityId",
                         column: x => x.specialityId,
                         principalTable: "Specialities",
-                        principalColumn: "SpecialityId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Symptoms",
-                columns: table => new
-                {
-                    SymptomID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SymptomName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    SymptomImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SymptomDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DiseaseID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Symptoms", x => x.SymptomID);
-                    table.ForeignKey(
-                        name: "FK_Symptoms_Diseases_DiseaseID",
-                        column: x => x.DiseaseID,
-                        principalTable: "Diseases",
-                        principalColumn: "DiseaseID");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Diseases_SpecialtyId",
-                table: "Diseases",
-                column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_specialityId",
@@ -139,15 +121,13 @@ namespace SehatDoc.Migrations
                 name: "IX_HospitalProfiles_DepartmentID",
                 table: "HospitalProfiles",
                 column: "DepartmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Symptoms_DiseaseID",
-                table: "Symptoms",
-                column: "DiseaseID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Diseases");
+
             migrationBuilder.DropTable(
                 name: "Doctors");
 
@@ -158,13 +138,10 @@ namespace SehatDoc.Migrations
                 name: "Symptoms");
 
             migrationBuilder.DropTable(
-                name: "Departments");
-
-            migrationBuilder.DropTable(
-                name: "Diseases");
-
-            migrationBuilder.DropTable(
                 name: "Specialities");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
         }
     }
 }

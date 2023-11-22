@@ -11,8 +11,8 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231120113901_Department")]
-    partial class Department
+    [Migration("20231121121804_updated-branches")]
+    partial class updatedbranches
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -127,6 +127,42 @@ namespace SehatDoc.Migrations
                     b.ToTable("Diseases");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
+                {
+                    b.Property<int>("HospitalID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HospitalID"), 1L, 1);
+
+                    b.Property<int>("DepartmentID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HospitalLocation")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("HospitalLogo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HospitalName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("HospitalNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HospitalID");
+
+                    b.HasIndex("DepartmentID");
+
+                    b.ToTable("HospitalProfiles");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
                 {
                     b.Property<int>("SymptomID")
@@ -163,6 +199,17 @@ namespace SehatDoc.Migrations
                         .IsRequired();
 
                     b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
+                {
+                    b.HasOne("SehatDoc.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>

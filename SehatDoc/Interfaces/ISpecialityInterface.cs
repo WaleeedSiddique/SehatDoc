@@ -1,4 +1,5 @@
 ﻿using SehatDoc.DoctorModels;
+using SehatDoc.ViewModels;
 
 namespace SehatDoc.DoctorInterfaces
 {
@@ -9,6 +10,7 @@ namespace SehatDoc.DoctorInterfaces
         public Specialities AddSpeciality(Specialities speciality);
         public Specialities UpdateSpeciality(Specialities SpecialityChanges);
         public Specialities DeleteSpeciality(Specialities speciality);
+        void AddSpecialityWithDiseases(SpecialityWithDiseasesViewModel viewModel);
 
     }
 }
