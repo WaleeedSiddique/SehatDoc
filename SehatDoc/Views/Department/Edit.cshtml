@@ -1,52 +1,34 @@
 ﻿@using SehatDoc.DepartmentDTO_s;
 @model DepartmentDTO
 @{
-    ViewBag.Message = "Edit Departmetn";
+    ViewBag.Message = "Departmetn";
     Layout = "_AdminDashboard";
 }
-<section class="h-100">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col">
-                <div class="card card-registration my-4">
-                    <form asp-controller="Department" asp-action="Edit" method="post">
-                        <input asp-for="ID" hidden />
-                        <div class="row g-0">
-                            <div class="col-xl-6">
-                                <div class="card-body p-md-5 text-black">
-                                    <h3 class="mb-5 text-uppercase">Edit Department</h3>
-
-                                    <div class="row">
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-
-                                                <label class="form-label" asp-for="DepartmentName">Name</label>
-                                                <input asp-for="DepartmentName" class="form-control form-control-lg" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <label class="form-label" asp-for="DepartmentDescription">Description</label>
-                                                <input asp-for="DepartmentDescription" class="form-control form-control-lg" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
-                                
-
-                                        <div class="d-flex justify-content-end pt-3">
-                                            <button type="button" class="btn btn-light btn-lg">Reset all</button>
-                                            <button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3" style="margin-top:50px;">
+            <div class="card">
+                <div class="=card-header">
+                    <h4 class="text-center my-3">Edit Department</h4>
                 </div>
+                <form asp-controller="Department" asp-action="Edit" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label asp-for="DepartmentName">Department Name</label>
+                            <input asp-for="DepartmentName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DepartmentDescription">Department Description</label>
+                            <input asp-for="DepartmentDescription" class="form-control" />
+                        </div>
+                        <div class="card-footer text-right">
+                            <button class="btn btn-light">Reset All</button>
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</section>
+</div>

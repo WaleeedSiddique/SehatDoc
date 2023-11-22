@@ -2,37 +2,67 @@
 @model IEnumerable<Department>
 @{
     ViewBag.Title = "Department";
+    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
 }
 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Departments List</h4>
+                <div class="card-header-form">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Department Name</th>
+                            <th>Department Description</th>
+                            <th>Action</th>
+                        </tr>
+                        @foreach (var dep in Model)
+                        {
+                            <tr>
+                                <td>@dep.DepartmentName</td>
+                                <td>@dep.DepartmentDescription</td>
+                                <td>
+                                    <a asp-controller="Department" asp-action="Edit" asp-route-id="@dep.DepartmentID" class="btn btn-sm btn-success">
+                                        <i class="fa-solid fa-edit" style="color:white;"></i>
+                                    </a>
 
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-          
-            <th scope="col">Id</th>
-            <th scope="col">Department Name</th>
-            <th scope="col">Department Description</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Details</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var dep in Model)
-        {
-        
-            <tr>
-
-                <th scope="row">@dep.DepartmentID</th>
-                <td>@dep.DepartmentName</td>
-                <td>@dep.DepartmentDescription</td>
-     
-                <td><a asp-controller="Department" asp-action="Edit" asp-route-id="@dep.DepartmentID" class="btn btn-secondary">Edit</a></td>
-                <td><a asp-controller="Department" asp-action="Details" asp-route-id="@dep.DepartmentID" class="btn btn-warning">Details</a></td>
-                <td><a asp-controller="Department" asp-action="Delete" asp-route-id="@dep.DepartmentID" class="btn btn-danger">Delete</a></td>
-            </tr>
-        }
-
-
-    </tbody>
-</table>
+                                    <a asp-controller="Department" asp-action="Details" asp-route-id="@dep.DepartmentID" class="btn btn-sm btn-info">
+                                        <i class="fas fa-info-circle" style="color:white"></i>
+                                    </a>
+                                    <a asp-controller="Department" asp-action="Delete" asp-route-id="@dep.DepartmentID" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash" style="color:white"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="card-body">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+ 

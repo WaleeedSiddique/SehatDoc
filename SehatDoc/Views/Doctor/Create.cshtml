@@ -3,86 +3,58 @@
     ViewBag.Message = "Add Doctor";
     Layout = "_AdminDashboard";
 }
-<section class="h-100">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col">
-                <div class="card card-registration my-4">
-                                            <form asp-controller="Doctor" asp-action="Create" method="post" enctype="multipart/form-data">
-                    <div class="row g-0">
-                        <div class="col-xl-6">
-                            <div class="card-body p-md-5 text-black">
-                                <h3 class="mb-5 text-uppercase">Add Doctor</h3>
 
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-
-                                            <label class="form-label" asp-for="FirstName">First name</label>
-                                            <input asp-for="FirstName" class="form-control form-control-lg" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <label class="form-label" asp-for="LastName">Last name</label>
-                                            <input asp-for="LastName" class="form-control form-control-lg" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <label class="form-label" asp-for="specialityId">Select Speciality</label>
-                                            <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities">
-                                                <option disabled>Select Speciality</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <label class="form-label" asp-for="LicenseNumber">Lisence Number</label>
-                                            <input asp-for="LicenseNumber" class="form-control form-control-lg" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" asp-for="PhotoPath">photo</label>
-                                    <input asp-for="PhotoPath" class="form-control form-control-lg" />
-                                </div>
-
-                                <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <label class="form-label" asp-for="gender">Select Gender</label>
-                                            <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
-                                                <option disabled>Select Gender</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <label class="form-label" asp-for="city">City</label>
-                                            <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
-                                                <option disabled>Select City</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <br />
-
-                                    <div class="d-flex justify-content-end pt-3">
-                                        <button type="button" class="btn btn-light btn-lg">Reset all</button>
-                                        <button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                                            </form> 
-                    </div>
+<div class="container">
+   <div class="row">
+      <div class="col-6 offset-3" style="margin-top:50px;">
+         <div class="card">
+            <div class="=card-header">
+               <h4 class="text-center my-3">Add Doctor</h4>
             </div>
+            <form asp-controller="Doctor" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                   <div class="form-group">
+                     <label asp-for="FirstName">First Name</label>
+                     <input asp-for="FirstName" class="form-control" />
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="LastName">Last Name</label>
+                     <input asp-for="LastName" class="form-control" />
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="specialityId">Select Speciality</label>
+                     <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities">
+                       <option disabled>Select Speciality</option>
+                     </select>
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="LicenseNumber">Lisence Number</label>
+                     <input asp-for="LicenseNumber" class="form-control" />
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="PhotoPath">Photo</label>
+                     <input asp-for="PhotoPath" class="form-control" />
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="gender">Select Gender</label>
+                     <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
+                       <option disabled>Select Gender</option>
+                     </select>
+                   </div>
+                   <div class="form-group">
+                     <label asp-for="city">Select Gender</label>
+                     <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
+                       <option disabled>Select City</option>
+                     </select>
+                   </div>
+                   <div class="card-footer text-right">
+                     <button class="btn btn-primary">Submit</button>
+                     <button class="btn btn-danger">Reset All</button>
+                   </div>
+
                 </div>
-        </div>
-</section>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

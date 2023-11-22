@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SehatDoc.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.DoctorModels
 {
@@ -8,5 +9,6 @@ namespace SehatDoc.DoctorModels
         public int Id { get; set; }
         public string SpecialityName { get; set; }
         public ICollection<Doctor>? doctors { get; set; }
+     
     }
 }
