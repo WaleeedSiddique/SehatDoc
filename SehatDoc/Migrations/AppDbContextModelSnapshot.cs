@@ -60,7 +60,7 @@ namespace SehatDoc.Migrations
 
                     b.HasIndex("specialityId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
@@ -71,18 +71,13 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DiseaseID")
-                        .HasColumnType("int");
-
                     b.Property<string>("SpecialityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiseaseID");
-
-                    b.ToTable("Specialities", (string)null);
+                    b.ToTable("Specialities");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Department", b =>
@@ -105,7 +100,7 @@ namespace SehatDoc.Migrations
 
                     b.HasKey("DepartmentID");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Disease", b =>
@@ -127,7 +122,7 @@ namespace SehatDoc.Migrations
 
                     b.HasKey("DiseaseID");
 
-                    b.ToTable("Diseases", (string)null);
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
@@ -163,7 +158,7 @@ namespace SehatDoc.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.ToTable("HospitalProfiles", (string)null);
+                    b.ToTable("HospitalProfiles");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
@@ -205,7 +200,7 @@ namespace SehatDoc.Migrations
 
                     b.HasKey("SymptomID");
 
-                    b.ToTable("Symptoms", (string)null);
+                    b.ToTable("Symptoms");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Doctor", b =>
@@ -217,17 +212,6 @@ namespace SehatDoc.Migrations
                         .IsRequired();
 
                     b.Navigation("Speciality");
-                });
-
-            modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
-                {
-                    b.HasOne("SehatDoc.Models.Disease", "Disease")
-                        .WithMany()
-                        .HasForeignKey("DiseaseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Disease");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>

@@ -11,8 +11,8 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231120194652_diseaseIDinSpeciality")]
-    partial class diseaseIDinSpeciality
+    [Migration("20231124131305_diseaseconflict")]
+    partial class diseaseconflict
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,16 +73,11 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DiseaseID")
-                        .HasColumnType("int");
-
                     b.Property<string>("SpecialityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiseaseID");
 
                     b.ToTable("Specialities");
                 });
@@ -168,6 +163,21 @@ namespace SehatDoc.Migrations
                     b.ToTable("HospitalProfiles");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
+                {
+                    b.Property<int>("SpecialtyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SpecialtyId", "DiseaseId");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("SpecialtyDiseases");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
                 {
                     b.Property<int>("SymptomID")
@@ -206,17 +216,6 @@ namespace SehatDoc.Migrations
                     b.Navigation("Speciality");
                 });
 
-            modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
-                {
-                    b.HasOne("SehatDoc.Models.Disease", "Disease")
-                        .WithMany()
-                        .HasForeignKey("DiseaseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Disease");
-                });
-
             modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
                 {
                     b.HasOne("SehatDoc.Models.Department", "Department")
@@ -228,9 +227,35 @@ namespace SehatDoc.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
+                {
+                    b.HasOne("SehatDoc.Models.Disease", "Disease")
+                        .WithMany("SpecialtyDiseases")
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SehatDoc.DoctorModels.Specialities", "Specialty")
+                        .WithMany("SpecialtyDiseases")
+                        .HasForeignKey("SpecialtyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Specialty");
+                });
+
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
                 {
+                    b.Navigation("SpecialtyDiseases");
+
                     b.Navigation("doctors");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.Disease", b =>
+                {
+                    b.Navigation("SpecialtyDiseases");
                 });
 #pragma warning restore 612, 618
         }

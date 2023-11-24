@@ -4,7 +4,7 @@
 
 namespace SehatDoc.Migrations
 {
-    public partial class updatedbranches : Migration
+    public partial class diseaseconflict : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -112,6 +112,30 @@ namespace SehatDoc.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SpecialtyDiseases",
+                columns: table => new
+                {
+                    SpecialtyId = table.Column<int>(type: "int", nullable: false),
+                    DiseaseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecialtyDiseases", x => new { x.SpecialtyId, x.DiseaseId });
+                    table.ForeignKey(
+                        name: "FK_SpecialtyDiseases_Diseases_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Diseases",
+                        principalColumn: "DiseaseID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpecialtyDiseases_Specialities_SpecialtyId",
+                        column: x => x.SpecialtyId,
+                        principalTable: "Specialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_specialityId",
                 table: "Doctors",
@@ -121,13 +145,15 @@ namespace SehatDoc.Migrations
                 name: "IX_HospitalProfiles_DepartmentID",
                 table: "HospitalProfiles",
                 column: "DepartmentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpecialtyDiseases_DiseaseId",
+                table: "SpecialtyDiseases",
+                column: "DiseaseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Diseases");
-
             migrationBuilder.DropTable(
                 name: "Doctors");
 
@@ -135,13 +161,19 @@ namespace SehatDoc.Migrations
                 name: "HospitalProfiles");
 
             migrationBuilder.DropTable(
+                name: "SpecialtyDiseases");
+
+            migrationBuilder.DropTable(
                 name: "Symptoms");
 
             migrationBuilder.DropTable(
-                name: "Specialities");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Diseases");
+
+            migrationBuilder.DropTable(
+                name: "Specialities");
         }
     }
 }
