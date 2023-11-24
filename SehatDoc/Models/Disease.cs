@@ -13,5 +13,6 @@ namespace SehatDoc.Models
 
         [Required]
         public string DiseaseImage { get; set; }
+        public ICollection<SpecialtyDisease> SpecialtyDiseases { get; set; }
     }
 }

@@ -4,7 +4,6 @@
     {
         public int id { get; set; }
         public string Name { get; set; }
-        public List<int> SelectedDiseases { get; set; }
-
+       
     }
 }

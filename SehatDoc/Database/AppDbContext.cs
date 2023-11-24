@@ -13,5 +13,21 @@ namespace SehatDoc.DatabaseContext
         public DbSet<Symptoms> Symptoms { get; set;}
         public DbSet<Department> Departments { get; set; }
         public DbSet<HospitalProfile> HospitalProfiles { get; set; }
+        public DbSet<SpecialtyDisease> SpecialtyDiseases { get;set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SpecialtyDisease>()
+                .HasKey(sd => new { sd.SpecialtyId, sd.DiseaseId });
+
+            modelBuilder.Entity<SpecialtyDisease>()
+                .HasOne(sd => sd.Specialty)
+                .WithMany(s => s.SpecialtyDiseases)
+                .HasForeignKey(sd => sd.SpecialtyId);
+
+            modelBuilder.Entity<SpecialtyDisease>()
+                .HasOne(sd => sd.Disease)
+                .WithMany(d => d.SpecialtyDiseases)
+                .HasForeignKey(sd => sd.DiseaseId);
+        }
     }
 }

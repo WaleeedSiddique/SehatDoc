@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SehatDoc.DiseaseInterfaces;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
+using SehatDoc.Models;
 using SehatDoc.SpecialityDTO_s;
+using SehatDoc.ViewModels;
 
 namespace SehatDoc.Controllers
 {
     public class SpecialityController : Controller
     {
         private readonly ISpecialityInterface _speciality;
+        private readonly IDiseaseInterface _disease;
 
-        public SpecialityController(ISpecialityInterface speciality)
+        public SpecialityController(ISpecialityInterface speciality, IDiseaseInterface disease)
         {
             this._speciality = speciality;
+            this._disease = disease;
         }
         [HttpGet]
         public IActionResult Index()
@@ -28,17 +33,21 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult CreateSpeciality()
         {
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = diseases;
             return View();
         }
+
         [HttpPost]
-        public IActionResult CreateSpeciality(Specialities model)
+        public async Task<IActionResult> CreateSpeciality(SpecialityWithDiseasesViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var speciality = _speciality.AddSpeciality(model);
-                return RedirectToAction("Index",new {model.Id});
+                _speciality.AddSpecialityWithDiseases(model);
+                return RedirectToAction("Index", "Home");
             }
-            ViewBag.Message = "Something Went Wrong";
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = diseases;
             return View(model);
         }
         [HttpGet]

@@ -2,6 +2,8 @@
 using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
+using SehatDoc.Models;
+using SehatDoc.ViewModels;
 
 namespace SehatDoc.DoctorRepositories
 {
@@ -33,14 +35,17 @@ namespace SehatDoc.DoctorRepositories
 
         public IEnumerable<Specialities> GetAllSpecialities()
         {
-            var specialities = _context.Specialities.Include(x => x.doctors).ToList();
+            var specialities = _context.Specialities.Include(x => x.doctors).Include(s => s.SpecialtyDiseases).ThenInclude(sd => sd.Disease).ToList();
             return specialities;
         }
 
         public Specialities GetSpecialityById(int id)
         {
-            var speciality = _context.Specialities.Include(x => x.doctors).FirstOrDefault(x => x.Id == id);
-            return speciality;
+            return _context.Specialities
+             .Include(s => s.SpecialtyDiseases)
+                 .ThenInclude(sd => sd.Disease)
+             .Include(s => s.doctors)
+             .FirstOrDefault(s => s.Id == id);
         }
 
         public Specialities UpdateSpeciality(Specialities SpecialityChanges)
@@ -50,5 +55,27 @@ namespace SehatDoc.DoctorRepositories
             _context.SaveChanges();
             return SpecialityChanges;
         }
+
+        public void AddSpecialityWithDiseases(SpecialityWithDiseasesViewModel viewModel)
+        {
+            var speciality = new Specialities
+            {
+                SpecialityName = viewModel.SpecialityName,            
+            };
+
+            var selectedDiseases = _context.Diseases
+                .Where(d => viewModel.SelectedDiseaseIds.Contains(d.DiseaseID))
+                .ToList();
+
+            speciality.SpecialtyDiseases = selectedDiseases.Select(disease => new SpecialtyDisease
+            {
+                Specialty = speciality,
+                Disease = disease
+            }).ToList();
+
+            _context.Specialities.Add(speciality);
+            _context.SaveChanges();
+        }
     }
+
 }
