@@ -5,6 +5,33 @@
     Layout = "_AdminDashboard";
 }
 <div class="container">
+
+    <div class="row">
+        <div class="col-6 offset-3" style="margin-top:50px;">
+            <div class="card">
+                <div class="=card-header">
+                    <h4 class="text-center my-3">Add Specialty</h4>
+                </div>
+                <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <span class="text-danger">@ViewBag.Message</span>
+                            <label asp-for="SpecialityName">Specialty Name</label>
+                            <input asp-for="SpecialityName" class="form-control" />
+                        </div>
+                     
+                        <div class="card-footer text-right">
+                            <button type="button" class="btn btn-light">Reset All</button>
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
     <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
         <label class="form-label" for="SpecialityName">Speciality Name:</label>
         <input class="form-control" type="text" asp-for="SpecialityName" />
@@ -18,3 +45,4 @@
         <button type="submit">Add Specialty</button>
     </form>
 </div>
+
