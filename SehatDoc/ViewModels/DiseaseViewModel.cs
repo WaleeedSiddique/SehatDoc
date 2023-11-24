@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SehatDoc.Models
+namespace SehatDoc.ViewModels
 {
-    public class Disease
+    public class DiseaseViewModel
     {
-        [Key]
+
+
         public int DiseaseID { get; set; }
 
         [Required]
@@ -12,7 +13,7 @@ namespace SehatDoc.Models
         public string DiseaseName { get; set; }
 
         [Required]
-        public string DiseaseImage { get; set; }
-        public ICollection<SpecialtyDisease> SpecialtyDiseases { get; set; }
+        public IFormFile DiseaseImage { get; set; }
+        }
     }
-}
+

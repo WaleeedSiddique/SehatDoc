@@ -166,6 +166,21 @@ namespace SehatDoc.Migrations
                     b.ToTable("HospitalProfiles", (string)null);
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
+                {
+                    b.Property<int>("SpecialtyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SpecialtyId", "DiseaseId");
+
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("SpecialtyDiseases");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
                 {
                     b.Property<int>("SymptomID")
@@ -226,9 +241,35 @@ namespace SehatDoc.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
+                {
+                    b.HasOne("SehatDoc.Models.Disease", "Disease")
+                        .WithMany("SpecialtyDiseases")
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SehatDoc.DoctorModels.Specialities", "Specialty")
+                        .WithMany("SpecialtyDiseases")
+                        .HasForeignKey("SpecialtyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("Specialty");
+                });
+
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
                 {
+                    b.Navigation("SpecialtyDiseases");
+
                     b.Navigation("doctors");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.Disease", b =>
+                {
+                    b.Navigation("SpecialtyDiseases");
                 });
 #pragma warning restore 612, 618
         }
