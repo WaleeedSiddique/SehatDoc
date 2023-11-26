@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Specialities>;
 @{
     ViewBag.Title = "Index";
-    Layout = "_AdminDashboard";
+    
 }
 <div class="row">
     <div class="col-12">
@@ -65,31 +65,4 @@
     </div>
 </div>
 
-<table class="table">
-    <thead class="thead-dark"> 
-        <tr>
-            <th scope="col">Speciality Id</th>
-            <th scope="col">Speciality Name</th>
-            <th scope="col">Numbers of Doctors</th>
-            <th scope="col">Diseases</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Detail</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var specialities in Model)
-        {            
-        <tr>
-                <td scope="col">@specialities.Id</td>
-            <td scope="col">@specialities.SpecialityName.ToUpper()</td>
-            <td scope="col">@specialities.doctors.Count()</td>             
-            <td scope="col">@specialities.SpecialtyDiseases.Count()</td>             
-                <td scope="col"><a class="btn btn-secondary" asp-controller="Speciality" asp-action="EditSpeciality" asp-route-id="@specialities.Id">Edit</a></td>
-                <td scope="col"><a class="btn btn-warning" asp-controller="Speciality" asp-action="SpecialityDetails" asp-route-id="@specialities.Id">Details</a></td>
-                <td scope="col"><a class="btn btn-danger" asp-controller="Speciality" asp-action="DeleteSpeciality" asp-route-id="@specialities.Id">Delete</a></td>
-        </tr>
-        }
-    </tbody>
-</table>
 

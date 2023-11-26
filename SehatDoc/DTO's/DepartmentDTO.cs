@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SehatDoc.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.DepartmentDTO_s
 {
@@ -13,5 +14,6 @@ namespace SehatDoc.DepartmentDTO_s
         [Required]
         [StringLength(50)]
         public string DepartmentDescription { get; set; }
+   
     }
 }

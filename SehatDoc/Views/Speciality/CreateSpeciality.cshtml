@@ -2,7 +2,6 @@
 @model SpecialityWithDiseasesViewModel
 @{
     ViewBag.Title = "Add Speciality";
-    Layout = "_AdminDashboard";
 }
 <div class="container">
 
@@ -17,9 +16,15 @@
                         <div class="form-group">
                             <span class="text-danger">@ViewBag.Message</span>
                             <label asp-for="SpecialityName">Specialty Name</label>
-                            <input asp-for="SpecialityName" class="form-control" />
+                            <input class="form-control" type="text" asp-for="SpecialityName" />
+
+                            <label asp-for="SelectedDiseaseIds">Select Diseases:</label>
+                            @foreach (var disease in ViewBag.Diseases)
+                            {
+                                <input type="checkbox" name="SelectedDiseaseIds" value="@disease.DiseaseID" /> @disease.DiseaseName
+                            }
                         </div>
-                     
+                        
                         <div class="card-footer text-right">
                             <button type="button" class="btn btn-light">Reset All</button>
                             <button class="btn btn-primary">Submit</button>
@@ -32,17 +37,5 @@
     </div>
 </div>
 
-    <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
-        <label class="form-label" for="SpecialityName">Speciality Name:</label>
-        <input class="form-control" type="text" asp-for="SpecialityName" />
-
-        <label asp-for="SelectedDiseaseIds">Select Diseases:</label>
-        @foreach (var disease in ViewBag.Diseases)
-        {
-            <input type="checkbox" name="SelectedDiseaseIds" value="@disease.DiseaseID" /> @disease.DiseaseName
-        }
-
-        <button type="submit">Add Specialty</button>
-    </form>
-</div>
+ 
 

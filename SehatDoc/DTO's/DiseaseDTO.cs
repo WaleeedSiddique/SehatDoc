@@ -6,7 +6,7 @@ namespace SehatDoc.DiseaseDTO_s
     {
 
         
-        public int DiseaseID { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [StringLength(20)]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DiseaseInterfaces;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
@@ -35,6 +36,7 @@ namespace SehatDoc.Controllers
         {
             var diseases = _disease.GetAllDisease();
             ViewBag.Diseases = diseases;
+        
             return View();
         }
 
@@ -44,7 +46,7 @@ namespace SehatDoc.Controllers
             if (ModelState.IsValid)
             {
                 _speciality.AddSpecialityWithDiseases(model);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Speciality");
             }
             var diseases = _disease.GetAllDisease();
             ViewBag.Diseases = diseases;

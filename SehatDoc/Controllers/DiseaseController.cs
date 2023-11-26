@@ -97,7 +97,7 @@ namespace SehatDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var disease = _diseaseInterface.GetDisease(model.DiseaseID);
+                var disease = _diseaseInterface.GetDisease(model.ID);
                 if (disease != null)
                 {
                     disease.DiseaseName = model.DiseaseName;

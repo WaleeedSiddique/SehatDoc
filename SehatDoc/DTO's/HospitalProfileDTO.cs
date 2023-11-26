@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SehatDoc.DoctorEnums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.HospitalProfileDTO_s
 {
@@ -15,7 +16,9 @@ namespace SehatDoc.HospitalProfileDTO_s
         public string HospitalNumber { get; set; }
         [Required]
         public IFormFile HospitalLogo { get; set; }
-        public int DepartmentID { get; set; }
+        public List<int> DepartmentIDs { get; set; }
+        [Required]
+        public Cities city { get; set; }
       
     }
 }

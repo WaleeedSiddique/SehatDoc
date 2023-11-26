@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SehatDoc.DatabaseContext;
 
@@ -10,9 +11,10 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231124132710_sehatapplicartion")]
+    partial class sehatapplicartion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,29 +105,6 @@ namespace SehatDoc.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("SehatDoc.Models.DepartmentHospitalProfile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DepartmentsDepartmentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HospitalProfilesHospitalID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentsDepartmentID");
-
-                    b.HasIndex("HospitalProfilesHospitalID");
-
-                    b.ToTable("DepartmentHospitalProfile");
-                });
-
             modelBuilder.Entity("SehatDoc.Models.Disease", b =>
                 {
                     b.Property<int>("DiseaseID")
@@ -156,7 +135,7 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HospitalID"), 1L, 1);
 
-                    b.Property<int>("City")
+                    b.Property<int>("DepartmentID")
                         .HasColumnType("int");
 
                     b.Property<string>("HospitalLocation")
@@ -178,6 +157,8 @@ namespace SehatDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("HospitalID");
+
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("HospitalProfiles");
                 });
@@ -235,23 +216,15 @@ namespace SehatDoc.Migrations
                     b.Navigation("Speciality");
                 });
 
-            modelBuilder.Entity("SehatDoc.Models.DepartmentHospitalProfile", b =>
+            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
                 {
-                    b.HasOne("SehatDoc.Models.Department", "DepartmentsDepartment")
-                        .WithMany("DepartmentHospitalProfiles")
-                        .HasForeignKey("DepartmentsDepartmentID")
+                    b.HasOne("SehatDoc.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SehatDoc.Models.HospitalProfile", "HospitalProfilesHospital")
-                        .WithMany("DepartmentHospitalProfiles")
-                        .HasForeignKey("HospitalProfilesHospitalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DepartmentsDepartment");
-
-                    b.Navigation("HospitalProfilesHospital");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
@@ -280,19 +253,9 @@ namespace SehatDoc.Migrations
                     b.Navigation("doctors");
                 });
 
-            modelBuilder.Entity("SehatDoc.Models.Department", b =>
-                {
-                    b.Navigation("DepartmentHospitalProfiles");
-                });
-
             modelBuilder.Entity("SehatDoc.Models.Disease", b =>
                 {
                     b.Navigation("SpecialtyDiseases");
-                });
-
-            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
-                {
-                    b.Navigation("DepartmentHospitalProfiles");
                 });
 #pragma warning restore 612, 618
         }

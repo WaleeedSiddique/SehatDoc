@@ -1,7 +1,7 @@
 ﻿@model DoctorDTO
 @{
     ViewBag.Message = "Add Doctor";
-    Layout = "_AdminDashboard";
+
 }
 
 <div class="container">
@@ -37,7 +37,7 @@
                   </div>
                   <div class="row">
                      <div class="form-group col-md-6 col-12">
-                        <label asp-for="city">Select Gender</label>
+                        <label asp-for="city">Select City</label>
                         <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
                             <option disabled>Select City</option>
                         </select>

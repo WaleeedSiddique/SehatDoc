@@ -2,7 +2,7 @@
 @model IEnumerable<HospitalProfile>
 @{
     ViewBag.Title = "HospitalProfile";
-    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    
 }
 <div class="row">
     <div class="col-12">
@@ -39,7 +39,21 @@
                                 <td>@hospital.HospitalLocation</td>
                                 <td>@hospital.HospitalNumber</td>
                                 <td><img alt="HospitalLogo" src="@photopath" asp-append-version="true" style="width:50px; height:50px"></td>
-                                <td>@hospital.Department.DepartmentName</td>
+                                <td>
+                                    @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
+                                    {
+                                        <div>
+                                            @if (departmentProfile != null && departmentProfile.DepartmentsDepartment != null)
+                                            {
+                                                @departmentProfile.DepartmentsDepartment.DepartmentName
+                                            }
+                                            else
+                                            {
+                                                <span>No Department</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
                                 <td>
                                     <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-edit" style="color:white;"></i>
