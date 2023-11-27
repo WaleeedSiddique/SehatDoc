@@ -6,8 +6,16 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h4>Specialties List</h4>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="@Url.Action("CreateSpeciality","Speciality")" class="btn btn-primary">
+                        <i class="fa-solid fa-plus" style="color:white;"></i>
+                    </a>
+
+                </div>
+                <div class="text-center mx-auto">
+                    <h4>Specialties List</h4>
+                </div>
                 <div class="card-header-form">
                     <form>
                         <div class="input-group">
@@ -23,7 +31,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th>Specialty Name</th>
+                            <th>Name</th>
                             <th>Diseases</th>
                             <th>Numbers of Doctors</th>
                             <th>Action</th>

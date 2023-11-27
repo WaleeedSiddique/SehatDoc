@@ -86,58 +86,20 @@
                                 <li><a class="nav-link" asp-controller="Doctor" asp-action="ListDoctors">SehatDoc</a></li>
                             </ul>
                         </li>
-                        <li class="menu-header">Doctors</li>
+                        <li class="menu-header">SehatDoc</li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Doctor</span></a>
+                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Sehat</span></a>
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="Doctor" asp-action="Create">Add Doctor</a></li>
-                                <li><a class="nav-link" asp-controller="Doctor" asp-action="Index">View Doctors</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-header">Specialties</li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Specialty</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="Speciality" asp-action="CreateSpeciality">Add Specialty</a></li>
-                                <li><a class="nav-link" asp-controller="Speciality" asp-action="Index">View Specialtes</a></li>
                              
+                                <li><a class="nav-link" asp-controller="Doctor" asp-action="Index">Doctor</a></li>
+                                <li><a class="nav-link" asp-controller="Speciality" asp-action="Index">Specialty</a></li>
+                                <li><a class="nav-link" asp-controller="Disease" asp-action="Index">Disease</a></li>
+                                <li><a class="nav-link" asp-controller="Symptoms" asp-action="Index">Symptom</a></li>
+                                <li><a asp-controller="Department" asp-action="Index">Department</a></li>
+                                <li><a class="nav-link" asp-controller="HospitalProfile" asp-action="Index">Hospital Profile</a></li>
                             </ul>
                         </li>
-                        <li class="menu-header">Diseases</li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Disease</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="Disease" asp-action="Create">Add Disease</a></li>
-                                <li><a class="nav-link beep beep-sidebar" asp-controller="Disease" asp-action="Index">View Diseases</a></li>
-                               
-                            </ul>
-                        </li>
-                        <li class="menu-header">Symptoms</li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="far fa-file-alt"></i> <span>Symptom</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="Symptoms" asp-action="Create">Add Symptom</a></li>
-                                <li><a class="nav-link" asp-controller="Symptoms" asp-action="Index">View Symptoms</a></li>
-                          
-                            </ul>
-                        </li>
-                        <li class="menu-header">Departments</li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-map-marker-alt"></i> <span>Department</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-controller="Department" asp-action="Create">Add Department</a></li>
-                                <li><a asp-controller="Department" asp-action="Index">View Departments</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-header">Hospital Profiles</li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-plug"></i> <span>Hospital Profile</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" asp-controller="HospitalProfile" asp-action="Create">Add Hospital Profile</a></li>
-                                <li><a class="nav-link" asp-controller="HospitalProfile" asp-action="Index">View Hospital Profiles</a></li>
-                                
-                            </ul>
-                        </li>
+                     
                         <li class="menu-header">Pages</li>
                         <li class="dropdown">
                             <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Auth</span></a>

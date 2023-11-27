@@ -8,19 +8,27 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h4>Doctors List</h4>
-                <div class="card-header-form">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <div class="card-header d-flex justify-content-between align-items-center">
+               <div>
+                  <a href="@Url.Action("Create","Doctor")" class="btn btn-primary">
+                    <i class="fa-solid fa-plus" style="color:white;"></i>
+                   </a>
+                    
+               </div>
+               <div class="text-center mx-auto">
+                    <h4>Doctors List</h4>
+               </div>
+               <div class="card-header-form">
+                 <form>
+                   <div class="input-group">
+                     <input type="text" class="form-control" placeholder="Search">
+                      <div class="input-group-btn">
+                         <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                      </div>
+                   </div>
+                 </form>
+               </div>
+             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped">
