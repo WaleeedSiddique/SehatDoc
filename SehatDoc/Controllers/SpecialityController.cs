@@ -31,14 +31,19 @@ namespace SehatDoc.Controllers
             var speciality = _speciality.GetSpecialityById(id);
             return View(speciality);  
         }
+
         [HttpGet]
         public IActionResult CreateSpeciality()
         {
             var diseases = _disease.GetAllDisease();
-            ViewBag.Diseases = diseases;
-        
-            return View();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
+
+            var model = new SpecialityWithDiseasesViewModel(); 
+            model.SelectedDiseaseIds = new List<int>(); 
+
+            return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateSpeciality(SpecialityWithDiseasesViewModel model)
@@ -52,17 +57,18 @@ namespace SehatDoc.Controllers
             ViewBag.Diseases = diseases;
             return View(model);
         }
+
         [HttpGet]
         public IActionResult EditSpeciality(int id)
         {
             var speciality = _speciality.GetSpecialityById(id);
-            if(speciality != null)
+            if (speciality != null)
             {
                 SpecialityDTO model = new SpecialityDTO()
                 {
                     name = speciality.SpecialityName
                 };
-                return View(model); 
+                return View(model);
             }
             return NotFound();
         }

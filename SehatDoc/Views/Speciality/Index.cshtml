@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Specialities>;
 @{
     ViewBag.Title = "Index";
-    
+    Layout = "_AdminDashboard";
 }
 <div class="row">
     <div class="col-12">
@@ -24,6 +24,7 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Specialty Name</th>
+                            <th>Diseases</th>
                             <th>Numbers of Doctors</th>
                             <th>Action</th>
                         </tr>
@@ -31,6 +32,21 @@
                         {
                         <tr>
                                 <td>@specialities.SpecialityName.ToUpper()</td>
+                                <td>
+                                    @foreach (var specialtydisease in specialities.SpecialtyDiseases)
+                                    {
+                                        <div>
+                                            @if (specialtydisease != null && specialtydisease.Disease != null)
+                                            {
+                                                @specialtydisease.Disease.DiseaseName
+                                            }
+                                            else
+                                            {
+                                                <span>No Diseases</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
                                 <td class="align-middle">@specialities.doctors.Count()</td>
                                 <td>
                                     <a asp-controller="Speciality" asp-action="EditSpeciality" asp-route-id="@specialities.Id" class="btn btn-sm btn-success">

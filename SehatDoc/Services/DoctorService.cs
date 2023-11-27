@@ -35,7 +35,7 @@ namespace SehatDoc.DoctorRepositories
             var docs = _context.Doctors.Include(x => x.Speciality).ToList();
             return docs;
         }
-
+      
         public Doctor GetDoctor(int id)
         {
             var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);

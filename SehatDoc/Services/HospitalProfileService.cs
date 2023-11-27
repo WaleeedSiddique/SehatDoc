@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SehatDoc.DatabaseContext;
+using SehatDoc.DoctorModels;
 using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Models;
 
@@ -33,30 +34,28 @@ namespace SehatDoc.Services
         {
             var hospitals = _context.HospitalProfiles
                 .Include(x => x.DepartmentHospitalProfiles)
-                .ThenInclude(dh => dh.DepartmentsDepartment) // Include the DepartmentsDepartment navigation property
+                    .ThenInclude(dh => dh.DepartmentsDepartment)
+                .Include(x => x.DoctorHospitalProfiles)
+                    .ThenInclude(dh => dh.Doctor)
                 .ToList();
 
             return hospitals;
         }
-
-
         public HospitalProfile GetHospitalProfile(int id)
         {
-            var hospital = _context.HospitalProfiles.Include(x => x.DepartmentHospitalProfiles).FirstOrDefault(x => x.HospitalID == id);
+            var hospital = _context.HospitalProfiles
+                .Include(x => x.DepartmentHospitalProfiles)
+                    .ThenInclude(dhp => dhp.DepartmentsDepartment)
+                .Include(x => x.DoctorHospitalProfiles)
+                    .ThenInclude(dhp => dhp.Doctor)
+                .FirstOrDefault(x => x.HospitalID == id);
+
             return hospital;
         }
-
-        //public IEnumerable<HospitalProfile> GetAllHospitalProfile()
-        //{
-        //    var hospital = _context.HospitalProfiles.Include(x => x.Department).ToList();
-        //    return hospital;
-        //}
-
-        //public HospitalProfile GetHospitalProfile(int id)
-        //{
-        //    var hospital = _context.HospitalProfiles.Include(x => x.Department).FirstOrDefault(x => x.HospitalID == id);
-        //    return hospital;
-        //}
+        public IEnumerable<Doctor> GetAllDoctorsForHospital()
+        {
+            return _context.Doctors.ToList();
+        }
 
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile)
         {

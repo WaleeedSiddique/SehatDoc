@@ -2,7 +2,7 @@
 @model HospitalProfileDTO
 @{
     ViewBag.Message = "Hospital Profile";
-    
+    Layout = "_AdminDashboard";
 }
 <div class="container">
     <div class="row">
@@ -25,6 +25,12 @@
                             <label  asp-for="DepartmentIDs">Select Department</label>
                             <select asp-for="DepartmentIDs" class="form-control" asp-items="ViewBag.Departments" id="departmentDropdown">
                                 <option disabled>Select Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DoctorIDs">Select Doctor</label>
+                            <select asp-for="DoctorIDs" class="form-control" asp-items="ViewBag.Doctors" id="doctorDropdown">
+                                <option disabled>Select Doctor</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -56,6 +62,11 @@
     <script>
         $(function () {
             $("#departmentDropdown").chosen();
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#doctorDropdown").chosen();
         });
     </script>
 }

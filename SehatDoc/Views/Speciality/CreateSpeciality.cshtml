@@ -2,6 +2,7 @@
 @model SpecialityWithDiseasesViewModel
 @{
     ViewBag.Title = "Add Speciality";
+    Layout = "_AdminDashboard";
 }
 <div class="container">
 
@@ -17,12 +18,12 @@
                             <span class="text-danger">@ViewBag.Message</span>
                             <label asp-for="SpecialityName">Specialty Name</label>
                             <input class="form-control" type="text" asp-for="SpecialityName" />
-
-                            <label asp-for="SelectedDiseaseIds">Select Diseases:</label>
-                            @foreach (var disease in ViewBag.Diseases)
-                            {
-                                <input type="checkbox" name="SelectedDiseaseIds" value="@disease.DiseaseID" /> @disease.DiseaseName
-                            }
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SelectedDiseaseIds">Select Disease</label>
+                            <select asp-for="SelectedDiseaseIds" class="form-control" asp-items="ViewBag.Diseases" id="diseaseDropdown">
+                                <option disabled>Select Disease</option>
+                            </select>
                         </div>
                         
                         <div class="card-footer text-right">
@@ -36,6 +37,13 @@
         </div>
     </div>
 </div>
+@section Scripts {
 
+    <script>
+        $(function () {
+            $("#diseaseDropdown").chosen();
+        });
+    </script>
+}
  
 

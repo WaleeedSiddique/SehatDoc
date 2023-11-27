@@ -2,7 +2,7 @@
 @model IEnumerable<HospitalProfile>
 @{
     ViewBag.Title = "HospitalProfile";
-    
+    Layout = "_AdminDashboard";
 }
 <div class="row">
     <div class="col-12">
@@ -28,7 +28,8 @@
                             <th style="width:190px;">Hospital Location</th>
                             <th style="width:190px;">Hospital Number</th>
                             <th style="width:90px;">Image</th>
-                            <th style ="width:90px;">Department</th>
+                            <th style ="width:90px;">Departments</th>
+                            <th style ="width:90px;">Doctors</th>
                             <th style="width:90px;">Action</th>
                         </tr>
                         @foreach (var hospital in Model)
@@ -50,6 +51,22 @@
                                             else
                                             {
                                                 <span>No Department</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                   
+                                    @foreach (var doctorProfile in hospital.DoctorHospitalProfiles)
+                                    {
+                                        <div>
+                                            @if (doctorProfile != null && doctorProfile.Doctor != null)
+                                            {
+                                                @doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName
+                                            }
+                                            else
+                                            {
+                                                <span>No Doctor</span>
                                             }
                                         </div>
                                     }

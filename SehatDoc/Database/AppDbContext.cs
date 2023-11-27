@@ -15,6 +15,7 @@ namespace SehatDoc.DatabaseContext
         public DbSet<HospitalProfile> HospitalProfiles { get; set; }
         public DbSet<SpecialtyDisease> SpecialtyDiseases { get;set; }
         public DbSet<DepartmentHospitalProfile> DepartmentHospitalProfile { get;set; }
+        public DbSet<DoctorHospitalProfile> DoctorHospitalProfile { get;set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

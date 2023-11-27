@@ -1,4 +1,5 @@
 ﻿using SehatDoc.DoctorEnums;
+using SehatDoc.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.DoctorModels
@@ -25,5 +26,6 @@ namespace SehatDoc.DoctorModels
         public Gender Gender { get; set; }
         [Required]
         public Cities City { get; set; }
+        public virtual ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
     }
 }

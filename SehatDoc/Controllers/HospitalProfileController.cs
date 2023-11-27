@@ -16,6 +16,7 @@ namespace SehatDoc.Controllers
         private readonly IHospitalProfileInterface _hospitalProfileInterface;
         private readonly IHostingEnvironment _hosting;
         private readonly IDepartmentInterface _department;
+        private readonly IDoctorInteraface _doctor;
 
         public HospitalProfileController
             (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department)
@@ -48,11 +49,14 @@ namespace SehatDoc.Controllers
             ViewBag.department = new SelectList(dept, "DepartmentID", "DepartmentName");
             return View(hospital);
         }
+      
         [HttpGet]
         public IActionResult Create()
         {
             var dept = _department.GetAllDepartment();
+            var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
+            ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName");
             return View();
         }
         [HttpPost]
@@ -86,6 +90,13 @@ namespace SehatDoc.Controllers
                         .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
                         .ToList();
                 }
+                // Associate Doctors with Hospital
+                if (model.DoctorIDs != null && model.DoctorIDs.Any())
+                {
+                    newDoc.DoctorHospitalProfiles = model.DoctorIDs
+                        .Select(doctorID => new DoctorHospitalProfile { DoctorID = doctorID })
+                        .ToList();
+                }
 
                 // Add Doctor
                 var doc = _hospitalProfileInterface.AddHospitalProfile(newDoc);
@@ -100,6 +111,7 @@ namespace SehatDoc.Controllers
         {
             var hospital = _hospitalProfileInterface.GetHospitalProfile(id);
             var departments = _department.GetAllDepartment();
+            var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
 
             if (hospital != null)
             {
@@ -107,12 +119,14 @@ namespace SehatDoc.Controllers
                 {
                     HospitalName = hospital.HospitalName,
                     HospitalLocation = hospital.HospitalLocation,
-                    HospitalNumber = hospital.HospitalNumber, 
+                    HospitalNumber = hospital.HospitalNumber,
                     city = hospital.City,
-                    DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList()
+                    DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
+                   DoctorIDs = hospital.DoctorHospitalProfiles.Select(dhp => dhp.DoctorID).ToList()
                 };
 
                 ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
+                ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName", model.DoctorIDs);
                 return View(model);
             }
 
@@ -142,6 +156,18 @@ namespace SehatDoc.Controllers
                     {
                         // If no departments are selected, you may want to clear the existing associations.
                         hospital.DepartmentHospitalProfiles.Clear();
+                    }
+                    // Update associated doctors
+                    if (model.DoctorIDs != null && model.DoctorIDs.Any())
+                    {
+                        hospital.DoctorHospitalProfiles = model.DoctorIDs
+                            .Select(doctorID => new DoctorHospitalProfile { DoctorID = doctorID })
+                            .ToList();
+                    }
+                    else
+                    {
+                        // If no doctors are selected, you may want to clear the existing associations.
+                        hospital.DoctorHospitalProfiles.Clear();
                     }
 
                     _hospitalProfileInterface.UpdateHospitalProfile(hospital);
