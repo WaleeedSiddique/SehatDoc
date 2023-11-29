@@ -1,5 +1,6 @@
 ﻿using SehatDoc.DoctorEnums;
 using SehatDoc.DoctorModels;
+using SehatDoc.DoctorRepositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.Models
@@ -20,11 +21,11 @@ namespace SehatDoc.Models
         public string HospitalLogo { get; set; }
         [Required]
         public Cities City { get; set; }
+        public ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
         public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
        
-        public virtual ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
+    
     }
-
 
 }
 

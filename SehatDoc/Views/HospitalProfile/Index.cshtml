@@ -37,7 +37,6 @@
                             <th style="width:120px;">Number</th>
                             <th style="width:120px;">Logo</th>
                             <th style="width:120px;">Departments</th>
-                            <th style="width:120px;">Doctors</th>
                             <th style="width:150px;">Action</th>
                         </tr>
                         @foreach (var hospital in Model)
@@ -59,22 +58,6 @@
                                             else
                                             {
                                                 <span>No Department</span>
-                                            }
-                                        </div>
-                                    }
-                                </td>
-                                <td>
-                                   
-                                    @foreach (var doctorProfile in hospital.DoctorHospitalProfiles)
-                                    {
-                                        <div>
-                                            @if (doctorProfile != null && doctorProfile.Doctor != null)
-                                            {
-                                                @doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName
-                                            }
-                                            else
-                                            {
-                                                <span>No Doctor</span>
                                             }
                                         </div>
                                     }

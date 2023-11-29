@@ -2,6 +2,8 @@
 using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
+using SehatDoc.Models;
+using SehatDoc.Services;
 
 namespace SehatDoc.DoctorRepositories
 {
@@ -32,10 +34,9 @@ namespace SehatDoc.DoctorRepositories
 
         public IEnumerable<Doctor> GetAllDoctors()
         {
-            var docs = _context.Doctors.Include(x => x.Speciality).ToList();
+            var docs = _context.Doctors.Include(x => x.Speciality).Include(y => y.DoctorHospitalProfiles).ThenInclude(dh => dh.HospitalProfile).ToList();
             return docs;
         }
-      
         public Doctor GetDoctor(int id)
         {
             var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
@@ -49,5 +50,13 @@ namespace SehatDoc.DoctorRepositories
             _context.SaveChanges();
             return doctor;
         }
+        public IEnumerable<HospitalProfile> GetAllHospitalProfile()
+        {
+            var doc = _context.HospitalProfiles.ToList();
+
+            return doc;
+        }
+
+       
     }
 }

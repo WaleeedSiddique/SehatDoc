@@ -4,7 +4,7 @@
 
 namespace SehatDoc.Migrations
 {
-    public partial class diseaseconflict : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,6 +37,23 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HospitalProfiles",
+                columns: table => new
+                {
+                    HospitalID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HospitalName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    HospitalLocation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HospitalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HospitalLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HospitalProfiles", x => x.HospitalID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specialities",
                 columns: table => new
                 {
@@ -65,25 +82,28 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HospitalProfiles",
+                name: "DepartmentHospitalProfile",
                 columns: table => new
                 {
-                    HospitalID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HospitalName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    HospitalLocation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    HospitalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentID = table.Column<int>(type: "int", nullable: false)
+                    DepartmentsDepartmentID = table.Column<int>(type: "int", nullable: false),
+                    HospitalProfilesHospitalID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HospitalProfiles", x => x.HospitalID);
+                    table.PrimaryKey("PK_DepartmentHospitalProfile", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HospitalProfiles_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
+                        name: "FK_DepartmentHospitalProfile_Departments_DepartmentsDepartmentID",
+                        column: x => x.DepartmentsDepartmentID,
                         principalTable: "Departments",
                         principalColumn: "DepartmentID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DepartmentHospitalProfile_HospitalProfiles_HospitalProfilesHospitalID",
+                        column: x => x.HospitalProfilesHospitalID,
+                        principalTable: "HospitalProfiles",
+                        principalColumn: "HospitalID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -136,15 +156,78 @@ namespace SehatDoc.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DiseaseSymptoms",
+                columns: table => new
+                {
+                    SymptomID = table.Column<int>(type: "int", nullable: false),
+                    DiseaseID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DiseaseSymptoms", x => new { x.DiseaseID, x.SymptomID });
+                    table.ForeignKey(
+                        name: "FK_DiseaseSymptoms_Diseases_DiseaseID",
+                        column: x => x.DiseaseID,
+                        principalTable: "Diseases",
+                        principalColumn: "DiseaseID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DiseaseSymptoms_Symptoms_SymptomID",
+                        column: x => x.SymptomID,
+                        principalTable: "Symptoms",
+                        principalColumn: "SymptomID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorHospitalProfile",
+                columns: table => new
+                {
+                    HospitalID = table.Column<int>(type: "int", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorHospitalProfile", x => new { x.DoctorID, x.HospitalID });
+                    table.ForeignKey(
+                        name: "FK_DoctorHospitalProfile_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoctorHospitalProfile_HospitalProfiles_HospitalID",
+                        column: x => x.HospitalID,
+                        principalTable: "HospitalProfiles",
+                        principalColumn: "HospitalID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentHospitalProfile_DepartmentsDepartmentID",
+                table: "DepartmentHospitalProfile",
+                column: "DepartmentsDepartmentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentHospitalProfile_HospitalProfilesHospitalID",
+                table: "DepartmentHospitalProfile",
+                column: "HospitalProfilesHospitalID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DiseaseSymptoms_SymptomID",
+                table: "DiseaseSymptoms",
+                column: "SymptomID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorHospitalProfile_HospitalID",
+                table: "DoctorHospitalProfile",
+                column: "HospitalID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_specialityId",
                 table: "Doctors",
                 column: "specialityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HospitalProfiles_DepartmentID",
-                table: "HospitalProfiles",
-                column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpecialtyDiseases_DiseaseId",
@@ -155,19 +238,28 @@ namespace SehatDoc.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "DepartmentHospitalProfile");
 
             migrationBuilder.DropTable(
-                name: "HospitalProfiles");
+                name: "DiseaseSymptoms");
+
+            migrationBuilder.DropTable(
+                name: "DoctorHospitalProfile");
 
             migrationBuilder.DropTable(
                 name: "SpecialtyDiseases");
 
             migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
                 name: "Symptoms");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "HospitalProfiles");
 
             migrationBuilder.DropTable(
                 name: "Diseases");

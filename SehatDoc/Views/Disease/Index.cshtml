@@ -34,6 +34,7 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Name</th>
+                            <th>Symptoms</th>
                             <th>Image</th>
                             <th>Action</th>
                         </tr>
@@ -42,6 +43,21 @@
                             var photopath = "~/images/" + dis.DiseaseImage;
                             <tr>
                                 <td>@dis.DiseaseName</td>
+                                <td>
+                                    @foreach (var symptomdiseases in dis.DiseaseSymptoms)
+                                    {
+                                        <div>
+                                            @if (symptomdiseases != null && symptomdiseases.Symptoms != null)
+                                            {
+                                                @symptomdiseases.Symptoms.SymptomName
+                                            }
+                                            else
+                                            {
+                                                <span>No Symptoms</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
                                 <td><img alt="Disease Image" src="@photopath" asp-append-version="true" alt="Disease Image" width="50px" height="50px"></td>
                                 <td>
                                     <a asp-controller="Disease" asp-action="Edit" asp-route-id="@dis.DiseaseID" class="btn btn-sm btn-success">

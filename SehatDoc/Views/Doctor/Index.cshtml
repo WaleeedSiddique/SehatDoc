@@ -33,23 +33,39 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Image</th>
-                            <th>Specialization</th>
-                            <th>City</th>
-                            <th>Gender</th>
-                            <th>Action</th>
+                            <th style="width:250px;">First Name</th>
+                            <th style="width:250px;">Last Name</th>
+                            <th style="width:250px;">Image</th>
+                            <th style="width:250px;">Specialization</th>
+                            <th style="width:250px;">City</th>
+                            <th style="width:250px;">Hospital</th>
+                            <th style="width:250px;">Gender</th>
+                            <th style="width:250px;">Action</th>
                         </tr>
                          @foreach(var docs in Model)
                          {
                             var photopath = "~/images/" + docs.PhotoPath;
                         <tr>
                                 <td>@docs.FirstName</td>
-                                <td class="align-middle">@docs.LastName</td>
+                                <td>@docs.LastName</td>
                                 <td><img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width:50px; height:50px"></td>
                                 <td>@docs.Speciality.SpecialityName</td>
                                 <td>@docs.City</td>
+                                <td>
+                                    @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
+                                    {
+                                        <div>
+                                            @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
+                                            {
+                                                @hospitalprofile.HospitalProfile.HospitalName
+                                            }
+                                            else
+                                            {
+                                                <span>No Hospital Profile</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
                                 <td>@docs.Gender</td>
                                 <td>
                                     <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@docs.DoctorId" class="btn btn-sm btn-success">

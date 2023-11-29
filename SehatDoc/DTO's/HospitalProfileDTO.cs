@@ -17,7 +17,7 @@ namespace SehatDoc.HospitalProfileDTO_s
         [Required]
         public IFormFile HospitalLogo { get; set; }
         public List<int> DepartmentIDs { get; set; }
-        public List<int> DoctorIDs { get; set; }
+    
         [Required]
         public Cities city { get; set; }
       

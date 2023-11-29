@@ -23,5 +23,6 @@ namespace SehatDoc.DoctorDTO_s
         public Gender gender { get; set; }
         [Required]
         public Cities city { get; set; }
+        public List<int>? HospitalIDs { get; set; }
     }
 }

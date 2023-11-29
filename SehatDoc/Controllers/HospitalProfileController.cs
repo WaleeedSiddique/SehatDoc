@@ -54,9 +54,9 @@ namespace SehatDoc.Controllers
         public IActionResult Create()
         {
             var dept = _department.GetAllDepartment();
-            var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
+           // var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
-            ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName");
+            //ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName");
             return View();
         }
         [HttpPost]
@@ -90,15 +90,7 @@ namespace SehatDoc.Controllers
                         .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
                         .ToList();
                 }
-                // Associate Doctors with Hospital
-                if (model.DoctorIDs != null && model.DoctorIDs.Any())
-                {
-                    newDoc.DoctorHospitalProfiles = model.DoctorIDs
-                        .Select(doctorID => new DoctorHospitalProfile { DoctorID = doctorID })
-                        .ToList();
-                }
-
-                // Add Doctor
+            
                 var doc = _hospitalProfileInterface.AddHospitalProfile(newDoc);
 
                 return RedirectToAction("Index", new { id = doc.HospitalID });
@@ -111,8 +103,7 @@ namespace SehatDoc.Controllers
         {
             var hospital = _hospitalProfileInterface.GetHospitalProfile(id);
             var departments = _department.GetAllDepartment();
-            var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
-
+           
             if (hospital != null)
             {
                 HospitalProfileDTO model = new HospitalProfileDTO()
@@ -122,11 +113,11 @@ namespace SehatDoc.Controllers
                     HospitalNumber = hospital.HospitalNumber,
                     city = hospital.City,
                     DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
-                   DoctorIDs = hospital.DoctorHospitalProfiles.Select(dhp => dhp.DoctorID).ToList()
+                  
                 };
 
                 ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
-                ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName", model.DoctorIDs);
+              
                 return View(model);
             }
 
@@ -157,19 +148,7 @@ namespace SehatDoc.Controllers
                         // If no departments are selected, you may want to clear the existing associations.
                         hospital.DepartmentHospitalProfiles.Clear();
                     }
-                    // Update associated doctors
-                    if (model.DoctorIDs != null && model.DoctorIDs.Any())
-                    {
-                        hospital.DoctorHospitalProfiles = model.DoctorIDs
-                            .Select(doctorID => new DoctorHospitalProfile { DoctorID = doctorID })
-                            .ToList();
-                    }
-                    else
-                    {
-                        // If no doctors are selected, you may want to clear the existing associations.
-                        hospital.DoctorHospitalProfiles.Clear();
-                    }
-
+                   
                     _hospitalProfileInterface.UpdateHospitalProfile(hospital);
                     return RedirectToAction("Index");
                 }

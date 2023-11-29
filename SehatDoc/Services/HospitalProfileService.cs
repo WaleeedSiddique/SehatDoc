@@ -34,9 +34,7 @@ namespace SehatDoc.Services
         {
             var hospitals = _context.HospitalProfiles
                 .Include(x => x.DepartmentHospitalProfiles)
-                    .ThenInclude(dh => dh.DepartmentsDepartment)
-                .Include(x => x.DoctorHospitalProfiles)
-                    .ThenInclude(dh => dh.Doctor)
+                .ThenInclude(dh => dh.DepartmentsDepartment)
                 .ToList();
 
             return hospitals;
@@ -46,17 +44,23 @@ namespace SehatDoc.Services
             var hospital = _context.HospitalProfiles
                 .Include(x => x.DepartmentHospitalProfiles)
                     .ThenInclude(dhp => dhp.DepartmentsDepartment)
-                .Include(x => x.DoctorHospitalProfiles)
-                    .ThenInclude(dhp => dhp.Doctor)
+
                 .FirstOrDefault(x => x.HospitalID == id);
 
             return hospital;
         }
-        public IEnumerable<Doctor> GetAllDoctorsForHospital()
-        {
-            return _context.Doctors.ToList();
-        }
+        //public IEnumerable<HospitalProfile> GetAllHospitalForDoctor()
+        //{
+        //    var hospitals = _context.DoctorHospitalProfile
+        //        .Where(dh => dh.HospitalID != null)
+        //        .Select(dh => dh.HospitalProfile)
+        //        .Distinct()
+        //        .ToList();
 
+        //    return hospitals;
+        //}
+
+      
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile)
         {
             var hospital = _context.HospitalProfiles.Attach(hospitalProfile);

@@ -1,18 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SehatDoc.DiseaseDTO_s
+namespace SehatDoc.ViewModels
 {
-    public class DiseaseDTO
+    public class DiseasesWithSymptomsViewModel
     {
-
-        
-        public int ID { get; set; }
-
-        [Required]
-        [StringLength(20)]
         public string DiseaseName { get; set; }
 
-        [Required]
+       // [Required]
         public IFormFile DiseaseImage { get; set; }
         public List<int> SymptomsIDs { get; set; }
     }

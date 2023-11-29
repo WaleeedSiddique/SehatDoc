@@ -17,6 +17,8 @@ namespace SehatDoc.Models
         [Required]
         [StringLength(50)]
         public string SymptomDescription { get; set; }
+     //   public ICollection<Disease>Diseases { get; set; }
+        public ICollection<DiseaseSymptoms> DiseaseSymptoms { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@
 using SehatDoc.DatabaseContext;
 using SehatDoc.Models;
 using SehatDoc.DiseaseInterfaces;
+using SehatDoc.DoctorModels;
 
 namespace SehatDoc.DiseaseRepositories
 {
@@ -31,11 +32,9 @@ namespace SehatDoc.DiseaseRepositories
         }
         public IEnumerable<Disease> GetAllDisease()
         {
-            var disease = _context.Diseases.ToList();
-
-            return disease;
+            var disease = _context.Diseases.Include(x => x.DiseaseSymptoms).ThenInclude(dh => dh.Symptoms).ToList();
+               return disease;
         }
-   
         public Disease GetDisease(int id)
         {
             var disease = _context.Diseases.FirstOrDefault(x => x.DiseaseID == id);
@@ -50,7 +49,20 @@ namespace SehatDoc.DiseaseRepositories
             _context.SaveChanges();
             return disease;
         }
+        public IEnumerable<Symptoms> GetAllSymptoms()
+        {
+            var symptom = _context.Symptoms.ToList();
 
-        
+            return symptom;
+        }
+        public Disease GetDiseaseByID(int id)
+        {
+            return _context.Diseases
+             .Include(s => s.DiseaseSymptoms)
+                 .ThenInclude(sd => sd.Symptoms)
+             ///.Include(s => s.doctors)
+             .FirstOrDefault(s => s.DiseaseID == id);
+        }
+
     }
 }

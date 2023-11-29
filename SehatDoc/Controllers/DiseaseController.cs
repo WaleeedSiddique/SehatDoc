@@ -6,6 +6,8 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using SehatDoc.Models;
 using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
+using SehatDoc.ViewModels;
+using SehatDoc.SymptomsInterfaces;
 
 namespace SehatDoc.Controllers
 {
@@ -14,6 +16,7 @@ namespace SehatDoc.Controllers
      
         private readonly IHostingEnvironment _hosting;
         private readonly IDiseaseInterface _diseaseInterface;
+        private readonly ISymptomsInterface _symptom;
         
 
         public DiseaseController
@@ -48,6 +51,8 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var symp = _diseaseInterface.GetAllSymptoms();
+            ViewBag.Symptoms = new SelectList(symp, "SymptomID", "SymptomName");
             return View();
         }
         [HttpPost]
@@ -68,6 +73,13 @@ namespace SehatDoc.Controllers
                     DiseaseName = model.DiseaseName,
                     DiseaseImage = uniqueName
                 };
+              
+                if (model.SymptomsIDs != null && model.SymptomsIDs.Any())
+                {
+                    newDoc.DiseaseSymptoms = model.SymptomsIDs
+                        .Select(symptomID => new DiseaseSymptoms { SymptomID = symptomID })
+                        .ToList();
+                }
                 var disease = _diseaseInterface.AddDisease(newDoc);
                 return RedirectToAction("Index", new { newDoc.DiseaseID });
             }
@@ -77,17 +89,17 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var disease = _diseaseInterface.GetDisease(id);
-            
+            var disease = _diseaseInterface.GetDiseaseByID(id);
+            var symp = _diseaseInterface.GetAllSymptoms();
             if (disease != null)
             {
                 DiseaseDTO model = new DiseaseDTO()
                 {
-                    DiseaseName = disease.DiseaseName
-                    
-                   
+                    DiseaseName = disease.DiseaseName,
+                    SymptomsIDs = disease.DiseaseSymptoms.Select(dhp => dhp.SymptomID).ToList(),
+
                 };
-                
+                ViewBag.Symptoms = new SelectList(symp, "SymptomID", "SymptomName", model.SymptomsIDs);
                 return View(model);
             }
             return NotFound();
@@ -97,11 +109,23 @@ namespace SehatDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var disease = _diseaseInterface.GetDisease(model.ID);
+                var disease = _diseaseInterface.GetDiseaseByID(model.ID);
                 if (disease != null)
                 {
                     disease.DiseaseName = model.DiseaseName;
-                  
+                    // Update associated symptoms
+                    if (model.SymptomsIDs != null && model.SymptomsIDs.Any())
+                    {
+                        disease.DiseaseSymptoms = model.SymptomsIDs
+                            .Select(symptomID => new DiseaseSymptoms { SymptomID = symptomID })
+                            .ToList();
+                    }
+                    else
+                    {
+                        // If no symptoms are selected, you may want to clear the existing associations.
+                        disease.DiseaseSymptoms.Clear();
+                    }
+
                     _diseaseInterface.UpdateDisease(disease);
                     return RedirectToAction("Index");
                 }
