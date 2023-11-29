@@ -54,9 +54,7 @@ namespace SehatDoc.Controllers
         public IActionResult Create()
         {
             var dept = _department.GetAllDepartment();
-           // var doc = _hospitalProfileInterface.GetAllDoctorsForHospital();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
-            //ViewBag.Doctors = new SelectList(doc, "DoctorId", "FirstName");
             return View();
         }
         [HttpPost]
@@ -80,7 +78,8 @@ namespace SehatDoc.Controllers
                     HospitalLocation = model.HospitalLocation,
                     HospitalNumber = model.HospitalNumber,
                     City = model.city,
-                    HospitalLogo = uniqueName
+                    HospitalLogo = uniqueName,
+                    State = model.State
                 };
 
                 // Associate Department with Hospitals
@@ -112,6 +111,7 @@ namespace SehatDoc.Controllers
                     HospitalLocation = hospital.HospitalLocation,
                     HospitalNumber = hospital.HospitalNumber,
                     city = hospital.City,
+                    State = hospital.State,
                     DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
                   
                 };
@@ -135,6 +135,7 @@ namespace SehatDoc.Controllers
                     hospital.HospitalLocation = model.HospitalLocation;
                     hospital.HospitalNumber = model.HospitalNumber;
                     hospital.City = model.city;
+                    hospital.State = model.State;
 
                     // Update associated departments
                     if (model.DepartmentIDs != null && model.DepartmentIDs.Any())

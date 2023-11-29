@@ -1,4 +1,5 @@
-﻿@using SehatDoc.HospitalProfileDTO_s;
+﻿@using SehatDoc.Enums;
+@using SehatDoc.HospitalProfileDTO_s;
 @model HospitalProfileDTO
 @{
     ViewBag.Message = "Hospital Profile";
@@ -31,6 +32,12 @@
                         <div class="form-group">
                             <label asp-for="HospitalNumber">Number</label>
                             <input asp-for="HospitalNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="State">Select State</label>
+                            <select asp-for="State" class="form-control" asp-items="Html.GetEnumSelectList<States>()">
+                                <option disabled>Select State</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label asp-for="city">Select City</label>

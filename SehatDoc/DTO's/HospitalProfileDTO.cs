@@ -1,4 +1,5 @@
 ﻿using SehatDoc.DoctorEnums;
+using SehatDoc.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.HospitalProfileDTO_s
@@ -20,6 +21,7 @@ namespace SehatDoc.HospitalProfileDTO_s
     
         [Required]
         public Cities city { get; set; }
-      
+        [Required]
+        public States State { get; set; }
     }
 }

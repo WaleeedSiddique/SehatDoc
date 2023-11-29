@@ -32,12 +32,14 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th style="width:120px;">Name</th>
-                            <th style="width:120px;">Location</th>
-                            <th style="width:120px;">Number</th>
-                            <th style="width:120px;">Logo</th>
-                            <th style="width:120px;">Departments</th>
-                            <th style="width:150px;">Action</th>
+                            <th style="width:200px;">Name</th>
+                            <th style="width:200px;">Location</th>
+                            <th style="width:200px;">Number</th>
+                            <th style="width:200px;">Logo</th>
+                            <th style="width:200px;">Departments</th>
+                            <th style="width:200px;">State</th>
+                            <th style="width:200px;">City</th>
+                            <th style="width:290px;">Action</th>
                         </tr>
                         @foreach (var hospital in Model)
                         {
@@ -62,6 +64,8 @@
                                         </div>
                                     }
                                 </td>
+                                <td>@hospital.State</td>
+                                <td>@hospital.City</td>
                                 <td>
                                     <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-edit" style="color:white;"></i>

@@ -43,24 +43,12 @@ namespace SehatDoc.Services
         {
             var hospital = _context.HospitalProfiles
                 .Include(x => x.DepartmentHospitalProfiles)
-                    .ThenInclude(dhp => dhp.DepartmentsDepartment)
-
+                .ThenInclude(dhp => dhp.DepartmentsDepartment)
                 .FirstOrDefault(x => x.HospitalID == id);
 
             return hospital;
         }
-        //public IEnumerable<HospitalProfile> GetAllHospitalForDoctor()
-        //{
-        //    var hospitals = _context.DoctorHospitalProfile
-        //        .Where(dh => dh.HospitalID != null)
-        //        .Select(dh => dh.HospitalProfile)
-        //        .Distinct()
-        //        .ToList();
-
-        //    return hospitals;
-        //}
-
-      
+  
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile)
         {
             var hospital = _context.HospitalProfiles.Attach(hospitalProfile);
