@@ -15,9 +15,22 @@
     <div class="card-body">
         <blockquote class="blockquote mb-0">
             <b>@Model.HospitalName </b>
-           
-     
-            <footer class="blockquote-footer">Contact No : @Model.HospitalNumber <cite title="Source Title">Address : @Model.HospitalLocation</cite></footer>
+            <h6>Departments:</h6>
+            @if (Model.DepartmentHospitalProfiles != null && Model.DepartmentHospitalProfiles.Any())
+            {
+                <ul>
+                    @foreach (var department in Model.DepartmentHospitalProfiles)
+                    {
+                        <li>@department.DepartmentsDepartment.DepartmentName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No departments available for this hospital.</p>
+            }
+            <h6>Address:</h6><p style="font-size:15px;">@Model.HospitalLocation</p>
+            <footer class="blockquote-footer">Contact No : @Model.HospitalNumber @* <cite title="Source Title">Address : @Model.HospitalLocation</cite> *@</footer>
         </blockquote>
     </div>
 </div>
