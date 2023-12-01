@@ -14,7 +14,6 @@ namespace SehatDoc.Models
         [StringLength(30)]
         public string HospitalName { get; set; }
         [Required]
-        [StringLength(50)]
         public string HospitalLocation { get; set; }
         [Required]
         public string HospitalNumber { get; set; }
