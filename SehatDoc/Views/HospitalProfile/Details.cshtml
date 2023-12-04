@@ -29,6 +29,20 @@
             {
                 <p>No departments available for this hospital.</p>
             }
+            <h6>Doctors:</h6>
+            @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+            {
+                <ul>
+                    @foreach (var doctorHospitalProfile in Model.DoctorHospitalProfiles)
+                    {
+                        <li>@doctorHospitalProfile.Doctor.FirstName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No doctor available for this hospital.</p>
+            }
             <h6>Address:</h6><p style="font-size:15px;">@Model.HospitalLocation</p>
             <footer class="blockquote-footer">Contact No : @Model.HospitalNumber @* <cite title="Source Title">Address : @Model.HospitalLocation</cite> *@</footer>
         </blockquote>

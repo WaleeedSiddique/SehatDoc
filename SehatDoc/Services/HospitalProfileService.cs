@@ -32,6 +32,7 @@ namespace SehatDoc.Services
         }
         public IEnumerable<HospitalProfile> GetAllHospitalProfile()
         {
+
             var hospitals = _context.HospitalProfiles
                 .Include(x => x.DepartmentHospitalProfiles)
                 .ThenInclude(dh => dh.DepartmentsDepartment)
@@ -41,12 +42,14 @@ namespace SehatDoc.Services
         }
         public HospitalProfile GetHospitalProfile(int id)
         {
-            var hospital = _context.HospitalProfiles
-                .Include(x => x.DepartmentHospitalProfiles)
-                .ThenInclude(dhp => dhp.DepartmentsDepartment)
-                .FirstOrDefault(x => x.HospitalID == id);
-
-            return hospital;
+            var hospitals = _context.HospitalProfiles
+            .Include(x => x.DepartmentHospitalProfiles)
+            .ThenInclude(dh => dh.DepartmentsDepartment)
+            .Include(x => x.DoctorHospitalProfiles)
+            .ThenInclude(dh => dh.Doctor) 
+            .FirstOrDefault(x => x.HospitalID == id);
+             return hospitals;
+      
         }
   
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile)
