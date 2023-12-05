@@ -1,0 +1,34 @@
+﻿@model DoctorHospitalSchedule
+
+<form asp-controller="Scheduling" asp-action="AddSchedule" method="post">
+
+
+    <input asp-for="doctorId" hidden />
+    
+
+    <div class="form-group">
+        <label asp-for="HospitalId"> </label>
+        <select asp-for="HospitalId" asp-items="ViewBag.hospitals"></select>
+        @Html.ValidationMessageFor(m => m.HospitalId)
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DayOfWeek"> </label>
+        <select asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
+        @Html.ValidationMessageFor(m => m.DayOfWeek)
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartTime"> </label>
+        <input asp-for="StartTime" type="time" />
+        @Html.ValidationMessageFor(m => m.StartTime)
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndTime"> </label>
+        <input asp-for="EndTime" type="time" />
+        @Html.ValidationMessageFor(m => m.EndTime)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

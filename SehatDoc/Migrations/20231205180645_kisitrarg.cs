@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SehatDoc.Migrations
 {
-    public partial class init : Migration
+    public partial class kisitrarg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,10 +44,11 @@ namespace SehatDoc.Migrations
                     HospitalID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HospitalName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    HospitalLocation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HospitalLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HospitalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HospitalLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<int>(type: "int", nullable: false)
+                    City = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,6 +206,35 @@ namespace SehatDoc.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "schedules",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HospitalId = table.Column<int>(type: "int", nullable: false),
+                    HospitalsHospitalID = table.Column<int>(type: "int", nullable: true),
+                    doctorId = table.Column<int>(type: "int", nullable: false),
+                    DayOfWeek = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_schedules", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_schedules_Doctors_doctorId",
+                        column: x => x.doctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "DoctorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_schedules_HospitalProfiles_HospitalsHospitalID",
+                        column: x => x.HospitalsHospitalID,
+                        principalTable: "HospitalProfiles",
+                        principalColumn: "HospitalID");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_DepartmentHospitalProfile_DepartmentsDepartmentID",
                 table: "DepartmentHospitalProfile",
@@ -230,6 +261,16 @@ namespace SehatDoc.Migrations
                 column: "specialityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_schedules_doctorId",
+                table: "schedules",
+                column: "doctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_schedules_HospitalsHospitalID",
+                table: "schedules",
+                column: "HospitalsHospitalID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SpecialtyDiseases_DiseaseId",
                 table: "SpecialtyDiseases",
                 column: "DiseaseId");
@@ -245,6 +286,9 @@ namespace SehatDoc.Migrations
 
             migrationBuilder.DropTable(
                 name: "DoctorHospitalProfile");
+
+            migrationBuilder.DropTable(
+                name: "schedules");
 
             migrationBuilder.DropTable(
                 name: "SpecialtyDiseases");

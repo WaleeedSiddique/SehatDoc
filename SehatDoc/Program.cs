@@ -8,6 +8,7 @@ using SehatDoc.SymptomsInterfaces;
 using SehatDoc.Services;
 using SehatDoc.DepartmentInterfaces;
 using SehatDoc.HospitalProfileInterfaces;
+using SehatDoc.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IDiseaseInterface, DiseaseService>();
 builder.Services.AddScoped<ISymptomsInterface, SymptomsService>();
 builder.Services.AddScoped<IDepartmentInterface, DepartmentService>();
 builder.Services.AddScoped<IHospitalProfileInterface, HospitalProfileService>();
+builder.Services.AddScoped<ISchedulingInterface, ScheduleService>();
 
 var app = builder.Build();
 

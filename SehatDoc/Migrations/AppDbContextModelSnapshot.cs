@@ -179,6 +179,41 @@ namespace SehatDoc.Migrations
                     b.ToTable("DoctorHospitalProfile");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.DoctorHospitalSchedule", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("HospitalId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HospitalsHospitalID")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("doctorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("HospitalsHospitalID");
+
+                    b.HasIndex("doctorId");
+
+                    b.ToTable("schedules");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
                 {
                     b.Property<int>("HospitalID")
@@ -325,6 +360,23 @@ namespace SehatDoc.Migrations
                     b.Navigation("HospitalProfile");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.DoctorHospitalSchedule", b =>
+                {
+                    b.HasOne("SehatDoc.Models.HospitalProfile", "Hospitals")
+                        .WithMany("schedules")
+                        .HasForeignKey("HospitalsHospitalID");
+
+                    b.HasOne("SehatDoc.DoctorModels.Doctor", "Doctor")
+                        .WithMany("schedules")
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Hospitals");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
                 {
                     b.HasOne("SehatDoc.Models.Disease", "Disease")
@@ -347,6 +399,8 @@ namespace SehatDoc.Migrations
             modelBuilder.Entity("SehatDoc.DoctorModels.Doctor", b =>
                 {
                     b.Navigation("DoctorHospitalProfiles");
+
+                    b.Navigation("schedules");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
@@ -373,6 +427,8 @@ namespace SehatDoc.Migrations
                     b.Navigation("DepartmentHospitalProfiles");
 
                     b.Navigation("DoctorHospitalProfiles");
+
+                    b.Navigation("schedules");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>

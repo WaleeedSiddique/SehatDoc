@@ -1,5 +1,6 @@
 ﻿using SehatDoc.DoctorEnums;
 using SehatDoc.DoctorModels;
+using SehatDoc.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.DoctorDTO_s
@@ -24,5 +25,6 @@ namespace SehatDoc.DoctorDTO_s
         [Required]
         public Cities city { get; set; }
         public List<int>? HospitalIDs { get; set; }
+        public ICollection<DoctorHospitalSchedule>? HospitalSchedules { get; set; }
     }
 }
