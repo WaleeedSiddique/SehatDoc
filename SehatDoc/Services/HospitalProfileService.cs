@@ -40,6 +40,26 @@ namespace SehatDoc.Services
 
             return hospitals;
         }
+        //public IEnumerable<HospitalProfile> GetAllHospitalProfileForDashboard()
+        //{
+
+        //    var hospitals = _context.HospitalProfiles
+        //        .Include(x => x.DoctorHospitalProfiles)
+        //        .ThenInclude(dh => dh.Doctor)
+        //        .ToList();
+
+        //    return hospitals;
+        //}
+        public IEnumerable<DoctorHospitalProfile> GetAllHospitalProfileForDashboard()
+        {
+            var doctorHospitalProfiles = _context.DoctorHospitalProfile
+                .Include(dh => dh.HospitalProfile)
+                .Include(dh => dh.Doctor)
+                .ToList();
+
+            return doctorHospitalProfiles;
+        }
+
         public HospitalProfile GetHospitalProfile(int id)
         {
             var hospitals = _context.HospitalProfiles
@@ -59,5 +79,8 @@ namespace SehatDoc.Services
             _context.SaveChanges();
             return hospitalProfile;
         }
+       
+
+
     }
 }

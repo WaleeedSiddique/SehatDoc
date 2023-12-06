@@ -1,5 +1,177 @@
-﻿@{
+﻿@using SehatDoc.ViewModels;
+@model DashboardViewModel
+
+@{
     ViewBag.Title = "Admin Dashboard";
     Layout = "_AdminDashboard";
 }
+<br />
+<br />
+<br />
+<div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Total Registered Doctors In Hospitals</h5>
+                        <br />
+                <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#doctorsModal">
+                       
+                            @if (Model != null)
+                            {
+                       var totalHospitalCount = Model.DoctorHospitalProfiles?.Count() ?? 0;
+                 
+                       <p class="card-text text-center" style="font-weight: bold; font-size: 36px;"> @totalHospitalCount</p>
+                    }
+                    else
+                    {
+                        
+                    }
+                        </a>
+                    </div>
+                </div>
+            </div>
 
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Doctors By Specialties</h5>
+                <br />
+                <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#doctorsbyspecialtyModal">
+                    @if (Model != null)
+                    {
+                        <p class="card-text text-center" style="font-weight: bold; font-size: 36px;">@Model.TotalDoctorCount</p>
+                    }
+                    else
+                    {
+                        <!-- Handle the case when Model is null -->
+                        <p class="card-text text-center" style="font-weight: bold; font-size: 36px;">Data not available</p>
+                    }
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    <div class="row">
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="col-md-6" data-toggle="modal" data-target="#doctorsModal">
+        <h5 class="text-center">Total Registered Doctors In Hospitals</h5>
+        <canvas id="doctorChart" style="height: 200px;"></canvas>
+    </div>
+
+    @if (Model != null)
+    {
+        var totalHospitalCount = Model.DoctorHospitalProfiles?.Count() ?? 0;
+        <script>
+            // JavaScript code to create a bar chart
+            var ctx = document.getElementById('doctorChart').getContext('2d');
+            var doctorChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Registered Doctors'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [@totalHospitalCount],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+  
+  
+   <!----------->
+</div>
+<!-- Modal for displaying doctors -->
+<div class="modal fade" id="doctorsModal" tabindex="-1" role="dialog" aria-labelledby="doctorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorsModalLabel">Registered Doctors in Hospitals</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the list of doctors here -->
+                @if (Model != null && Model.DoctorHospitalProfiles != null)
+                {
+                    foreach (var doctorHospitalProfile in Model.DoctorHospitalProfiles)
+                    {
+                        <p>@doctorHospitalProfile.Doctor.FirstName - @doctorHospitalProfile.HospitalProfile.HospitalName</p>
+                    }
+                }
+                else
+                {
+                    <!-- Handle the case when Model or DoctorHospitalProfiles is null -->
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------------>
+<!-- Modal -->
+<div class="modal fade" id="doctorsbyspecialtyModal" tabindex="-1" role="dialog" aria-labelledby="doctorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorsModalLabel">Doctors By Specialties</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the list of doctors with their specialities here -->
+                @if (Model != null && Model.doctors != null && Model.doctors.Any())
+                {
+                    foreach (var doctor in Model.doctors)
+                    {
+                        <p>@doctor.FirstName - @doctor.Speciality?.SpecialityName</p>
+                    }
+                }
+                else
+                {
+                    <!-- Handle the case when Model.doctors is null or empty -->
+                    <p>Data not available</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#doctorsModal').on('hidden.bs.modal', function (e) {
+                $('.modal-backdrop').remove();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#doctorsbyspecialtyModal').on('hidden.bs.modal', function (e) {
+                $('.modal-backdrop').remove();
+            });
+        });
+    </script>
+}
