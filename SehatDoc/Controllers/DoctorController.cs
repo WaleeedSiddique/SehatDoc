@@ -154,6 +154,13 @@ namespace SehatDoc.Controllers
             var doctors = _doctorInteraface.GetAllDoctors().Where(x => x.Speciality.SpecialityName == name).ToList();
             return View(doctors);
         }
-       
+        [HttpGet]
+        public IActionResult GetSchedule(int id)
+        {
+            var schedules = _doctorInteraface.GetSchedule(id);
+            return View(schedules);
+        }
+
+
     }
 }

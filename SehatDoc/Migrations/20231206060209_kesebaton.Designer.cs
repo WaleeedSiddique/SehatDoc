@@ -12,8 +12,8 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231205180645_kisitrarg")]
-    partial class kisitrarg
+    [Migration("20231206060209_kesebaton")]
+    partial class kesebaton
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,9 +198,6 @@ namespace SehatDoc.Migrations
                     b.Property<int>("HospitalId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HospitalsHospitalID")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("time");
 
@@ -209,7 +206,7 @@ namespace SehatDoc.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("HospitalsHospitalID");
+                    b.HasIndex("HospitalId");
 
                     b.HasIndex("doctorId");
 
@@ -366,7 +363,9 @@ namespace SehatDoc.Migrations
                 {
                     b.HasOne("SehatDoc.Models.HospitalProfile", "Hospitals")
                         .WithMany("schedules")
-                        .HasForeignKey("HospitalsHospitalID");
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SehatDoc.DoctorModels.Doctor", "Doctor")
                         .WithMany("schedules")

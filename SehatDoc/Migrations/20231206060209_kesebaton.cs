@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SehatDoc.Migrations
 {
-    public partial class kisitrarg : Migration
+    public partial class kesebaton : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,7 +213,6 @@ namespace SehatDoc.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HospitalId = table.Column<int>(type: "int", nullable: false),
-                    HospitalsHospitalID = table.Column<int>(type: "int", nullable: true),
                     doctorId = table.Column<int>(type: "int", nullable: false),
                     DayOfWeek = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
@@ -229,10 +228,11 @@ namespace SehatDoc.Migrations
                         principalColumn: "DoctorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_schedules_HospitalProfiles_HospitalsHospitalID",
-                        column: x => x.HospitalsHospitalID,
+                        name: "FK_schedules_HospitalProfiles_HospitalId",
+                        column: x => x.HospitalId,
                         principalTable: "HospitalProfiles",
-                        principalColumn: "HospitalID");
+                        principalColumn: "HospitalID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -266,9 +266,9 @@ namespace SehatDoc.Migrations
                 column: "doctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_schedules_HospitalsHospitalID",
+                name: "IX_schedules_HospitalId",
                 table: "schedules",
-                column: "HospitalsHospitalID");
+                column: "HospitalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpecialtyDiseases_DiseaseId",

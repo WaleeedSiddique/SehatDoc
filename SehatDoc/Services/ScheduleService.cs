@@ -1,4 +1,5 @@
-﻿using SehatDoc.DatabaseContext;
+﻿using Microsoft.EntityFrameworkCore;
+using SehatDoc.DatabaseContext;
 using SehatDoc.Interfaces;
 using SehatDoc.Models;
 
@@ -17,6 +18,11 @@ namespace SehatDoc.Services
               _context.schedules.Add(schedule);
             _context.SaveChanges();
             return schedule;
+        }      
+
+        public IEnumerable<DoctorHospitalSchedule> GetSchedules()
+        {
+            throw new NotImplementedException();
         }
     }
 }

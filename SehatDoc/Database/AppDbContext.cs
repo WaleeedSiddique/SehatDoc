@@ -60,6 +60,19 @@ namespace SehatDoc.DatabaseContext
                 .WithMany(hp => hp.DoctorHospitalProfiles)
                 .HasForeignKey(dhp => dhp.HospitalID);
 
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+      .HasKey(dhs => dhs.id);
+
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+                .HasOne(dhs => dhs.Doctor)
+                .WithMany(d => d.schedules)
+                .HasForeignKey(dhs => dhs.doctorId);
+
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+                .HasOne(dhs => dhs.Hospitals)
+                .WithMany(h => h.schedules)
+                .HasForeignKey(dhs => dhs.HospitalId);
+
 
         }
     }

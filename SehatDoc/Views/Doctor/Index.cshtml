@@ -38,6 +38,7 @@
                             <th style="width:250px;">Hospital</th>
                             <th style="width:250px;">Gender</th>
                             <th style="width:250px;">Add Schedule</th>
+                            <th style="width:250px;">Get Schedules</th>
                             <th style="width:250px;">Action</th>
                         </tr>
                          @foreach(var docs in Model)
@@ -66,6 +67,7 @@
                                 </td>
                                 <td>@docs.Gender</td>
                                 <td><a asp-controller="Scheduling" asp-action="AddSchedule" asp-route-id="@docs.DoctorId">Scheduling</a></td>
+                                <td><a asp-controller="Doctor" asp-action="GetSchedule" asp-route-id="@docs.DoctorId">Get Schedules</a></td>
                                 <td>
                                     <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@docs.DoctorId" class="btn btn-sm btn-success">
                                     <i class="fa-solid fa-edit" style="color:white;"></i>
