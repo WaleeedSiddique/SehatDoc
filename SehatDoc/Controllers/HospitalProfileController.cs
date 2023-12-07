@@ -77,6 +77,7 @@ namespace SehatDoc.Controllers
                     HospitalName = model.HospitalName,
                     HospitalLocation = model.HospitalLocation,
                     HospitalNumber = model.HospitalNumber,
+                    HospitalNumber2 =model.HospitalNumber2,
                     City = model.city,
                     HospitalLogo = uniqueName,
                     State = model.State

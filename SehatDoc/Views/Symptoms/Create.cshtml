@@ -16,14 +16,17 @@
                         <div class="form-group">
                             <label asp-for="SymptomName">Name</label>
                             <input asp-for="SymptomName" class="form-control" />
+                            <span asp-validation-for="SymptomName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="SymptomDescription">Description</label>
                             <input asp-for="SymptomDescription" class="form-control" />
+                            <span asp-validation-for="SymptomDescription" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="SymptomImage">Image</label>
                             <input asp-for="SymptomImage" class="form-control" />
+                            <span asp-validation-for="SymptomImage" class="text-danger"></span>
                         </div>
                         <div class="card-footer text-right">
                             <button type="button" class="btn btn-light">Reset All</button>

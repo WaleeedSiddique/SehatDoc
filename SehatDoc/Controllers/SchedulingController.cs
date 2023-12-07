@@ -41,9 +41,9 @@ namespace SehatDoc.Controllers
                     EndTime = model.EndTime,
                 };
 
-                _schedule.AddSchedule(newSchedule); // Add the newSchedule object
+                _schedule.AddSchedule(newSchedule);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("GetSchedule","Doctor");
             }
             return View(model);
         }

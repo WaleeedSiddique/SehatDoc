@@ -6,7 +6,7 @@ namespace SehatDoc.SymptomsDTO_s
     {
         public int id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Symptom Name is Required")]
         [StringLength(20)]
         public string SymptomName { get; set; }
 
@@ -14,7 +14,7 @@ namespace SehatDoc.SymptomsDTO_s
         public IFormFile SymptomImage { get; set; }
         
 
-        [Required]
+        [Required(ErrorMessage ="Please Enter Summarized Description")]
         [StringLength(50)]
         public string SymptomDescription { get; set; }
     }

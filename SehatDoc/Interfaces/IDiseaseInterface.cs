@@ -13,5 +13,6 @@ namespace SehatDoc.DiseaseInterfaces
         public void DeleteDisease(int id);
         public Disease AddDisease (Disease disease);
         public Disease GetDiseaseByID(int id);
+        public Disease GetDiseaseWithSymtoms(int id);
     }
 }

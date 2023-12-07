@@ -18,6 +18,9 @@ namespace SehatDoc.Models
         [Required]
         public string HospitalNumber { get; set; }
         [Required]
+        
+        public string HospitalNumber2 { get; set; }
+        [Required]
         public string HospitalLogo { get; set; }
         [Required]
         public Cities City { get; set; }
