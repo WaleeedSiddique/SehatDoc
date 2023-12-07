@@ -1,17 +1,39 @@
-﻿@model IEnumerable<DoctorHospitalSchedule>
+﻿@model IEnumerable<Doctor>
 
-     @foreach(var schedules in Model)
-    {
-<div class="card" style="width: 18rem;">
-    <div class="card-header">
-        @schedules.Doctor.FirstName - @schedules.Doctor.LastName
+@foreach (var doctor in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            @doctor.FirstName - @doctor.LastName
+        </div>
+        <div>
+            @foreach (var hospital in doctor.schedules.GroupBy(x => x.Hospitals).Select(g => new { g.Key.HospitalName, g.Key.HospitalID }).ToList())
+
+
+            {
+
+                <h6>@hospital.HospitalName</h6>
+
+                @foreach (var timeslotDays in doctor.schedules.Where(x => x.HospitalId == hospital.HospitalID).ToList())
+
+
+                {
+                    <h6 class="list-group-item"> @timeslotDays.DayOfWeek.ToString()</h6>
+
+                    @foreach (var timeslot in doctor.schedules.Where(x => x.HospitalId == hospital.HospitalID && x.DayOfWeek == timeslotDays.DayOfWeek).ToList())
+
+
+                    {
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">@(DateTime.Today.Add(@timeslot.StartTime).ToString("hh:mm tt")) - @(DateTime.Today.Add(@timeslot.EndTime).ToString("hh:mm tt"))</li>
+                        </ul>
+                    }
+
+                }
+
+
+            }
+
+        </div>
     </div>
-   
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">@schedules.Hospitals.HospitalName</li>
-            <li class="list-group-item">@schedules.DayOfWeek.ToString()</li>
-            <li class="list-group-item">@schedules.StartTime. - @schedules.EndTime</li>
-        </ul>
-  
-</div>
-    }
+}

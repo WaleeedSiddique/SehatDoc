@@ -57,13 +57,9 @@ namespace SehatDoc.DoctorRepositories
             return doc;
         }
 
-        public IEnumerable<DoctorHospitalSchedule> GetSchedule(int id)
+        public IEnumerable<Doctor> GetSchedule(int id)
         {
-            return _context.schedules
-         .Include(dhs => dhs.Hospitals)
-         .Include(dhs => dhs.Doctor) // Include the Doctor entity
-         .Where(dhs => dhs.doctorId == id)
-         .ToList();
+            return _context.Doctors.Include(x => x.schedules).ThenInclude(x => x.Hospitals).Where(x => x.DoctorId == id);
         }
 
        
