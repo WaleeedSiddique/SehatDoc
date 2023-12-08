@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SehatDoc.DatabaseContext;
 using SehatDoc.DepartmentInterfaces;
 using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
@@ -16,14 +17,16 @@ namespace SehatDoc.Controllers
         private readonly IHospitalProfileInterface _hospitalProfileInterface;
         private readonly IHostingEnvironment _hosting;
         private readonly IDepartmentInterface _department;
+        private readonly AppDbContext _context;
         private readonly IDoctorInteraface _doctor;
 
         public HospitalProfileController
-            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department)
+            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department,AppDbContext context)
         {
             this._hospitalProfileInterface = hospitalProfileInteraface;
             this._hosting = hosting;
             this._department = department;
+            this._context = context;
         }
         [HttpGet]
         public IActionResult Index()
@@ -55,6 +58,8 @@ namespace SehatDoc.Controllers
         {
             var dept = _department.GetAllDepartment();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
         }
         [HttpPost]
@@ -77,9 +82,10 @@ namespace SehatDoc.Controllers
                     HospitalName = model.HospitalName,
                     HospitalLocation = model.HospitalLocation,
                     HospitalNumber = model.HospitalNumber,
-                    City = model.city,
+                    HospitalNumber2 =model.HospitalNumber2,
+                    CityId = model.CityId,
                     HospitalLogo = uniqueName,
-                    State = model.State
+                    StateId = model.StateId
                 };
 
                 // Associate Department with Hospitals
@@ -110,8 +116,8 @@ namespace SehatDoc.Controllers
                     HospitalName = hospital.HospitalName,
                     HospitalLocation = hospital.HospitalLocation,
                     HospitalNumber = hospital.HospitalNumber,
-                    city = hospital.City,
-                    State = hospital.State,
+                    CityId = hospital.CityId,
+                    StateId = hospital.StateId,
                     DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
                   
                 };
@@ -134,8 +140,8 @@ namespace SehatDoc.Controllers
                     hospital.HospitalName = model.HospitalName;
                     hospital.HospitalLocation = model.HospitalLocation;
                     hospital.HospitalNumber = model.HospitalNumber;
-                    hospital.City = model.city;
-                    hospital.State = model.State;
+                    hospital.CityId = model.CityId;
+                    hospital.StateId = model.StateId;
 
                     // Update associated departments
                     if (model.DepartmentIDs != null && model.DepartmentIDs.Any())

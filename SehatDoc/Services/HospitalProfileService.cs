@@ -34,6 +34,8 @@ namespace SehatDoc.Services
         {
 
             var hospitals = _context.HospitalProfiles
+                .Include(st => st.State)
+                .Include(ct => ct.City)
                 .Include(x => x.DepartmentHospitalProfiles)
                 .ThenInclude(dh => dh.DepartmentsDepartment)
                 .ToList();

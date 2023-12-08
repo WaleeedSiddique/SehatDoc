@@ -15,7 +15,7 @@
                 <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <span class="text-danger">@ViewBag.Message</span>
+                            <span asp-validation-for="SpecialityName" class="text-danger">@ViewBag.Message</span>
                             <label asp-for="SpecialityName">Name</label>
                             <input class="form-control" type="text" asp-for="SpecialityName" />
                         </div>
@@ -24,6 +24,7 @@
                             <select asp-for="SelectedDiseaseIds" class="form-control" asp-items="ViewBag.Diseases" id="diseaseDropdown">
                                 <option disabled>Select Disease</option>
                             </select>
+                            <span asp-validation-for="SelectedDiseaseIds" class="text-danger"></span>
                         </div>
                         
                         <div class="card-footer text-right">

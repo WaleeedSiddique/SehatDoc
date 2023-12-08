@@ -10,6 +10,8 @@ namespace SehatDoc.Models
         [Required]
         [StringLength(20)]
         public string DiseaseName { get; set; }
+        [Required]
+        public string DiseaseDescription { get; set; }  
 
         [Required]
         public string DiseaseImage { get; set; }

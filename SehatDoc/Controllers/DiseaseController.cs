@@ -35,7 +35,7 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var disease = _diseaseInterface.GetDisease(id);
+            var disease = _diseaseInterface.GetDiseaseWithSymtoms(id);
             if (disease != null)
             {
                 return View(disease);
@@ -71,7 +71,8 @@ namespace SehatDoc.Controllers
                 Disease newDoc = new Disease()
                 {
                     DiseaseName = model.DiseaseName,
-                    DiseaseImage = uniqueName
+                    DiseaseImage = uniqueName,
+                    DiseaseDescription = model.DiseaseDescription
                 };
               
                 if (model.SymptomsIDs != null && model.SymptomsIDs.Any())

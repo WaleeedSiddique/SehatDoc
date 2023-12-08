@@ -17,6 +17,9 @@ namespace SehatDoc.DatabaseContext
         public DbSet<DepartmentHospitalProfile> DepartmentHospitalProfile { get;set; }
         public DbSet<DoctorHospitalProfile> DoctorHospitalProfile { get;set; }
         public DbSet<DiseaseSymptoms> DiseaseSymptoms { get;set; }
+        public DbSet<DoctorHospitalSchedule> schedules { get; set; }
+        public DbSet<State> states { get; set; }
+        public DbSet<City> cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +61,19 @@ namespace SehatDoc.DatabaseContext
                 .HasOne(dhp => dhp.HospitalProfile)
                 .WithMany(hp => hp.DoctorHospitalProfiles)
                 .HasForeignKey(dhp => dhp.HospitalID);
+
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+      .HasKey(dhs => dhs.id);
+
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+                .HasOne(dhs => dhs.Doctor)
+                .WithMany(d => d.schedules)
+                .HasForeignKey(dhs => dhs.doctorId);
+
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+                .HasOne(dhs => dhs.Hospitals)
+                .WithMany(h => h.schedules)
+                .HasForeignKey(dhs => dhs.HospitalId);
 
 
         }

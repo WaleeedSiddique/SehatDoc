@@ -28,5 +28,6 @@ namespace SehatDoc.DoctorModels
         public Cities City { get; set; }
       
         public  ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
+        public ICollection<DoctorHospitalSchedule>? schedules { get; set; }
     }
 }

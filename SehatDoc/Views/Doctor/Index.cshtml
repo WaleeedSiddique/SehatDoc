@@ -3,8 +3,6 @@
     ViewBag.Title = "Doctors";
     Layout = "_AdminDashboard";
 }
-
-
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -12,8 +10,7 @@
                <div>
                   <a href="@Url.Action("Create","Doctor")" class="btn btn-primary">
                     <i class="fa-solid fa-plus" style="color:white;"></i>
-                   </a>
-                    
+                   </a>                    
                </div>
                <div class="text-center mx-auto">
                     <h4>Doctors List</h4>
@@ -27,7 +24,7 @@
                       </div>
                    </div>
                  </form>
-               </div> *@
+               </div> 
              </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -38,7 +35,8 @@
                             <th style="width:250px;">Specialization</th>
                             <th style="width:250px;">City</th>
                             <th style="width:250px;">Hospital</th>
-                            <th style="width:250px;">Gender</th>
+                            <th style="width:250px;">Gender</th>                           
+                            <th style="width:250px;">Get Schedules</th>
                             <th style="width:250px;">Action</th>
                         </tr>
                          @foreach(var docs in Model)
@@ -86,7 +84,12 @@
                                     </button>
                                 </td>
 
+
                                 <td>@docs.Gender</td>
+
+                                <td>@docs.Gender</td>                                
+                                <td><a asp-controller="Doctor" asp-action="GetSchedule" asp-route-id="@docs.DoctorId">Get Schedules</a></td>
+
                                 <td>
                                     <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@docs.DoctorId" class="btn btn-sm btn-success">
                                     <i class="fa-solid fa-edit" style="color:white;"></i>

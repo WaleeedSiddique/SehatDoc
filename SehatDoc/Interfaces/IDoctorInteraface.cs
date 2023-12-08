@@ -12,5 +12,6 @@ namespace SehatDoc.DoctorInterfaces
         public Doctor UpdateDoctor (Doctor doctor);
         public void DeleteDoctor(int id);
         public Doctor AddDoctor (Doctor doctor);
+        public IEnumerable<Doctor> GetSchedule(int id);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
@@ -177,6 +177,7 @@ namespace SehatDoc.Controllers
             var doctors = _doctorInteraface.GetAllDoctors().Where(x => x.Speciality.SpecialityName == name).ToList();
             return View(doctors);
         }
+
         private string ProcessAndSaveFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -199,6 +200,16 @@ namespace SehatDoc.Controllers
 
             return uniqueFileName;
         }
+
+
+        [HttpGet]
+        public IActionResult GetSchedule(int id)
+        {
+            var schedules = _doctorInteraface.GetSchedule(id);
+            return View(schedules);
+        }
+
+
 
     }
 }

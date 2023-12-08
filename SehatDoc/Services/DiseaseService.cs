@@ -64,5 +64,13 @@ namespace SehatDoc.DiseaseRepositories
              .FirstOrDefault(s => s.DiseaseID == id);
         }
 
+        public Disease GetDiseaseWithSymtoms(int id)
+        {
+            var disease = _context.Diseases
+        .Include(d => d.DiseaseSymptoms)
+            .ThenInclude(ds => ds.Symptoms)
+        .FirstOrDefault(d => d.DiseaseID == id);
+            return disease;
+        }
     }
 }

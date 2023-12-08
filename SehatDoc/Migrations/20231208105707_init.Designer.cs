@@ -12,8 +12,8 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231129110845_state")]
-    partial class state
+    [Migration("20231208105707_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,6 +83,28 @@ namespace SehatDoc.Migrations
                     b.ToTable("Specialities");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("cities");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.Department", b =>
                 {
                     b.Property<int>("DepartmentID")
@@ -137,6 +159,10 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiseaseID"), 1L, 1);
 
+                    b.Property<string>("DiseaseDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DiseaseImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -181,6 +207,38 @@ namespace SehatDoc.Migrations
                     b.ToTable("DoctorHospitalProfile");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.DoctorHospitalSchedule", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("HospitalId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("doctorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("HospitalId");
+
+                    b.HasIndex("doctorId");
+
+                    b.ToTable("schedules");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
                 {
                     b.Property<int>("HospitalID")
@@ -189,13 +247,12 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HospitalID"), 1L, 1);
 
-                    b.Property<int>("City")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("HospitalLocation")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HospitalLogo")
                         .IsRequired()
@@ -210,10 +267,18 @@ namespace SehatDoc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("State")
+                    b.Property<string>("HospitalNumber2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("HospitalID");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("StateId");
 
                     b.ToTable("HospitalProfiles");
                 });
@@ -231,6 +296,23 @@ namespace SehatDoc.Migrations
                     b.HasIndex("DiseaseId");
 
                     b.ToTable("SpecialtyDiseases");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("states");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
@@ -269,6 +351,17 @@ namespace SehatDoc.Migrations
                         .IsRequired();
 
                     b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.City", b =>
+                {
+                    b.HasOne("SehatDoc.Models.State", "State")
+                        .WithMany("Cities")
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.DepartmentHospitalProfile", b =>
@@ -328,6 +421,40 @@ namespace SehatDoc.Migrations
                     b.Navigation("HospitalProfile");
                 });
 
+            modelBuilder.Entity("SehatDoc.Models.DoctorHospitalSchedule", b =>
+                {
+                    b.HasOne("SehatDoc.Models.HospitalProfile", "Hospitals")
+                        .WithMany("schedules")
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SehatDoc.DoctorModels.Doctor", "Doctor")
+                        .WithMany("schedules")
+                        .HasForeignKey("doctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Hospitals");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
+                {
+                    b.HasOne("SehatDoc.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("SehatDoc.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("City");
+
+                    b.Navigation("State");
+                });
+
             modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
                 {
                     b.HasOne("SehatDoc.Models.Disease", "Disease")
@@ -350,6 +477,8 @@ namespace SehatDoc.Migrations
             modelBuilder.Entity("SehatDoc.DoctorModels.Doctor", b =>
                 {
                     b.Navigation("DoctorHospitalProfiles");
+
+                    b.Navigation("schedules");
                 });
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Specialities", b =>
@@ -376,6 +505,13 @@ namespace SehatDoc.Migrations
                     b.Navigation("DepartmentHospitalProfiles");
 
                     b.Navigation("DoctorHospitalProfiles");
+
+                    b.Navigation("schedules");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.State", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Symptoms", b =>
