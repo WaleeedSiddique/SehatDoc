@@ -18,6 +18,12 @@ namespace SehatDoc.DoctorDTO_s
         public int specialityId { get; set; }
         [Required]
         public string LicenseNumber { get; set; }
+
+        [Required]
+        public IFormFile? PhotoPath { get; set; }
+       // [Required]
+        public string? ExistingPhotoPath { get; set; }
+        [Required]
         [Required(ErrorMessage ="Please Add a picture of yourself")]
         public IFormFile PhotoPath { get; set; }
         [Required(ErrorMessage ="Gender Cannot be null")]

@@ -15,7 +15,7 @@
                <div class="text-center mx-auto">
                     <h4>Doctors List</h4>
                </div>
-               <div class="card-header-form">
+              @*  <div class="card-header-form">
                  <form>
                    <div class="input-group">
                      <input type="text" class="form-control" placeholder="Search">
@@ -24,15 +24,14 @@
                       </div>
                    </div>
                  </form>
-               </div>
+               </div> 
              </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th style="width:250px;">First Name</th>
-                            <th style="width:250px;">Last Name</th>
-                            <th style="width:250px;">Image</th>
+                            <th style="width:250px;">#</th>
+                            <th style="width:250px;">Full Name</th>
                             <th style="width:250px;">Specialization</th>
                             <th style="width:250px;">City</th>
                             <th style="width:250px;">Hospital</th>
@@ -44,13 +43,16 @@
                          {
                             var photopath = "~/images/" + docs.PhotoPath;
                         <tr>
-                                <td>@docs.FirstName</td>
-                                <td>@docs.LastName</td>
-                                <td><img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width:50px; height:50px"></td>
+                                
+                                <td><img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"></td>
+                                <td>@docs.FirstName @docs.LastName</td>
                                 <td>@docs.Speciality.SpecialityName</td>
                                 <td>@docs.City</td>
-                                <td>
-                                    @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
+                                @* <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#hospitalsModal">
+                                        Open Hospital Details
+                                    </button> *@
+                                   @*  @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
                                     {
                                         <div>
                                             @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
@@ -62,10 +64,32 @@
                                                 <span>No Hospital Profile</span>
                                             }
                                         </div>
-                                    }
+                                    } *@
+                                @* </td> *@
+                                <td>
+                                    <button class="btn btn-sm btn-primary" onclick="showHospitalsModal('@docs.DoctorId', [
+        @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
+        {
+            @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
+            {
+                @("\"" + hospitalprofile.HospitalProfile.HospitalName.Replace("\"", "\\\"") + "\",")
+            }
+            else
+            {
+                @("\"No Hospital Profile\",")
+            }
+        }
+    ])">
+                                        Show Hospitals
+                                    </button>
                                 </td>
+
+
+                                <td>@docs.Gender</td>
+
                                 <td>@docs.Gender</td>                                
                                 <td><a asp-controller="Doctor" asp-action="GetSchedule" asp-route-id="@docs.DoctorId">Get Schedules</a></td>
+
                                 <td>
                                     <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@docs.DoctorId" class="btn btn-sm btn-success">
                                     <i class="fa-solid fa-edit" style="color:white;"></i>
@@ -78,22 +102,52 @@
                                         <i class="fa-solid fa-trash" style="color:white"></i>
                                     </a>
                                 </td>
+                                
                         </tr>
                     }
                     </table>
                 </div>
             </div>
-            <div class="card-body">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+        </div>
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="hospitalsModal" tabindex="-1" role="dialog" aria-labelledby="hospitalsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hospitalsModalLabel">Hospitals Related to Doctor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="hospitalsModalBody">
+                <!-- Hospitals will be displayed here -->
             </div>
         </div>
     </div>
 </div>
+@section scripts {
+    <script>
+        function showHospitalsModal(doctorId, hospitals) {
+            // Display hospitals in the modal body
+            var modalBody = document.getElementById("hospitalsModalBody");
+            modalBody.innerHTML = "";
+
+            if (hospitals && hospitals.length > 0) {
+                hospitals.forEach(function (hospital) {
+                    var hospitalElement = document.createElement("div");
+                    hospitalElement.textContent = hospital;
+                    modalBody.appendChild(hospitalElement);
+                });
+            } else {
+                modalBody.innerHTML = '<span>No Hospital Profile</span>';
+            }
+
+            // Show the modal
+            $('#hospitalsModal').modal('show');
+        }
+    </script>
+}
+

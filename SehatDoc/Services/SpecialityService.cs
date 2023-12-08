@@ -3,6 +3,7 @@ using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
 using SehatDoc.Models;
+using SehatDoc.SpecialityDTO_s;
 using SehatDoc.ViewModels;
 
 namespace SehatDoc.DoctorRepositories
@@ -38,6 +39,12 @@ namespace SehatDoc.DoctorRepositories
             var specialities = _context.Specialities.Include(x => x.doctors).Include(s => s.SpecialtyDiseases).ThenInclude(sd => sd.Disease).ToList();
             return specialities;
         }
+        public int GetTotalDoctorCount()
+        {
+            return _context.Doctors.Count();
+        }
+
+
 
         public Specialities GetSpecialityById(int id)
         {

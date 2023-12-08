@@ -64,7 +64,7 @@
                             <span asp-validation-for="HospitalLogo" class="text-danger"></span>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light">Reset All</button>
+                            <a class="btn btn-danger" asp-controller="HospitalProfile" asp-action="Index">Cancel</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>
                       
@@ -109,7 +109,7 @@
 
 
     <!-- Your script -->
-    <script>
+   <script>
         var defaultCoordinates = [30.3753, 69.3451];
         var map = L.map('map').setView(defaultCoordinates, 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
