@@ -56,13 +56,21 @@
                                     <option disabled>Select Hospital</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6 col-12">
+                        @*     <div class="form-group col-md-6 col-12">
                             <label asp-for="PhotoPath">Photo</label>
                             <input asp-for="PhotoPath" class="form-control" />
-                          </div>
+                          </div> *@
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhotoPath">Photo</label>
+                            <input asp-for="PhotoPath" class="form-control" />
+                            @if (!string.IsNullOrEmpty(Model.ExistingPhotoPath))
+                            {
+                                <img src="~/images/@Model.ExistingPhotoPath" alt="Doctor Photo" class="img-thumbnail" />
+                            }
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light">Reset All</button>
+                            <a class="btn btn-danger" asp-controller="Doctor" asp-action="Index">Cancel</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>
 

@@ -40,16 +40,6 @@ namespace SehatDoc.Services
 
             return hospitals;
         }
-        //public IEnumerable<HospitalProfile> GetAllHospitalProfileForDashboard()
-        //{
-
-        //    var hospitals = _context.HospitalProfiles
-        //        .Include(x => x.DoctorHospitalProfiles)
-        //        .ThenInclude(dh => dh.Doctor)
-        //        .ToList();
-
-        //    return hospitals;
-        //}
         public IEnumerable<DoctorHospitalProfile> GetAllHospitalProfileForDashboard()
         {
             var doctorHospitalProfiles = _context.DoctorHospitalProfile
@@ -58,6 +48,11 @@ namespace SehatDoc.Services
                 .ToList();
 
             return doctorHospitalProfiles;
+        }
+        public IEnumerable<HospitalProfile> GetTotalHospitalCount()
+        {
+            var hospitals = _context.HospitalProfiles.ToList();
+            return hospitals;
         }
 
         public HospitalProfile GetHospitalProfile(int id)

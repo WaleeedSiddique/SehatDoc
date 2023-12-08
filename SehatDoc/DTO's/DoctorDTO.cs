@@ -18,7 +18,9 @@ namespace SehatDoc.DoctorDTO_s
         [Required]
         public string LicenseNumber { get; set; }
         [Required]
-        public IFormFile PhotoPath { get; set; }
+        public IFormFile? PhotoPath { get; set; }
+       // [Required]
+        public string? ExistingPhotoPath { get; set; }
         [Required]
         public Gender gender { get; set; }
         [Required]

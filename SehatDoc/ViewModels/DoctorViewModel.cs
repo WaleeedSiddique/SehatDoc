@@ -15,6 +15,7 @@ namespace SehatDoc.DoctorDTO_s
         public string LastName { get; set; }
         [Required]
         public int specialityId { get; set; }
+        public string SpecialityName { get; set; }
         [Required]
         public string LicenseNumber { get; set; }
         [Required]

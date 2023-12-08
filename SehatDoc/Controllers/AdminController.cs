@@ -7,6 +7,8 @@ using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Models;
 using SehatDoc.ViewModels;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace SehatDoc.Controllers
 {
@@ -16,9 +18,10 @@ namespace SehatDoc.Controllers
         private readonly IDoctorInteraface _doctorInterface;
         private readonly ISpecialityInterface _speciality;
         private readonly IHostingEnvironment _hosting;
-        public AdminController(IHospitalProfileInterface hospitalProfileInteraface, ISpecialityInterface speciality, IHostingEnvironment hosting)
+        public AdminController(IHospitalProfileInterface hospitalProfileInteraface, IDoctorInteraface doctor,ISpecialityInterface speciality, IHostingEnvironment hosting)
         {
             this._hospitalProfileInterface = hospitalProfileInteraface;
+            this._doctorInterface = doctor;
             this._speciality = speciality;
             this._hosting = hosting;
 
@@ -27,6 +30,7 @@ namespace SehatDoc.Controllers
         {
             return View();
         }
+
         [HttpGet]
         public IActionResult Dashboard()
         {
@@ -34,16 +38,19 @@ namespace SehatDoc.Controllers
             {
                 var doctorHospitalProfiles = _hospitalProfileInterface.GetAllHospitalProfileForDashboard();
                 var totalDoctorCount = _speciality.GetTotalDoctorCount();
+                var doctors = _doctorInterface.GetAllDoctors();
+                var totalHospitalCount = _hospitalProfileInterface.GetTotalHospitalCount(); // New line
+               
 
-                // Assuming DoctorHospitalProfiles has a property Doctor
-                 var doctors = doctorHospitalProfiles?.Select(dhp => dhp.Doctor).ToList();
-             
                 var dashboardViewModel = new DashboardViewModel
                 {
                     DoctorHospitalProfiles = doctorHospitalProfiles?.ToList(),
-                    doctors = doctors,
+                    doctors = (ICollection<Doctor>)doctors,
                     TotalDoctorCount = totalDoctorCount,
+                    //TotalHospitalCount = totalHospitalCount
+                    Hospitals = totalHospitalCount?.ToList(),
                 };
+
 
                 return View(dashboardViewModel);
             }
@@ -54,64 +61,6 @@ namespace SehatDoc.Controllers
                 throw; // Rethrow the exception to see the detailed error in the browser
             }
         }
-
-        //[HttpGet]
-        //public IActionResult Dashboard()
-        //{
-        //    try
-        //    {
-        //        var doctorHospitalProfiles = _hospitalProfileInterface.GetAllHospitalProfileForDashboard();
-        //        var totalDoctorCount = _speciality.GetTotalDoctorCount();
-
-        //        // Assuming DoctorHospitalProfiles has a property Doctor
-        //        var doctors = doctorHospitalProfiles?.Select(dhp => dhp.Doctor).ToList();
-
-        //        var dashboardViewModel = new DashboardViewModel
-        //        {
-        //            DoctorHospitalProfiles = doctorHospitalProfiles?.ToList(),
-        //            doctors = doctors,
-        //            TotalDoctorCount = totalDoctorCount,
-        //        };
-
-        //        return View(dashboardViewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception for further investigation
-        //        Console.WriteLine($"Exception in Dashboard action: {ex}");
-        //        throw; // Rethrow the exception to see the detailed error in the browser
-        //    }
-        //}
-
-
-        //[HttpGet]
-        //public IActionResult Dashboard()
-        //{
-        //    try
-        //    {
-        //        var doctorHospitalProfiles = _hospitalProfileInterface.GetAllHospitalProfileForDashboard();
-        //        var totalDoctorCount = _speciality.GetTotalDoctorCount();
-
-        //        var dashboardViewModel = new DashboardViewModel
-        //        {
-        //            DoctorHospitalProfiles = doctorHospitalProfiles?.ToList(),
-        //            TotalDoctorCount = totalDoctorCount,
-        //        };
-
-        //        return View(dashboardViewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception for further investigation
-        //        Console.WriteLine($"Exception in Dashboard action: {ex}");
-        //        throw; // Rethrow the exception to see the detailed error in the browser
-        //    }
-        //}
-
-
-
-
-
 
     }
 }
