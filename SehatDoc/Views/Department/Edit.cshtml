@@ -2,7 +2,7 @@
 @model DepartmentDTO
 @{
     ViewBag.Message = "Departmetn";
-    Layout = "_AdminDashboard";
+    
 }
 <div class="container">
     <div class="row">
@@ -14,11 +14,11 @@
                 <form asp-controller="Department" asp-action="Edit" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <label asp-for="DepartmentName">Department Name</label>
+                            <label asp-for="DepartmentName">Name</label>
                             <input asp-for="DepartmentName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="DepartmentDescription">Department Description</label>
+                            <label asp-for="DepartmentDescription">Description</label>
                             <input asp-for="DepartmentDescription" class="form-control" />
                         </div>
                         <div class="card-footer text-right">

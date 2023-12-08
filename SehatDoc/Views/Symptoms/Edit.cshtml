@@ -2,7 +2,7 @@
 @model SymptomsDTO
 @{
     ViewBag.Message = "Symptom";
-    Layout = "_AdminDashboard";
+  
 }
 <div class="container">
     <div class="row">
@@ -14,15 +14,15 @@
                 <form asp-controller="Symptoms" asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
-                            <label asp-for="SymptomName">Symptom Name</label>
+                            <label asp-for="SymptomName">Name</label>
                             <input asp-for="SymptomName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="SymptomDescription">Symptom Description</label>
+                            <label asp-for="SymptomDescription">Description</label>
                             <input asp-for="SymptomDescription" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="SymptomImage">Symptom Image</label>
+                            <label asp-for="SymptomImage">Image</label>
                             <input asp-for="SymptomImage" class="form-control" />
                         </div>
                         <div class="card-footer text-right">

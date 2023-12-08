@@ -20,12 +20,14 @@
                                         <div class="form-outline">
                                             <label class="form-label" asp-for="FirstName">First name</label>
                                             <input asp-for="FirstName"  class="form-control form-control-lg" />
+                                            <span asp-validation-for="FirstName"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" asp-for="LastName">Last name</label>
                                             <input asp-for="LastName" class="form-control form-control-lg" />
+                                            <span asp-validation-for="LastName"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -37,12 +39,14 @@
                                             <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities">
                                                 <option disabled>Select Speciality</option>
                                             </select>
+                                            <span asp-validation-for="specialityId"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
                                             <label class="form-label" asp-for="LicenseNumber">Lisence Number</label>
                                             <input asp-for="LicenseNumber" class="form-control form-control-lg" />
+                                            <span asp-validation-for="LicenseNumber"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -50,6 +54,7 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" asp-for="PhotoPath" >Address</label>
                                     <input asp-for="PhotoPath" class="form-control form-control-lg" />
+                                    <span asp-validation-for="PhotoPath"></span>
                                 </div>
 
                                 <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
@@ -59,6 +64,7 @@
                                             <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
                                                 <option disabled>Select Gender</option>
                                             </select>
+                                            <span asp-validation-for="gender"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
@@ -67,6 +73,7 @@
                                             <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
                                                 <option disabled>Select City</option>
                                             </select>
+                                            <span asp-validation-for="city"></span>
                                         </div>
                                     </div>
 

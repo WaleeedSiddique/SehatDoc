@@ -15,11 +15,18 @@
                 <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <span class="text-danger">@ViewBag.Message</span>
-                            <label asp-for="SpecialityName">Specialty Name</label>
-                            <input asp-for="SpecialityName" class="form-control" />
+                            <span asp-validation-for="SpecialityName" class="text-danger">@ViewBag.Message</span>
+                            <label asp-for="SpecialityName">Name</label>
+                            <input class="form-control" type="text" asp-for="SpecialityName" />
                         </div>
-                     
+                        <div class="form-group">
+                            <label asp-for="SelectedDiseaseIds">Select Disease</label>
+                            <select asp-for="SelectedDiseaseIds" class="form-control" asp-items="ViewBag.Diseases" id="diseaseDropdown">
+                                <option disabled>Select Disease</option>
+                            </select>
+                            <span asp-validation-for="SelectedDiseaseIds" class="text-danger"></span>
+                        </div>
+                        
                         <div class="card-footer text-right">
                             <button type="button" class="btn btn-light">Reset All</button>
                             <button class="btn btn-primary">Submit</button>
@@ -31,18 +38,13 @@
         </div>
     </div>
 </div>
+@section Scripts {
 
-    <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
-        <label class="form-label" for="SpecialityName">Speciality Name:</label>
-        <input class="form-control" type="text" asp-for="SpecialityName" />
-
-        <label asp-for="SelectedDiseaseIds">Select Diseases:</label>
-        @foreach (var disease in ViewBag.Diseases)
-        {
-            <input type="checkbox" name="SelectedDiseaseIds" value="@disease.DiseaseID" /> @disease.DiseaseName
-        }
-
-        <button type="submit">Add Specialty</button>
-    </form>
-</div>
+    <script>
+        $(function () {
+            $("#diseaseDropdown").chosen();
+        });
+    </script>
+}
+ 
 

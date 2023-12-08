@@ -2,13 +2,21 @@
 @model IEnumerable<HospitalProfile>
 @{
     ViewBag.Title = "HospitalProfile";
-    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    Layout = "_AdminDashboard";
 }
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h4>Hospitals Profile List</h4>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="@Url.Action("Create","HospitalProfile")" class="btn btn-primary">
+                        <i class="fa-solid fa-plus" style="color:white;"></i>
+                    </a>
+
+                </div>
+                <div class="text-center mx-auto">
+                    <h4>Hospitals Profile List</h4>
+                </div>
                 <div class="card-header-form">
                     <form>
                         <div class="input-group">
@@ -24,12 +32,14 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th style="width:50px;">Hospital Name</th>
-                            <th style="width:190px;">Hospital Location</th>
-                            <th style="width:190px;">Hospital Number</th>
-                            <th style="width:90px;">Image</th>
-                            <th style ="width:90px;">Department</th>
-                            <th style="width:90px;">Action</th>
+                            <th style="width:250px;">Name</th>
+                            <th style="width:250px;">Location</th>
+                            <th style="width:250px;">Number</th>
+                            <th style="width:250px;">Logo</th>
+                            <th style="width:250px;">Departments</th>
+                            <th style="width:250px;">State</th>
+                            <th style="width:250px;">City</th>
+                            <th style="width:320px;">Action</th>
                         </tr>
                         @foreach (var hospital in Model)
                         {
@@ -39,7 +49,23 @@
                                 <td>@hospital.HospitalLocation</td>
                                 <td>@hospital.HospitalNumber</td>
                                 <td><img alt="HospitalLogo" src="@photopath" asp-append-version="true" style="width:50px; height:50px"></td>
-                                <td>@hospital.Department.DepartmentName</td>
+                                <td>
+                                    @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
+                                    {
+                                        <div>
+                                            @if (departmentProfile != null && departmentProfile.DepartmentsDepartment != null)
+                                            {
+                                                @departmentProfile.DepartmentsDepartment.DepartmentName
+                                            }
+                                            else
+                                            {
+                                                <span>No Department</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                                <td>@hospital.State.StateName</td>
+                                <td>@hospital.City.CityName</td>
                                 <td>
                                     <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-edit" style="color:white;"></i>

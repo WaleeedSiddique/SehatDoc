@@ -8,11 +8,12 @@ using SehatDoc.SymptomsInterfaces;
 using SehatDoc.Services;
 using SehatDoc.DepartmentInterfaces;
 using SehatDoc.HospitalProfileInterfaces;
+using SehatDoc.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IDiseaseInterface, DiseaseService>();
 builder.Services.AddScoped<ISymptomsInterface, SymptomsService>();
 builder.Services.AddScoped<IDepartmentInterface, DepartmentService>();
 builder.Services.AddScoped<IHospitalProfileInterface, HospitalProfileService>();
+builder.Services.AddScoped<ISchedulingInterface, ScheduleService>();
 
 var app = builder.Build();
 

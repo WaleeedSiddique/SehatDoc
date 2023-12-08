@@ -47,7 +47,7 @@ namespace SehatDoc.DoctorRepositories
              .Include(s => s.doctors)
              .FirstOrDefault(s => s.Id == id);
         }
-
+       
         public Specialities UpdateSpeciality(Specialities SpecialityChanges)
         {
             var speciality = _context.Specialities.Attach(SpecialityChanges);

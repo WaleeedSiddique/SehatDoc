@@ -2,13 +2,21 @@
 @model IEnumerable<Symptoms>
 @{
     ViewBag.Title = "Symptoms";
-    Layout = "~/Views/Shared/_AdminDashboard.cshtml";
+    
 }
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h4>Symptoms List</h4>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="@Url.Action("Create","Symptoms")" class="btn btn-primary">
+                        <i class="fa-solid fa-plus" style="color:white;"></i>
+                    </a>
+
+                </div>
+                <div class="text-center mx-auto">
+                    <h4>Symptoms List</h4>
+                </div>
                 <div class="card-header-form">
                     <form>
                         <div class="input-group">
@@ -24,9 +32,9 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th>Symptom Name</th>
-                            <th>Symptom Image</th>
-                            <th>Symptom Description</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                         @foreach (var symptoms in Model)
@@ -70,34 +78,5 @@
 </div>
 
 
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Details</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var symptoms in Model)
-        {
-            var photopath = "~/images/" + symptoms.SymptomImage;
-            <tr>
-                <td><img src="@photopath" asp-append-version="true" alt="Doctor Image" width="50px" height="50px" /></td>
-                <th scope="row">@symptoms.SymptomID</th>
-                <td>@symptoms.SymptomName</td>
-                <td>@symptoms.SymptomDescription</td>               
-                <td><a asp-controller="Symptoms" asp-action="Edit" asp-route-id="@symptoms.SymptomID" class="btn btn-secondary">Edit</a></td>
-                <td><a asp-controller="Symptoms" asp-action="Details" asp-route-id="@symptoms.SymptomID" class="btn btn-warning">Details</a></td>
-                <td><a asp-controller="Symptoms" asp-action="Delete" asp-route-id="@symptoms.SymptomID" class="btn btn-danger">Delete</a></td>
-            </tr>
-        }
 
-
-    </tbody>
-</table>
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SehatDoc.DatabaseContext;
+using SehatDoc.DoctorModels;
 using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Models;
 
@@ -29,19 +30,30 @@ namespace SehatDoc.Services
                 _context.SaveChanges();
             }
         }
-
         public IEnumerable<HospitalProfile> GetAllHospitalProfile()
         {
-            var hospital = _context.HospitalProfiles.Include(x => x.Department).ToList();
-            return hospital;
-        }
 
+            var hospitals = _context.HospitalProfiles
+                .Include(st => st.State)
+                .Include(ct => ct.City)
+                .Include(x => x.DepartmentHospitalProfiles)
+                .ThenInclude(dh => dh.DepartmentsDepartment)
+                .ToList();
+
+            return hospitals;
+        }
         public HospitalProfile GetHospitalProfile(int id)
         {
-            var hospital = _context.HospitalProfiles.Include(x => x.Department).FirstOrDefault(x => x.HospitalID == id);
-            return hospital;
+            var hospitals = _context.HospitalProfiles
+            .Include(x => x.DepartmentHospitalProfiles)
+            .ThenInclude(dh => dh.DepartmentsDepartment)
+            .Include(x => x.DoctorHospitalProfiles)
+            .ThenInclude(dh => dh.Doctor) 
+            .FirstOrDefault(x => x.HospitalID == id);
+             return hospitals;
+      
         }
-
+  
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile)
         {
             var hospital = _context.HospitalProfiles.Attach(hospitalProfile);

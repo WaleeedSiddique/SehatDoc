@@ -1,5 +1,7 @@
-﻿@using SehatDoc.DiseaseDTO_s;
+﻿@using SehatDoc.ViewModels;
+@using SehatDoc.DiseaseDTO_s;
 @model DiseaseDTO
+@* @model DiseasesWithSymptomsViewModel *@
 @{
     ViewBag.Message = "Add Disease";
     Layout = "_AdminDashboard";
@@ -14,11 +16,24 @@
                <form asp-controller="Disease" asp-action="Create" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
-                                <label asp-for="DiseaseName">Disease Name</label>
+                                <label asp-for="DiseaseName">Name</label>
                                 <input asp-for="DiseaseName" class="form-control" />
+                            <span asp-validation-for="DiseaseName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="DiseaseImage">Disease Image</label>
+                            <label asp-for="SymptomsIDs">Select Symptoms</label>
+                            <select asp-for="SymptomsIDs" class="form-control" asp-items="ViewBag.Symptoms" id="symptomsDropdown">
+                                <option disabled>Select Symptoms</option>
+                            </select>
+                            <span asp-validation-for="SymptomsIDs" class="text-danger"></span>
+                        </div>
+                         <div class="form-group">
+                            <label asp-for="DiseaseDescription">Disease Description</label>
+                            <input asp-for="DiseaseDescription" class="form-control" />
+                            <span asp-validation-for="DiseaseDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DiseaseImage">Image</label>
                             <input asp-for="DiseaseImage" class="form-control" />
                         </div>
                         <div class="card-footer text-right">
@@ -32,3 +47,11 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(function () {
+            $("#symptomsDropdown").chosen();
+        });
+    </script>
+  
+}

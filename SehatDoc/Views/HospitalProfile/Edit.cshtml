@@ -1,4 +1,5 @@
-﻿@using SehatDoc.HospitalProfileDTO_s;
+﻿@using SehatDoc.Enums;
+@using SehatDoc.HospitalProfileDTO_s;
 @model HospitalProfileDTO
 @{
     ViewBag.Message = "Hospital Profile";
@@ -14,22 +15,35 @@
                 <form asp-controller="HospitalProfile" asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
-                            <label asp-for="HospitalName">Hospital Name</label>
+                            <label asp-for="HospitalName">Name</label>
                             <input asp-for="HospitalName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="HospitalLocation">Hospital Name</label>
-                            <input asp-for="HospitalLocation" class="form-control" />
+                            <label asp-for="HospitalLocation">Location</label>
+                            <input asp-for="HospitalLocation" class="form-control" onclick="openMapModal()" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="DepartmentID">Select Department</label>
-                            <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.Departments">
+                            <label asp-for="DepartmentIDs">Select Department</label>
+                            <select asp-for="DepartmentIDs" class="form-control" asp-items="ViewBag.Departments" id="departmentDropdown">
                                 <option disabled>Select Department</option>
                             </select>
                         </div>
+                       
                         <div class="form-group">
-                            <label asp-for="HospitalNumber">Hospital Number</label>
+                            <label asp-for="HospitalNumber">Number</label>
                             <input asp-for="HospitalNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StateId">Select State</label>
+                            <select asp-for="StateId" class="form-control" asp-items="Html.GetEnumSelectList<States>()">
+                                <option disabled>Select State</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CityId">Select City</label>
+                            <select asp-for="CityId" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
+                                <option disabled>Select City</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLogo">Logo</label>
@@ -42,7 +56,95 @@
 
                     </div>
                 </form>
+                <!-- Bootstrap modal for the map -->
+                <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mapModalLabel">Select Location on Map</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Map container with explicit size -->
+                                <div id="map" style="width: 100%; height: 400px;"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveLocation()">Save Location</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(function () {
+            $("#departmentDropdown").chosen();
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#doctorDropdown").chosen();
+        });
+    </script>
+    <!-- Your script -->
+    <script>
+        var defaultCoordinates = [30.3753, 69.3451];
+        var map = L.map('map').setView(defaultCoordinates, 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        var marker = L.marker(defaultCoordinates).addTo(map);
+
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+        });
+
+        // Add a search bar to the map
+        var searchControl = L.Control.geocoder({
+            defaultMarkGeocode: false,
+        })
+            .on('markgeocode', function (event) {
+                var latlng = event.geocode.center;
+                marker.setLatLng(latlng);
+                map.setView(latlng, map.getZoom());
+            })
+            .addTo(map);
+
+        // Function to open the map modal
+        function openMapModal() {
+            $('#mapModal').modal('show');
+        }
+
+        // Function to handle map resizing when the modal is fully shown
+        $('#mapModal').on('shown.bs.modal', function () {
+            map.invalidateSize();
+        });
+
+        // Function to save the location and close the modal
+        function saveLocation() {
+            var latlng = marker.getLatLng();
+            var lat = latlng.lat;
+            var lng = latlng.lng;
+
+            // Reverse geocoding using Nominatim API
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Location:', data.display_name);
+                    document.getElementById('HospitalLocation').value = data.display_name;
+
+                    // Close the modal after setting the input field value
+                    $('#mapModal').modal('hide');
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+}
