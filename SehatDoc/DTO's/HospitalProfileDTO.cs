@@ -1,5 +1,6 @@
 ﻿using SehatDoc.DoctorEnums;
 using SehatDoc.Enums;
+using SehatDoc.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace SehatDoc.HospitalProfileDTO_s
@@ -25,10 +26,11 @@ namespace SehatDoc.HospitalProfileDTO_s
         [Required(ErrorMessage = "Please Select Departments.")]
         public List<int> DepartmentIDs { get; set; }
     
-        [Required(ErrorMessage = "City Field is required.")]
-
-        public Cities city { get; set; }
-        [Required(ErrorMessage = "Please Select State.")]
-        public States State { get; set; }
+       // [Required(ErrorMessage = "City Field is required.")]
+       public int cityid { get; set; }
+        public int stateid { get; set; }
+        public City cityId { get; set; }
+       // [Required(ErrorMessage = "Please Select State.")]
+        public State StateId { get; set; }
     }
 }

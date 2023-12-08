@@ -43,18 +43,20 @@
                             <span asp-validation-for="HospitalNumber2" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="State">Select State</label>
-                            <select asp-for="State" class="form-control" asp-items="Html.GetEnumSelectList<States>()">
-                                <option disabled>Select State</option>
+                            <label>State:</label>
+                            <select id="stateDropdown" asp-for="StateId" asp-items="@ViewBag.States" class="form-control">
+                                <option value="">Select State</option>
                             </select>
-                            <span asp-validation-for="State" class="text-danger" class="text-danger"></span>
+                            <span asp-validation-for="cityId" class="text-danger"></span>
                         </div>
+
+                        <!-- City dropdown -->
                         <div class="form-group">
-                            <label asp-for="city">Select City</label>
-                            <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
-                                <option disabled>Select City</option>
+                            <label>City:</label>
+                            <select id="cityDropdown" asp-for="cityId" class="form-control">
+                                <option value="">Select City</option>
                             </select>
-                            <span asp-validation-for="city" class="text-danger"></span>
+                            <span asp-validation-for="cityId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLogo">Logo</label>
@@ -97,6 +99,7 @@
 </div>
 
 @section Scripts {
+   
     <script>
         $(function () {
             $("#departmentDropdown").chosen();
@@ -158,9 +161,35 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+        $(document).ready(function () {
+            $("#stateDropdown").change(function () {
+                var selectedStateId = $(this).val();
+                if (selectedStateId !== "") {
+                    $.ajax({
+                        url: '/State/GetCitiesByState',
+                        type: 'GET',
+                        data: { stateId: selectedStateId },
+                        success: function (data) {
+                            $("#cityDropdown").empty();
+                            $("#cityDropdown").append('<option value="">Select City</option>');
+                            $.each(data, function (index, city) {
+                                $("#cityDropdown").append('<option value="' + city.cityId + '">' + city.cityName + '</option>');
+                            });
+                        },
+                        error: function () {
+                            console.log('Error fetching cities');
+                        }
+                    });
+                } else {
+                    $("#cityDropdown").empty();
+                    $("#cityDropdown").append('<option value="">Select City</option>');
+                }
+            });
+        });
     </script>
 
 
 
-
+    
+   
 }
