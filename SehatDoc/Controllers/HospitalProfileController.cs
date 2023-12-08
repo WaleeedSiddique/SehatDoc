@@ -83,9 +83,9 @@ namespace SehatDoc.Controllers
                     HospitalLocation = model.HospitalLocation,
                     HospitalNumber = model.HospitalNumber,
                     HospitalNumber2 =model.HospitalNumber2,
-                    CityId = model.cityid,
+                    CityId = model.CityId,
                     HospitalLogo = uniqueName,
-                    StateId = model.stateid
+                    StateId = model.StateId
                 };
 
                 // Associate Department with Hospitals
@@ -116,8 +116,8 @@ namespace SehatDoc.Controllers
                     HospitalName = hospital.HospitalName,
                     HospitalLocation = hospital.HospitalLocation,
                     HospitalNumber = hospital.HospitalNumber,
-                    cityid = hospital.CityId,
-                    stateid = hospital.StateId,
+                    CityId = hospital.CityId,
+                    StateId = hospital.StateId,
                     DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
                   
                 };
@@ -140,8 +140,8 @@ namespace SehatDoc.Controllers
                     hospital.HospitalName = model.HospitalName;
                     hospital.HospitalLocation = model.HospitalLocation;
                     hospital.HospitalNumber = model.HospitalNumber;
-                    hospital.CityId = model.cityid;
-                    hospital.StateId = model.stateid;
+                    hospital.CityId = model.CityId;
+                    hospital.StateId = model.StateId;
 
                     // Update associated departments
                     if (model.DepartmentIDs != null && model.DepartmentIDs.Any())

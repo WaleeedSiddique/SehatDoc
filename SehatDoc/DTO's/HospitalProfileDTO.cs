@@ -27,10 +27,10 @@ namespace SehatDoc.HospitalProfileDTO_s
         public List<int> DepartmentIDs { get; set; }
     
        // [Required(ErrorMessage = "City Field is required.")]
-       public int cityid { get; set; }
-        public int stateid { get; set; }
-        public City cityId { get; set; }
+       public int? CityId { get; set; }
+        public int? StateId { get; set; }
+        public City? city { get; set; }
        // [Required(ErrorMessage = "Please Select State.")]
-        public State StateId { get; set; }
+        public State? state { get; set; }
     }
 }

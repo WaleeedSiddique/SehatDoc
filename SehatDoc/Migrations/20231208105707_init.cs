@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SehatDoc.Migrations
 {
-    public partial class kesebaton : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,29 +30,12 @@ namespace SehatDoc.Migrations
                     DiseaseID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DiseaseName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DiseaseDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiseaseImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Diseases", x => x.DiseaseID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HospitalProfiles",
-                columns: table => new
-                {
-                    HospitalID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HospitalName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    HospitalLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HospitalLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<int>(type: "int", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HospitalProfiles", x => x.HospitalID);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +52,19 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "states",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StateName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_states", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Symptoms",
                 columns: table => new
                 {
@@ -81,32 +77,6 @@ namespace SehatDoc.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Symptoms", x => x.SymptomID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DepartmentHospitalProfile",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentsDepartmentID = table.Column<int>(type: "int", nullable: false),
-                    HospitalProfilesHospitalID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DepartmentHospitalProfile", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DepartmentHospitalProfile_Departments_DepartmentsDepartmentID",
-                        column: x => x.DepartmentsDepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DepartmentHospitalProfile_HospitalProfiles_HospitalProfilesHospitalID",
-                        column: x => x.HospitalProfilesHospitalID,
-                        principalTable: "HospitalProfiles",
-                        principalColumn: "HospitalID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,6 +129,26 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StateId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_cities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_cities_states_StateId",
+                        column: x => x.StateId,
+                        principalTable: "states",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiseaseSymptoms",
                 columns: table => new
                 {
@@ -179,6 +169,61 @@ namespace SehatDoc.Migrations
                         column: x => x.SymptomID,
                         principalTable: "Symptoms",
                         principalColumn: "SymptomID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HospitalProfiles",
+                columns: table => new
+                {
+                    HospitalID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HospitalName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    HospitalLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HospitalNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HospitalNumber2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HospitalLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: true),
+                    StateId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HospitalProfiles", x => x.HospitalID);
+                    table.ForeignKey(
+                        name: "FK_HospitalProfiles_cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "cities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_HospitalProfiles_states_StateId",
+                        column: x => x.StateId,
+                        principalTable: "states",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DepartmentHospitalProfile",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentsDepartmentID = table.Column<int>(type: "int", nullable: false),
+                    HospitalProfilesHospitalID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepartmentHospitalProfile", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DepartmentHospitalProfile_Departments_DepartmentsDepartmentID",
+                        column: x => x.DepartmentsDepartmentID,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DepartmentHospitalProfile_HospitalProfiles_HospitalProfilesHospitalID",
+                        column: x => x.HospitalProfilesHospitalID,
+                        principalTable: "HospitalProfiles",
+                        principalColumn: "HospitalID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -236,6 +281,11 @@ namespace SehatDoc.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_cities_StateId",
+                table: "cities",
+                column: "StateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DepartmentHospitalProfile_DepartmentsDepartmentID",
                 table: "DepartmentHospitalProfile",
                 column: "DepartmentsDepartmentID");
@@ -259,6 +309,16 @@ namespace SehatDoc.Migrations
                 name: "IX_Doctors_specialityId",
                 table: "Doctors",
                 column: "specialityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HospitalProfiles_CityId",
+                table: "HospitalProfiles",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HospitalProfiles_StateId",
+                table: "HospitalProfiles",
+                column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_schedules_doctorId",
@@ -310,6 +370,12 @@ namespace SehatDoc.Migrations
 
             migrationBuilder.DropTable(
                 name: "Specialities");
+
+            migrationBuilder.DropTable(
+                name: "cities");
+
+            migrationBuilder.DropTable(
+                name: "states");
         }
     }
 }

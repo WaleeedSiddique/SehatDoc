@@ -47,16 +47,16 @@
                             <select id="stateDropdown" asp-for="StateId" asp-items="@ViewBag.States" class="form-control">
                                 <option value="">Select State</option>
                             </select>
-                            <span asp-validation-for="cityId" class="text-danger"></span>
+                            <span asp-validation-for="StateId" class="text-danger"></span>
                         </div>
 
                         <!-- City dropdown -->
                         <div class="form-group">
                             <label>City:</label>
-                            <select id="cityDropdown" asp-for="cityId" class="form-control">
+                            <select id="cityDropdown" asp-for="CityId" name="CityId" class="form-control">
                                 <option value="">Select City</option>
                             </select>
-                            <span asp-validation-for="cityId" class="text-danger"></span>
+                            <span asp-validation-for="CityId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLogo">Logo</label>
@@ -170,20 +170,26 @@
                         type: 'GET',
                         data: { stateId: selectedStateId },
                         success: function (data) {
+                            console.log(data)
                             $("#cityDropdown").empty();
                             $("#cityDropdown").append('<option value="">Select City</option>');
                             $.each(data, function (index, city) {
-                                $("#cityDropdown").append('<option value="' + city.cityId + '">' + city.cityName + '</option>');
+                                $("#cityDropdown").append('<option value="' + city.id + '">' + city.cityName + '</option>');
                             });
-                        },
-                        error: function () {
-                            console.log('Error fetching cities');
                         }
                     });
                 } else {
                     $("#cityDropdown").empty();
                     $("#cityDropdown").append('<option value="">Select City</option>');
                 }
+            });
+
+            $("#submitButton").click(function () {
+                if ($("#cityDropdown").val() === "") {
+                    $("#cityDropdown").next(".text-danger").text("Please select a city.");
+                    return false; // Prevent form submission
+                }
+                return true; // Allow form submission
             });
         });
     </script>

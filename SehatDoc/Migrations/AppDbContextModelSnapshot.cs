@@ -245,7 +245,7 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HospitalID"), 1L, 1);
 
-                    b.Property<int>("City")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("HospitalLocation")
@@ -269,10 +269,14 @@ namespace SehatDoc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("State")
+                    b.Property<int?>("StateId")
                         .HasColumnType("int");
 
                     b.HasKey("HospitalID");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("StateId");
 
                     b.ToTable("HospitalProfiles");
                 });
@@ -432,6 +436,21 @@ namespace SehatDoc.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Hospitals");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.HospitalProfile", b =>
+                {
+                    b.HasOne("SehatDoc.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("SehatDoc.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("City");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.SpecialtyDisease", b =>
