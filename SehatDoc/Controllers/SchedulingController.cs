@@ -43,7 +43,7 @@ namespace SehatDoc.Controllers
 
                 _schedule.AddSchedule(newSchedule);
                 _context.SaveChanges();
-                return RedirectToAction("GetSchedule","Doctor");
+                return RedirectToAction("GetSchedule", "Doctor", new {model.doctorId});
             }
             return View(model);
         }

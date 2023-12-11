@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Doctor>
-<div class="container ">
 
 
-@foreach (var doctor in Model)
+
+@* @foreach (var doctor in Model)
 {
     <div class="card "  style="width: auto;">
             <div class="card-header d-flex flex-row justify-content-around">
@@ -16,8 +16,8 @@
         </div>
 
        
-        <div>
-        <div class="container d-flex flex-row justify-content-around ">
+            <div class="container d-flex flex-row justify-content-around flex-wrap ">
+        <div class="container d-flex flex-row justify-content-around flex-wrap ">
             @foreach (var hospital in doctor.schedules.GroupBy(x => x.Hospitals).Select(g => new { g.Key.HospitalName, g.Key.HospitalID }).ToList())
 
 
@@ -49,4 +49,39 @@
             </div>
     </div>
 }
-</div>
+</div> *@
+
+@foreach(var doc in Model)
+{
+            @foreach (var hospital in doc.schedules.GroupBy(x => x.Hospitals).Select(g => new { g.Key.HospitalName, g.Key.HospitalID }).ToList())
+            {
+    <table class="table table-primary">
+        <thead >
+            <tr>
+               
+                        <td><span class="bg-dark text-light p-2">@hospital.HospitalName</span></td>
+                        <td>
+                            <div class="float-end">
+                                <a asp-controller="Scheduling" asp-action="AddSchedule" asp-route-id="@doc.DoctorId" class="btn btn-warning">Add Schedule</a>
+                            </div>
+                        </td>
+
+            </tr>            
+        </thead>
+        <tbody>
+            @foreach (var timeslotDays in doc.schedules.Where(x => x.HospitalId == hospital.HospitalID).ToList())
+
+
+            {
+            <tr>
+                            @foreach (var timeslot in doc.schedules.Where(x => x.HospitalId == hospital.HospitalID && x.DayOfWeek == timeslotDays.DayOfWeek).ToList())
+                        {                             
+                            <td>@timeslotDays.DayOfWeek.ToString() </td>
+                            <td>@(DateTime.Today.Add(@timeslot.StartTime).ToString("hh:mm tt")) - @(DateTime.Today.Add(@timeslot.EndTime).ToString("hh:mm tt"))</td>
+                        }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+}
