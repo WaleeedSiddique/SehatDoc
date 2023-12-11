@@ -76,6 +76,10 @@ namespace SehatDoc.DoctorRepositories
             _context.Specialities.Add(speciality);
             _context.SaveChanges();
         }
+        public int GetTotalDoctorCount()
+        {
+            return _context.Doctors.Count();
+        }
     }
 
 }

@@ -1,5 +1,215 @@
-﻿@{
+﻿@using SehatDoc.ViewModels;
+@model DashboardViewModel
+
+@{
     ViewBag.Title = "Admin Dashboard";
     Layout = "_AdminDashboard";
 }
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <div class="card" style="border-radius: 20px;">
+            <div style="background-color:#6771dc; border-top-right-radius: 20px; border-top-left-radius: 20px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <h5 class="text-center" style="color: white; font-weight: bold;padding-top:5px;">Hospitals</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex justify-content-end">
+                        <div style="width: 70px; height: 70px; border-radius: 100%; background-color: rgba(103, 113, 220, 0.5); display: flex; align-items: center; justify-content: center;">
+                            <img src="~/assets/img/pharmacy.png" class="img-fluid" alt="Hospital Image" style="max-width: 80%; max-height: 80%; border-radius: 50%;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-left">
+                        <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#hospitalModal">
+                            @if (Model != null)
+                            {
 
+                                var totalHospitalCount = Model.Hospitals.Count;
+                                <p class="card-text text-center" style="font-weight: bold; font-size: 48px; margin-right: 10px;">@totalHospitalCount</p>
+                            }
+                            else
+                            {
+
+                            }
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" style="border-radius: 20px;">
+            <div style="background-color:#6771dc; border-top-right-radius: 20px; border-top-left-radius: 20px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <h5 class="text-center" style="color: white; font-weight: bold;padding-top:5px;">Doctors In Hospital</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex justify-content-end">
+                        <div style="width: 70px; height: 70px; border-radius: 100%; background-color: rgba(103, 113, 220, 0.5); display: flex; align-items: center; justify-content: center;">
+                            <img src="~/assets/img/doctor.png" class="img-fluid" alt="Hospital Image" style="max-width: 80%; max-height: 80%; border-radius: 50%;" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center justify-content-left">
+                        <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#doctorsModal">
+                            @if (Model != null)
+                            {
+                                var totalHospitalCount = Model.DoctorHospitalProfiles?.Count() ?? 0;
+                                <p class="card-text text-center" style="font-weight: bold; font-size: 48px; margin-right: 10px;">@totalHospitalCount</p>
+                            }
+                            else
+                            {
+                                <p class="card-text text-center" style="font-weight: bold; font-size: 36px;">Data not available</p>
+                            }
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card" style="border-radius: 20px;">
+            <div style="background-color:#6771dc; border-top-right-radius: 20px; border-top-left-radius: 20px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <h5 class="text-center" style="color: white; font-weight: bold;padding-top:5px;">Doctors By Specialties</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex justify-content-end">
+                        <div style="width: 70px; height: 70px; border-radius: 100%; background-color: rgba(103, 113, 220, 0.5); display: flex; align-items: center; justify-content: center;">
+                            <img src="~/assets/img/doc.png" class="img-fluid" alt="Hospital Image" style="max-width: 80%; max-height: 80%; border-radius: 50%;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-left">
+                        <a href="#" style="text-decoration: none;" data-toggle="modal" data-target="#doctorsbyspecialtyModal">
+                            @if (Model != null)
+                            {
+                                <p class="card-text text-center" style="font-weight: bold; font-size: 48px;">@Model.TotalDoctorCount</p>
+                            }
+                            else
+                            {
+                                <!-- Handle the case when Model is null -->
+                                <p class="card-text text-center" style="font-weight: bold; font-size: 36px;">Data not available</p>
+                            }
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for displaying hospitals -->
+<div class="modal fade custom-modal" id="hospitalModal" tabindex="-1" role="dialog" aria-labelledby="hospitalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hospitalModalLabel">Hospitals</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the list of hospitals here -->
+                <div class="modal-body">
+                    <!-- Display the list of hospitals here -->
+                    @if (Model != null && Model.Hospitals != null && Model.Hospitals.Any())
+                    {
+
+                        @foreach (var hospital in Model.Hospitals)
+                        {
+                            <p>@hospital.HospitalName</p>
+                        }
+                    }
+                    else
+                    {
+                        <!-- Handle the case when Model or Hospitals is null or empty -->
+                        <p>No hospitals available.</p>
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for displaying doctors -->
+<div class="modal fade custom-modal" id="doctorsModal" tabindex="-1" role="dialog" aria-labelledby="doctorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorsModalLabel">Doctors in Hospitals</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the list of doctors here -->
+                @if (Model != null && Model.DoctorHospitalProfiles != null)
+                {
+                    foreach (var doctorHospitalProfile in Model.DoctorHospitalProfiles)
+                    {
+                        <p>@doctorHospitalProfile.Doctor.FirstName - @doctorHospitalProfile.HospitalProfile.HospitalName</p>
+                    }
+                }
+                else
+                {
+                    <!-- Handle the case when Model or DoctorHospitalProfiles is null -->
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for doctors by specialty-->
+<div class="modal fade custom-modal" id="doctorsbyspecialtyModal" tabindex="-1" role="dialog" aria-labelledby="doctorsbyspecialtyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorsModalLabel">Doctors By Specialties</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Display the list of doctors with their specialities here -->
+                @if (Model != null && Model.doctors != null && Model.doctors.Any())
+                {
+                    foreach (var doctor in Model.doctors)
+                    {
+                        <p>@doctor.FirstName - @doctor.Speciality?.SpecialityName</p>
+                    }
+                }
+                else
+                {
+                    <!-- Handle the case when Model.doctors is null or empty -->
+                    <p>Data not available</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-modal').on('hidden.bs.modal', function (e) {
+                $('.modal-backdrop').remove();
+            });
+        });
+    </script>
+
+
+}

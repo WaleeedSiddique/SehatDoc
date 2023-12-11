@@ -12,7 +12,7 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231208105707_init")]
+    [Migration("20231211102816_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
