@@ -47,14 +47,39 @@ namespace SehatDoc.DoctorRepositories
              .Include(s => s.doctors)
              .FirstOrDefault(s => s.Id == id);
         }
-       
-        public Specialities UpdateSpeciality(Specialities SpecialityChanges)
+        public Specialities UpdateSpeciality(int specialityId, Specialities specialityChanges, List<int> selectedDiseaseIds)
         {
-            var speciality = _context.Specialities.Attach(SpecialityChanges);
-            speciality.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
-            return SpecialityChanges;
+            var existingSpeciality = _context.Specialities
+                .Include(s => s.SpecialtyDiseases)
+                .SingleOrDefault(s => s.Id == specialityId);
+
+            if (existingSpeciality != null)
+            {
+                existingSpeciality.SpecialityName = specialityChanges.SpecialityName;
+
+                // Update associated diseases
+                existingSpeciality.SpecialtyDiseases.Clear();
+                foreach (var diseaseId in selectedDiseaseIds)
+                {
+                    existingSpeciality.SpecialtyDiseases.Add(new SpecialtyDisease { DiseaseId = diseaseId });
+                }
+
+                _context.SaveChanges();
+                return existingSpeciality;
+            }
+
+            return null; // or throw an exception if necessary
         }
+
+
+
+        //public Specialities UpdateSpeciality(Specialities SpecialityChanges)
+        //{
+        //    var speciality = _context.Specialities.Attach(SpecialityChanges);
+        //    speciality.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //    _context.SaveChanges();
+        //    return SpecialityChanges;
+        //}
 
         public void AddSpecialityWithDiseases(SpecialityWithDiseasesViewModel viewModel)
         {

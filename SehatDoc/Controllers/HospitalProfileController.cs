@@ -127,6 +127,7 @@ namespace SehatDoc.Controllers
                     HospitalName = hospital.HospitalName,
                     HospitalLocation = hospital.HospitalLocation,
                     HospitalNumber = hospital.HospitalNumber,
+                    HospitalNumber2 = hospital.HospitalNumber2,
                     CityId = hospital.CityId,
                     StateId = hospital.StateId,
                     DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
@@ -151,6 +152,7 @@ namespace SehatDoc.Controllers
                     hospital.HospitalName = model.HospitalName;
                     hospital.HospitalLocation = model.HospitalLocation;
                     hospital.HospitalNumber = model.HospitalNumber;
+                    hospital.HospitalNumber2 = model.HospitalNumber2;
                     hospital.CityId = model.CityId;
                     hospital.StateId = model.StateId;
 

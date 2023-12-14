@@ -28,10 +28,16 @@
                                 <option disabled>Select Department</option>
                             </select>
                         </div>
-                       
+
                         <div class="form-group">
-                            <label asp-for="HospitalNumber">Number</label>
+                            <label asp-for="HospitalNumber">Contact 1</label>
                             <input asp-for="HospitalNumber" class="form-control" />
+                            <span asp-validation-for="HospitalNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="HospitalNumber2">Contact 2</label>
+                            <input asp-for="HospitalNumber2" class="form-control" />
+                            <span asp-validation-for="HospitalNumber2" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="StateId">Select State</label>

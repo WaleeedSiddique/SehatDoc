@@ -57,35 +57,53 @@ namespace SehatDoc.Controllers
             ViewBag.Diseases = diseases;
             return View(model);
         }
-
         [HttpGet]
         public IActionResult EditSpeciality(int id)
         {
             var speciality = _speciality.GetSpecialityById(id);
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
+
             if (speciality != null)
             {
-                SpecialityDTO model = new SpecialityDTO()
+                SpecialityWithDiseasesViewModel model = new SpecialityWithDiseasesViewModel
                 {
-                    name = speciality.SpecialityName
+                    SpecialityId = speciality.Id,
+                    SpecialityName = speciality.SpecialityName,
+                    SelectedDiseaseIds = speciality.SpecialtyDiseases.Select(d => d.DiseaseId).ToList()
                 };
+
                 return View(model);
             }
+
             return NotFound();
         }
+
         [HttpPost]
-        public IActionResult EditSpeciality(SpecialityDTO model)
+        public IActionResult EditSpeciality(SpecialityWithDiseasesViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var speciality = _speciality.GetSpecialityById(model.id);
+                var speciality = _speciality.GetSpecialityById(model.SpecialityId);
+
                 if (speciality != null)
                 {
-                    speciality.SpecialityName = model.name;
-                    _speciality.UpdateSpeciality(speciality);
-                    return RedirectToAction("Index");
+                    speciality.SpecialityName = model.SpecialityName;
+
+                    // Assuming you have a method to get selected disease IDs from the model
+                    var selectedDiseaseIds = model.SelectedDiseaseIds;
+
+                    // Update speciality in the repository
+                    _speciality.UpdateSpeciality(model.SpecialityId, speciality, selectedDiseaseIds);
+
+                    return RedirectToAction("Index", "Speciality");
                 }
-                return View(model);
+
+                return NotFound();
             }
+
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
             return View(model);
         }
         [HttpGet]
