@@ -9,7 +9,7 @@ namespace SehatDoc.DoctorInterfaces
         public int GetTotalDoctorCount();
         public Specialities GetSpecialityById(int id);
         public Specialities AddSpeciality(Specialities speciality);
-        public Specialities UpdateSpeciality(Specialities SpecialityChanges);
+        public Specialities UpdateSpeciality(int specialityId, Specialities SpecialityChanges, List<int> selectedDiseaseIds);
         public Specialities DeleteSpeciality(Specialities speciality);
         void AddSpecialityWithDiseases(SpecialityWithDiseasesViewModel viewModel);
 

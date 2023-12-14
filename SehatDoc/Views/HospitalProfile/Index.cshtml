@@ -23,10 +23,9 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
+                            <th></th>
                             <th style="width:250px;">Name</th>
-                            <th style="width:250px;">Location</th>
                             <th style="width:250px;">Number</th>
-                            <th style="width:250px;">Logo</th>
                             <th style="width:250px;">Departments</th>
                             <th style="width:250px;">State</th>
                             <th style="width:250px;">City</th>
@@ -36,11 +35,27 @@
                         {
                             var photopath = "~/images/" + hospital.HospitalLogo;
                             <tr>
+                                <td><img alt="HospitalLogo" src="@photopath" asp-append-version="true" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"></td>
                                 <td>@hospital.HospitalName</td>
-                                <td>@hospital.HospitalLocation</td>
                                 <td>@hospital.HospitalNumber</td>
-                                <td><img alt="HospitalLogo" src="@photopath" asp-append-version="true" style="width:50px; height:50px"></td>
                                 <td>
+                                    <span style="cursor: pointer; text-decoration:none;" onclick="showDepartmentModal('@hospital.HospitalID', [
+                                      @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
+                                     {
+                                       @if (departmentProfile != null && departmentProfile.DepartmentsDepartment != null)
+                                      {
+                                         @("\"" + departmentProfile.DepartmentsDepartment.DepartmentName.Replace("\"", "\\\"") + "\",")
+                                      }
+                                      else
+                                      {
+                                          @("\"No Departments\",")
+                                      }
+                                     }
+                                       ])">
+                                        Show Departments
+                                    </span>
+                                </td>
+                          @*       <td>
                                     @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
                                     {
                                         <div>
@@ -54,7 +69,7 @@
                                             }
                                         </div>
                                     }
-                                </td>
+                                </td> *@
                                 <td>@hospital.State.StateName</td>
                                 <td>@hospital.City.CityName</td>
                                 <td>
@@ -77,3 +92,52 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="departmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="departmentModalLabel">Departments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="departmentModalBody">
+                <!-- Hospitals will be displayed here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function showDepartmentModal(HospitalID, hospitals) {
+            // Display hospitals in the modal body
+            var modalBody = document.getElementById("departmentModalBody");
+            modalBody.innerHTML = "";
+
+            if (hospitals && hospitals.length > 0) {
+                // Create a table dynamically
+                var table = document.createElement("table");
+                table.className = "table";
+                var tbody = document.createElement("tbody");
+
+                hospitals.forEach(function (hospital) {
+                    var row = document.createElement("tr");
+                    var cell = document.createElement("td");
+                    cell.textContent = hospital;
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+                modalBody.appendChild(table);
+            } else {
+                modalBody.innerHTML = '<span>No Departments</span>';
+            }
+
+            // Show the modal
+            $('#departmentModal').modal('show');
+        }
+    </script>
+}

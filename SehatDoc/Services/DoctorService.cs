@@ -37,9 +37,17 @@ namespace SehatDoc.DoctorRepositories
             var docs = _context.Doctors.Include(x => x.Speciality).Include(y => y.DoctorHospitalProfiles).ThenInclude(dh => dh.HospitalProfile).ToList();
             return docs;
         }
+        //public Doctor GetDoctor(int id)
+        //{
+        //    var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
+        //    return doc;
+        //}
         public Doctor GetDoctor(int id)
         {
-            var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
+            var doc = _context.Doctors
+                .Include(x => x.Speciality)
+                .Include(x => x.DoctorHospitalProfiles)  // Include DoctorHospitalProfiles
+                .FirstOrDefault(x => x.DoctorId == id);
             return doc;
         }
         public Doctor GetDoctorProfile(int id)

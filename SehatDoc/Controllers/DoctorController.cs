@@ -102,6 +102,10 @@ namespace SehatDoc.Controllers
                 var doc = _doctorInteraface.AddDoctor(newDoc);
                 return RedirectToAction("Index", new {newDoc.DoctorId});                
             }
+            var speclities = _speciality.GetAllSpecialities();
+            var hospitals = _doctorInteraface.GetAllHospitalProfile();
+            ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
+            ViewBag.HospitalProfile = new SelectList(hospitals, "HospitalID", "HospitalName");
             return View();
             
         }
@@ -111,6 +115,7 @@ namespace SehatDoc.Controllers
             var doc = _doctorInteraface.GetDoctor(id);
             var speclities = _speciality.GetAllSpecialities();
             var hospitals = _doctorInteraface.GetAllHospitalProfile();
+
             if (doc != null)
             {
                 DoctorDTO model = new DoctorDTO()
@@ -121,8 +126,13 @@ namespace SehatDoc.Controllers
                     city = doc.City,
                     specialityId = doc.specialityId,
                     gender = doc.Gender,
+                    // ExistingPhotoPath = doc.PhotoPath,
+                   // ExistingPhotoPath = doc.PhotoPath ?? "",
+                    HospitalIDs = doc.DoctorHospitalProfiles?.Select(dhp => dhp.HospitalID ?? 0).ToList() ?? new List<int>(),
                 };
                 ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
+
+                ViewBag.HospitalProfile = new MultiSelectList(hospitals, "HospitalID", "HospitalName", model.HospitalIDs); // Use MultiSelectList for multiple selection
                 return View(model);
             }
             return NotFound();
@@ -132,8 +142,8 @@ namespace SehatDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-            var doc = _doctorInteraface.GetDoctor(model.id);
-                if(doc != null)
+                var doc = _doctorInteraface.GetDoctor(model.id);
+                if (doc != null)
                 {
                     doc.FirstName = model.FirstName;
                     doc.LastName = model.LastName;
@@ -141,6 +151,25 @@ namespace SehatDoc.Controllers
                     doc.City = model.city;
                     doc.Gender = model.gender;
                     doc.specialityId = model.specialityId;
+
+                    // Process and save the new image if provided
+                    //if (model.PhotoPath != null)
+                    //{
+                    //    string uniqueFileName = ProcessAndSaveFile(model.PhotoPath);
+                    //    doc.PhotoPath = uniqueFileName;
+                    //}
+                    // Update the DoctorHospitalProfiles based on the selected hospitals
+                    if (model.HospitalIDs != null && model.HospitalIDs.Any())
+                    {
+                        doc.DoctorHospitalProfiles = model.HospitalIDs
+                            .Select(hospitalID => new DoctorHospitalProfile { HospitalID = hospitalID })
+                            .ToList();
+                    }
+                    else
+                    {
+                        // If no hospitals are selected, you might want to clear existing associations
+                        doc.DoctorHospitalProfiles = new List<DoctorHospitalProfile>();
+                    }
                     _doctorInteraface.UpdateDoctor(doc);
                     return RedirectToAction("Index");
                 }
