@@ -1,4 +1,5 @@
-﻿@model SpecialityDTO
+﻿@using SehatDoc.ViewModels;
+@model SpecialityWithDiseasesViewModel
 @{
     ViewBag.Title = "Edit Speciality";
     Layout = "_AdminDashboard";
@@ -13,13 +14,20 @@
                 <form asp-controller="Speciality" asp-action="EditSpeciality" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <input asp-for="id" hidden />
-                            <label asp-for="name">Specialty Name</label>
-                            <input asp-for="name" class="form-control" />
+                            <input type="hidden" asp-for="SpecialityId" />
+
+                            <label asp-for="SpecialityName">Name</label>
+                            <input asp-for="SpecialityName" class="form-control" />
                         </div>
-                     
-                        <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light">Reset All</button>
+                        <div class="form-group">
+                            <label asp-for="SelectedDiseaseIds">Select Disease</label>
+                            <select asp-for="SelectedDiseaseIds" class="form-control" asp-items="ViewBag.Diseases" id="diseaseDropdown">
+                                <option disabled>Select Disease</option>
+                            </select>
+                            <span asp-validation-for="SelectedDiseaseIds" class="text-danger"></span>
+                        </div>
+                         <div class="card-footer text-right">
+                            <a class="btn btn-danger" asp-controller="Speciality" asp-action="Index">Cancel</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>
 
@@ -29,3 +37,12 @@
         </div>
     </div>
 </div>
+@section Scripts {
+
+    <script>
+        $(function () {
+            $("#diseaseDropdown").chosen();
+        });
+    </script>
+}
+

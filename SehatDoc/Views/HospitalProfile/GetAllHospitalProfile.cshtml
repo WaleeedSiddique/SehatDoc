@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HospitalProfile>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "_Layout";
+}
+<!-- doctor section -->
+<!-- Hospital section -->
+<section class="hospital_section layout_padding" style="background-color: white;">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2 style="color: black;">Our Hospitals</h2>
+            <br />
+            <br />
+        </div>
+        <div class="row">
+            @foreach (var hospital in Model)
+            {
+                var photopath = "~/images/" + hospital.HospitalLogo;
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); height: 200px;">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="img-box col-5">
+                                <a href="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })">
+                                    <img src="@photopath" asp-append-version="true" alt="" style="width: 100%; border-radius: 50%; max-width: 150px; max-height: 150px; object-fit: cover;" />
+                                </a>
+                            </div>
+                            <div class="detail-box pl-3">
+                                <h6 class="small">
+                                    <a href="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })">@hospital.HospitalName</a>
+                                </h6>
+              
+                                @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
+                                {
+                                    <p>
+                                       
+                                        @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
+                                        {
+                                            <span>@departmentProfile.DepartmentsDepartment.DepartmentName</span>
+                                           @*  <span class="mx-2">|</span> *@
+                                        }
+                                    </p>
+                                }
+                                <button class="btn btn-danger">
+                                    <i class="fa fa-phone" style="color: white;"></i> @hospital.HospitalNumber
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<!-- end doctor section -->

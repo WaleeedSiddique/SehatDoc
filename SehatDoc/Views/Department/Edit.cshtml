@@ -14,15 +14,15 @@
                 <form asp-controller="Department" asp-action="Edit" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <label asp-for="DepartmentName">Department Name</label>
+                            <label asp-for="DepartmentName">Name</label>
                             <input asp-for="DepartmentName" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label asp-for="DepartmentDescription">Department Description</label>
+                            <label asp-for="DepartmentDescription">Description</label>
                             <input asp-for="DepartmentDescription" class="form-control" />
                         </div>
                         <div class="card-footer text-right">
-                            <button type="button" class="btn btn-light">Reset All</button>
+                            <a class="btn btn-danger" asp-controller="Department" asp-action="Index">Cancel</a>
                             <button class="btn btn-primary">Submit</button>
                         </div>
 

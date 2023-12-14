@@ -6,24 +6,23 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h4>Specialties List</h4>
-                <div class="card-header-form">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="@Url.Action("CreateSpeciality","Speciality")" class="btn btn-primary">
+                        <i class="fa-solid fa-plus" style="color:white;"></i>
+                    </a>
+
+                </div>
+                <div class="text-center mx-auto">
+                    <h4>Specialties List</h4>
                 </div>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tr>
-                            <th>Specialty Name</th>
+                            <th>Name</th>
+                            <th>Diseases</th>
                             <th>Numbers of Doctors</th>
                             <th>Action</th>
                         </tr>
@@ -31,6 +30,21 @@
                         {
                         <tr>
                                 <td>@specialities.SpecialityName.ToUpper()</td>
+                                <td>
+                                    @foreach (var specialtydisease in specialities.SpecialtyDiseases)
+                                    {
+                                        <div>
+                                            @if (specialtydisease != null && specialtydisease.Disease != null)
+                                            {
+                                                @specialtydisease.Disease.DiseaseName
+                                            }
+                                            else
+                                            {
+                                                <span>No Diseases</span>
+                                            }
+                                        </div>
+                                    }
+                                </td>
                                 <td class="align-middle">@specialities.doctors.Count()</td>
                                 <td>
                                     <a asp-controller="Speciality" asp-action="EditSpeciality" asp-route-id="@specialities.Id" class="btn btn-sm btn-success">
@@ -49,47 +63,8 @@
                     </table>
                 </div>
             </div>
-            <div class="card-body">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-        
         </div>
     </div>
 </div>
 
-<table class="table">
-    <thead class="thead-dark"> 
-        <tr>
-            <th scope="col">Speciality Id</th>
-            <th scope="col">Speciality Name</th>
-            <th scope="col">Numbers of Doctors</th>
-            <th scope="col">Diseases</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Detail</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var specialities in Model)
-        {            
-        <tr>
-                <td scope="col">@specialities.Id</td>
-            <td scope="col">@specialities.SpecialityName.ToUpper()</td>
-            <td scope="col">@specialities.doctors.Count()</td>             
-            <td scope="col">@specialities.SpecialtyDiseases.Count()</td>             
-                <td scope="col"><a class="btn btn-secondary" asp-controller="Speciality" asp-action="EditSpeciality" asp-route-id="@specialities.Id">Edit</a></td>
-                <td scope="col"><a class="btn btn-warning" asp-controller="Speciality" asp-action="SpecialityDetails" asp-route-id="@specialities.Id">Details</a></td>
-                <td scope="col"><a class="btn btn-danger" asp-controller="Speciality" asp-action="DeleteSpeciality" asp-route-id="@specialities.Id">Delete</a></td>
-        </tr>
-        }
-    </tbody>
-</table>
 

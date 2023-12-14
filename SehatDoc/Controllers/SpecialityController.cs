@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DiseaseInterfaces;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
@@ -30,13 +31,19 @@ namespace SehatDoc.Controllers
             var speciality = _speciality.GetSpecialityById(id);
             return View(speciality);  
         }
+
         [HttpGet]
         public IActionResult CreateSpeciality()
         {
             var diseases = _disease.GetAllDisease();
-            ViewBag.Diseases = diseases;
-            return View();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
+
+            var model = new SpecialityWithDiseasesViewModel(); 
+            model.SelectedDiseaseIds = new List<int>(); 
+
+            return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateSpeciality(SpecialityWithDiseasesViewModel model)
@@ -44,7 +51,7 @@ namespace SehatDoc.Controllers
             if (ModelState.IsValid)
             {
                 _speciality.AddSpecialityWithDiseases(model);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Speciality");
             }
             var diseases = _disease.GetAllDisease();
             ViewBag.Diseases = diseases;
@@ -54,30 +61,49 @@ namespace SehatDoc.Controllers
         public IActionResult EditSpeciality(int id)
         {
             var speciality = _speciality.GetSpecialityById(id);
-            if(speciality != null)
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
+
+            if (speciality != null)
             {
-                SpecialityDTO model = new SpecialityDTO()
+                SpecialityWithDiseasesViewModel model = new SpecialityWithDiseasesViewModel
                 {
-                    name = speciality.SpecialityName
+                    SpecialityId = speciality.Id,
+                    SpecialityName = speciality.SpecialityName,
+                    SelectedDiseaseIds = speciality.SpecialtyDiseases.Select(d => d.DiseaseId).ToList()
                 };
-                return View(model); 
-            }
-            return NotFound();
-        }
-        [HttpPost]
-        public IActionResult EditSpeciality(SpecialityDTO model)
-        {
-            if(ModelState.IsValid)
-            {
-                var speciality = _speciality.GetSpecialityById(model.id);
-                if (speciality != null)
-                {
-                    speciality.SpecialityName = model.name;
-                    _speciality.UpdateSpeciality(speciality);
-                    return RedirectToAction("Index");
-                }
+
                 return View(model);
             }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult EditSpeciality(SpecialityWithDiseasesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var speciality = _speciality.GetSpecialityById(model.SpecialityId);
+
+                if (speciality != null)
+                {
+                    speciality.SpecialityName = model.SpecialityName;
+
+                    // Assuming you have a method to get selected disease IDs from the model
+                    var selectedDiseaseIds = model.SelectedDiseaseIds;
+
+                    // Update speciality in the repository
+                    _speciality.UpdateSpeciality(model.SpecialityId, speciality, selectedDiseaseIds);
+
+                    return RedirectToAction("Index", "Speciality");
+                }
+
+                return NotFound();
+            }
+
+            var diseases = _disease.GetAllDisease();
+            ViewBag.Diseases = new SelectList(diseases, "DiseaseID", "DiseaseName");
             return View(model);
         }
         [HttpGet]

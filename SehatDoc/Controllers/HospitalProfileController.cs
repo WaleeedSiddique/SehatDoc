@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SehatDoc.DatabaseContext;
 using SehatDoc.DepartmentInterfaces;
 using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
@@ -16,13 +17,16 @@ namespace SehatDoc.Controllers
         private readonly IHospitalProfileInterface _hospitalProfileInterface;
         private readonly IHostingEnvironment _hosting;
         private readonly IDepartmentInterface _department;
+        private readonly AppDbContext _context;
+        private readonly IDoctorInteraface _doctor;
 
         public HospitalProfileController
-            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department)
+            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department,AppDbContext context)
         {
             this._hospitalProfileInterface = hospitalProfileInteraface;
             this._hosting = hosting;
             this._department = department;
+            this._context = context;
         }
         [HttpGet]
         public IActionResult Index()
@@ -49,10 +53,24 @@ namespace SehatDoc.Controllers
             return View(hospital);
         }
         [HttpGet]
+        public IActionResult GetAllHospitalProfile()
+        {
+            var hospital = _hospitalProfileInterface.GetAllHospitalProfile();
+            return View(hospital);
+        }
+        [HttpGet]
+        public IActionResult HospitalProfile(int id)
+        {
+            var hospital = _hospitalProfileInterface.HospitalProfile(id);
+            return View(hospital);
+        }
+        [HttpGet]
         public IActionResult Create()
         {
             var dept = _department.GetAllDepartment();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
         }
         [HttpPost]
@@ -68,38 +86,59 @@ namespace SehatDoc.Controllers
                     string filepath = Path.Combine(imagefolder, uniqueName);
                     model.HospitalLogo.CopyTo(new FileStream(filepath, FileMode.Create));
                 }
-                HospitalProfile newHospital = new HospitalProfile()
+
+                // Create HospitalProfile entity
+                HospitalProfile newDoc = new HospitalProfile()
                 {
                     HospitalName = model.HospitalName,
                     HospitalLocation = model.HospitalLocation,
                     HospitalNumber = model.HospitalNumber,
-                    DepartmentID = model.DepartmentID,
-                    HospitalLogo = uniqueName
+                    HospitalNumber2 =model.HospitalNumber2,
+                    CityId = model.CityId,
+                    HospitalLogo = uniqueName,
+                    StateId = model.StateId
                 };
-                var hospital = _hospitalProfileInterface.AddHospitalProfile(newHospital);
-                return RedirectToAction("Index", new { newHospital.HospitalID });
-            }
-            return View();
 
+                // Associate Department with Hospitals
+                if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
+                {
+                    newDoc.DepartmentHospitalProfiles = model.DepartmentIDs
+                        .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
+                        .ToList();
+                }
+            
+                var doc = _hospitalProfileInterface.AddHospitalProfile(newDoc);
+
+                return RedirectToAction("Index", new { id = doc.HospitalID });
+            }
+
+            return View();
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             var hospital = _hospitalProfileInterface.GetHospitalProfile(id);
-            var department = _department.GetAllDepartment();
+            var departments = _department.GetAllDepartment();
+           
             if (hospital != null)
             {
                 HospitalProfileDTO model = new HospitalProfileDTO()
                 {
                     HospitalName = hospital.HospitalName,
                     HospitalLocation = hospital.HospitalLocation,
-                    HospitalNumber = hospital.HospitalLocation, 
-                    DepartmentID = hospital.DepartmentID,
-                
+                    HospitalNumber = hospital.HospitalNumber,
+                    HospitalNumber2 = hospital.HospitalNumber2,
+                    CityId = hospital.CityId,
+                    StateId = hospital.StateId,
+                    DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
+                  
                 };
-                ViewBag.Departments = new SelectList(department, "DepartmentID", "DepartmentName");
+
+                ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
+              
                 return View(model);
             }
+
             return NotFound();
         }
         [HttpPost]
@@ -113,15 +152,34 @@ namespace SehatDoc.Controllers
                     hospital.HospitalName = model.HospitalName;
                     hospital.HospitalLocation = model.HospitalLocation;
                     hospital.HospitalNumber = model.HospitalNumber;
-                    hospital.DepartmentID = model.DepartmentID;
+                    hospital.HospitalNumber2 = model.HospitalNumber2;
+                    hospital.CityId = model.CityId;
+                    hospital.StateId = model.StateId;
+
+                    // Update associated departments
+                    if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
+                    {
+                        hospital.DepartmentHospitalProfiles = model.DepartmentIDs
+                            .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
+                            .ToList();
+                    }
+                    else
+                    {
+                        // If no departments are selected, you may want to clear the existing associations.
+                        hospital.DepartmentHospitalProfiles.Clear();
+                    }
+                   
                     _hospitalProfileInterface.UpdateHospitalProfile(hospital);
                     return RedirectToAction("Index");
                 }
+
                 return View(model);
             }
-            return View(model);
 
+            // ModelState is not valid, return to the view with the current model
+            return View(model);
         }
+
         [HttpGet]
         public IActionResult Delete(int id)
         {

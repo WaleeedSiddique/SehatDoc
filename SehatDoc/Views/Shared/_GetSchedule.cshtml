@@ -1,0 +1,12 @@
+﻿@model IEnumerable<DoctorHospitalSchedule>
+
+@foreach (var schedules in Model)
+{    
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@schedules.Doctor.FirstName - @schedules.Doctor.LastName</h5>
+            <p class="card-text">@schedules.Hospitals.HospitalName Day - @schedules.DayOfWeek.ToString() </p>
+            <span style="color:black; padding:5px;">From :@(DateTime.Today.Add(@schedules.StartTime).ToString("hh:mm tt")) To - @(DateTime.Today.Add(@schedules.EndTime).ToString("hh:mm tt"))</span>
+        </div>
+    </div>
+}

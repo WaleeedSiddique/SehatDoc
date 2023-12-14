@@ -2,6 +2,8 @@
 using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
+using SehatDoc.Models;
+using SehatDoc.Services;
 
 namespace SehatDoc.DoctorRepositories
 {
@@ -32,16 +34,45 @@ namespace SehatDoc.DoctorRepositories
 
         public IEnumerable<Doctor> GetAllDoctors()
         {
-            var docs = _context.Doctors.Include(x => x.Speciality).ToList();
+            var docs = _context.Doctors.Include(x => x.Speciality).Include(y => y.DoctorHospitalProfiles).ThenInclude(dh => dh.HospitalProfile).ToList();
             return docs;
         }
-
+        //public Doctor GetDoctor(int id)
+        //{
+        //    var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
+        //    return doc;
+        //}
         public Doctor GetDoctor(int id)
         {
-            var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
+            var doc = _context.Doctors
+                .Include(x => x.Speciality)
+                .Include(x => x.DoctorHospitalProfiles)  // Include DoctorHospitalProfiles
+                .FirstOrDefault(x => x.DoctorId == id);
+            return doc;
+        }
+        public Doctor GetDoctorProfile(int id)
+        {
+            var doc = _context.Doctors
+                .Include(x => x.Speciality)
+                .Include(x => x.Speciality.SpecialtyDiseases) // Include SpecialtyDiseases relationship
+                .ThenInclude(tt => tt.Disease)
+                .Include(x => x.DoctorHospitalProfiles)
+                .ThenInclude(dhp => dhp.HospitalProfile)
+                .FirstOrDefault(x => x.DoctorId == id);
+
             return doc;
         }
 
+        //public Doctor GetDoctorProfile(int id)
+        //{
+        //    var doc = _context.Doctors
+        //        .Include(x => x.Speciality)
+        //        .Include(x => x.DoctorHospitalProfiles) // Include DoctorHospitalProfiles
+        //        .ThenInclude(dhp => dhp.HospitalProfile)
+        //        .FirstOrDefault(x => x.DoctorId == id);
+
+        //    return doc;
+        //}
         public Doctor UpdateDoctor(Doctor doctor)
         {
             var doc = _context.Doctors.Attach(doctor);
@@ -49,5 +80,18 @@ namespace SehatDoc.DoctorRepositories
             _context.SaveChanges();
             return doctor;
         }
+        public IEnumerable<HospitalProfile> GetAllHospitalProfile()
+        {
+            var doc = _context.HospitalProfiles.ToList();
+
+            return doc;
+        }
+
+        public IEnumerable<Doctor> GetSchedule(int id)
+        {
+            return _context.Doctors.Include(x => x.schedules).ThenInclude(x => x.Hospitals).Where(x => x.DoctorId == id);
+        }
+
+       
     }
 }

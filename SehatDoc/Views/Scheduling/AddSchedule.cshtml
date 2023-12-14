@@ -1,0 +1,48 @@
+﻿@model DoctorHospitalSchedule
+
+<div class="container">
+<form asp-controller="Scheduling" asp-action="AddSchedule" method="post">
+    <input asp-for="doctorId" hidden />
+    <div class="card" style="width: 20rem;">
+        <div class="card-header">
+            Add Schedule
+        </div>
+        <ul class="list-group list-group-flush">
+            <div class="form-group">
+           
+                
+                        <label class="form-label" asp-for="HospitalId"> </label><br />
+                    <select class="form-select" asp-for="HospitalId" asp-items="ViewBag.hospitals">
+                            <option>Select</option>
+                        </select>
+                    <span asp-validation-for="HospitalId" class="text-danger"></span>
+               
+            
+    </div>
+    <div class="form-group">
+        
+            
+                    <label class="form-label" asp-for="DayOfWeek"> </label>
+                    <select class="form-select" asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
+                <span asp-validation-for="DayOfWeek" class="text-danger"></span>
+          
+   
+    </div>
+    <div class="form-group">
+       
+                    <label class="form-label" asp-for="StartTime"> </label>
+                <input class="form-control" asp-for="StartTime" type="time" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+           
+
+    </div><div class="form-group">
+       
+                <label class="form-label" asp-for="EndTime"> </label>
+                    <input class="form-control" asp-for="EndTime" type="time" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+          
+       
+    </div>
+
+    <button class="btn btn-warning m-1">Add Schedule</button>
+</form>

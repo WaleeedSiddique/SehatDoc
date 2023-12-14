@@ -1,0 +1,101 @@
+﻿@model Doctor
+
+@{
+    ViewBag.Title = "Doctor Profile";
+    Layout = "_Layout";
+}
+<!-- Doctor profile section -->
+<section class="doctor-profile-section layout_padding" style="background-color: white;">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Doctor image -->
+                        <img src="~/images/@Model.PhotoPath" alt="@Model.FirstName @Model.LastName" class="img-fluid rounded-circle" style="width: 100%; max-width: 150px; max-height: 150px; object-fit: cover;" />
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Doctor details -->
+                        <div class="pl-md-5" style="margin-left:-220px;">
+                            <!-- Use Bootstrap's padding class to add left padding on medium-sized screens and larger -->
+                            <strong>@Model.FirstName @Model.LastName</strong>
+                            <h6 class="small">@Model.City</h6>
+                            <h6 class="small">@Model.Gender</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <!-- Practice details card -->
+                <h5 class="card-title">Practice Details</h5>
+                @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+                {
+                    <div class="row">
+                        @foreach (var hospitalprofile in Model.DoctorHospitalProfiles)
+                        {
+                            <div class="col-md-@{
+                        if(Model.DoctorHospitalProfiles.Count == 1) {@Html.Raw("12"); } else {@Html.Raw("6"); }}">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
+                                        {
+                                            <strong>@hospitalprofile.HospitalProfile.HospitalName</strong>
+                                            <p>Location: @hospitalprofile.HospitalProfile.HospitalLocation</p>
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.HospitalProfile.HospitalNumber
+                                            </button>
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.HospitalProfile.HospitalNumber2
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span>No Hospital</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span>No Hospital</span>
+                }
+                <h5 class="card-title">Specialty</h5>
+                @if (Model.Speciality.SpecialtyDiseases != null && Model.Speciality.SpecialtyDiseases.Any())
+                {
+                    <div class="row">
+                        @foreach (var specialty in Model.Speciality.SpecialtyDiseases.Select(sd => sd.Specialty).Distinct())
+                        {
+                            <div class="col-md-12 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <strong>@specialty.SpecialityName</strong>
+                                        <p>
+                                            Diseases:
+                                            @foreach (var disease in Model.Speciality.SpecialtyDiseases.Where(sd => sd.SpecialtyId == specialty.Id).Select(sd => sd.Disease))
+                                            {
+                                                <span>@disease.DiseaseName</span>
+                                                @*  <span class="mx-2">|</span> *@
+                                                <br/>
+                                                <span>Description: @disease.DiseaseDescription</span>
+                                                
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span>No Specialties with Diseases</span>
+                }
+    
+
+    </div>
+    
+</section>
