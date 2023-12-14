@@ -52,7 +52,18 @@ namespace SehatDoc.Controllers
             ViewBag.department = new SelectList(dept, "DepartmentID", "DepartmentName");
             return View(hospital);
         }
-      
+        [HttpGet]
+        public IActionResult GetAllHospitalProfile()
+        {
+            var hospital = _hospitalProfileInterface.GetAllHospitalProfile();
+            return View(hospital);
+        }
+        [HttpGet]
+        public IActionResult HospitalProfile(int id)
+        {
+            var hospital = _hospitalProfileInterface.HospitalProfile(id);
+            return View(hospital);
+        }
         [HttpGet]
         public IActionResult Create()
         {

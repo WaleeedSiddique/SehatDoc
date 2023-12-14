@@ -1,0 +1,67 @@
+﻿@model HospitalProfile
+
+@{
+    ViewBag.Title = "Hospital Profile";
+    Layout = "_Layout";
+}
+<!-- Doctor profile section -->
+<section class="doctor-profile-section layout_padding" style="background-color: white;">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Doctor image -->
+                        <img src="~/images/@Model.HospitalLogo" alt="@Model.HospitalName" class="img-fluid rounded-circle" style="width: 100%; max-width: 150px; max-height: 150px; object-fit: cover;" />
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Doctor details -->
+                        <div class="pl-md-5" style="margin-left:-220px;">
+                            <!-- Use Bootstrap's padding class to add left padding on medium-sized screens and larger -->
+                            <strong>@Model.HospitalName</strong>
+                            <h6 class="small">@Model.HospitalLocation</h6>
+                            <button class="btn btn-danger">
+                                <i class="fa fa-phone" style="color: white;"></i> @Model.HospitalNumber2
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+
+        @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+        {
+            <h5 class="card-title">Doctors In Clinic</h5>
+            <div class="row">
+                @foreach (var doctorProfile in Model.DoctorHospitalProfiles)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div style="display: flex; align-items: flex-start;">
+                                    <img src="~/images/@doctorProfile.Doctor.PhotoPath" alt="@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName" class="img-fluid rounded-circle" style="max-width: 100px; max-height: 100px; object-fit: cover; margin-right: 10px;" />
+                                    <div>
+                                        <strong>@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName</strong>
+                                        <p>@doctorProfile?.Doctor?.Speciality?.SpecialityName</p>
+                                    </div>
+                                </div>
+                                <!-- Add other doctor details as needed -->
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No associated doctors</p>
+        }
+
+
+    </div>
+
+</section>
+
+
+

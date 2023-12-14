@@ -12,5 +12,6 @@ namespace SehatDoc.HospitalProfileInterfaces
         public HospitalProfile UpdateHospitalProfile(HospitalProfile hospitalProfile);
         public void DeleteHospitalProfile(int id);
         public HospitalProfile AddHospitalProfile(HospitalProfile hospitalProfile);
+        public HospitalProfile HospitalProfile(int id);
     }
 }
