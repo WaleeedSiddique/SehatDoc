@@ -50,20 +50,23 @@
                                 <td>@docs.Speciality.SpecialityName</td>
                                 <td>@docs.City</td>
                                 <td>
-                                    @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
-                                    {
-                                        <div>
-                                            @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
-                                            {
-                                                @hospitalprofile.HospitalProfile.HospitalName
-                                            }
-                                            else
-                                            {
-                                                <span>No Hospital Profile</span>
-                                            }
-                                        </div>
-                                    }
+                                    <span  style="cursor: pointer; text-decoration:none;" onclick="showHospitalsModal('@docs.DoctorId', [
+                                      @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)
+                                     {
+                                       @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
+                                      {
+                                         @("\"" + hospitalprofile.HospitalProfile.HospitalName.Replace("\"", "\\\"") + "\",")
+                                      }
+                                      else
+                                      {
+                                          @("\"No Hospital Profile\",")
+                                      }
+                                     }
+                                       ])">
+                                        Show Hospitals
+                                    </span>
                                 </td>
+
                                 <td>@docs.Gender</td>                                
                                 <td><a asp-controller="Doctor" asp-action="GetSchedule" asp-route-id="@docs.DoctorId">Get Schedules</a></td>
                                 <td>
@@ -86,3 +89,41 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="hospitalsModal" tabindex="-1" role="dialog" aria-labelledby="hospitalsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hospitalsModalLabel">Hospitals Related to Doctor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="hospitalsModalBody">
+                <!-- Hospitals will be displayed here -->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        function showHospitalsModal(doctorId, hospitals) {
+            // Display hospitals in the modal body
+            var modalBody = document.getElementById("hospitalsModalBody");
+            modalBody.innerHTML = "";
+
+            if (hospitals && hospitals.length > 0) {
+                hospitals.forEach(function (hospital) {
+                    var hospitalElement = document.createElement("div");
+                    hospitalElement.textContent = hospital;
+                    modalBody.appendChild(hospitalElement);
+                });
+            } else {
+                modalBody.innerHTML = '<span>No Hospital Profile</span>';
+            }
+
+            // Show the modal
+            $('#hospitalsModal').modal('show');
+        }
+    </script>
+}

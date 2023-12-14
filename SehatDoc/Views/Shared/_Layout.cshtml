@@ -1,13 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-@* <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SehatDoc</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SehatDoc.styles.css" asp-append-version="true" />
-</head> *@
 <head>
     <!-- Basic -->
     <meta charset="utf-8" />
@@ -20,7 +12,7 @@
     <meta name="author" content="" />
     <link rel="shortcut icon" href="~/user/images/favicon.png" type="">
 
-    <title> Orthoc </title>
+    <title> Sehat </title>
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="~/user/css/bootstrap.css" />
@@ -40,161 +32,52 @@
     <link href="~/user/css/responsive.css" rel="stylesheet" />
 
 </head>
-<body>
+<body class="sub_page">
     <div class="hero_area">
-        <div class="hero_bg_box">
-            <img src="~/user/images/hero-bg.png" alt="">
-        </div>
-    <!-- header section strats -->
-    <header class="header_section">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg custom_nav-container ">
-                <a class="navbar-brand" href="index.html">
-                    <span>
-                        Orthoc
-                    </span>
-                </a>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand" href="index.html">
+                        <span>
+                            Sehat
+                        </span>
+                    </a>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class=""> </span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html"> About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="departments.html">Departments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="doctors.html">Doctors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact Us</a>
-                        </li>
-                        <form class="form-inline">
-                            <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </header>
-    <!-- end header section -->
-        <!-- slider section -->
-        <section class="slider_section ">
-            <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="detail-box">
-                                        <h1>
-                                            We Provide Best Healthcare
-                                        </h1>
-                                        <p>
-                                            Explicabo esse amet tempora quibusdam laudantium, laborum eaque magnam fugiat hic? Esse dicta aliquid error repudiandae earum suscipit fugiat molestias, veniam, vel architecto veritatis delectus repellat modi impedit sequi.
-                                        </p>
-                                        <div class="btn-box">
-                                            <a href="" class="btn1">
-                                                Read More
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Doctor" asp-action="GetAllDoctors">Doctors</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="about.html">Consult Online <span class="sr-only">(current)</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="HospitalProfile" asp-action="GetAllHospitalProfile">Hospitals</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="doctors.html">Surgeries</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.html">Blog</a>
+                            </li>
+                            <form class="form-inline">
+                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </ul>
                     </div>
-                    <div class="carousel-item ">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="detail-box">
-                                        <h1>
-                                            We Provide Best Healthcare
-                                        </h1>
-                                        <p>
-                                            Explicabo esse amet tempora quibusdam laudantium, laborum eaque magnam fugiat hic? Esse dicta aliquid error repudiandae earum suscipit fugiat molestias, veniam, vel architecto veritatis delectus repellat modi impedit sequi.
-                                        </p>
-                                        <div class="btn-box">
-                                            <a href="" class="btn1">
-                                                Read More
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="container ">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="detail-box">
-                                        <h1>
-                                            We Provide Best Healthcare
-                                        </h1>
-                                        <p>
-                                            Explicabo esse amet tempora quibusdam laudantium, laborum eaque magnam fugiat hic? Esse dicta aliquid error repudiandae earum suscipit fugiat molestias, veniam, vel architecto veritatis delectus repellat modi impedit sequi.
-                                        </p>
-                                        <div class="btn-box">
-                                            <a href="" class="btn1">
-                                                Read More
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <ol class="carousel-indicators">
-                    <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-                    <li data-target="#customCarousel1" data-slide-to="1"></li>
-                    <li data-target="#customCarousel1" data-slide-to="2"></li>
-                </ol>
+                </nav>
             </div>
-
-        </section>
+        </header>
+        <!-- end header section -->
     </div>
-        <!-- end slider section -->
-   @*  <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Doctor" asp-action="ListDoctors">SehatDoc</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
-                        </li>
-                    </ul>
-                    <ul class="d-flex float-right"> 
-                        <li class="nav-item list-unstyled"><a class="btn text-dark signup-btn">SignIn/SignUp</a></li>
-                        <li class="nav-item list-unstyled"><a class="btn text-warning doc-btn">Join as Doctor</a></li>
-                        <li class="nav-item list-unstyled"><a class="btn btn-info text-light">Call Us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header> *@
-     
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -261,7 +144,7 @@
                             Links
                         </h4>
                         <div class="footer_links">
-                            <a class="active" href="index.html">
+                            <a class="" href="index.html">
                                 Home
                             </a>
                             <a class="" href="about.html">
@@ -270,7 +153,7 @@
                             <a class="" href="departments.html">
                                 Departments
                             </a>
-                            <a class="" href="doctors.html">
+                            <a class="active" href="doctors.html">
                                 Doctors
                             </a>
                             <a class="" href="contact.html">
@@ -298,10 +181,10 @@
                     &copy; <span id="displayYear"></span> Distributed By
                     <a href="https://themewagon.com/">ThemeWagon</a>
                 </p>
-
             </div>
         </div>
     </footer>
+    <!-- footer section -->
     <!-- jQery -->
         <script type="text/javascript" src="~/user/js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->
