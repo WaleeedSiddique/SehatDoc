@@ -1,4 +1,7 @@
 ﻿@model DoctorHospitalSchedule
+@{
+    Layout = "_AdminDashboard";
+}
 
 <div class="container">
 <form asp-controller="Scheduling" asp-action="AddSchedule" method="post">
@@ -7,12 +10,12 @@
         <div class="card-header">
             Add Schedule
         </div>
-        <ul class="list-group list-group-flush">
+        
             <div class="form-group">
            
                 
                         <label class="form-label" asp-for="HospitalId"> </label><br />
-                    <select class="form-select" asp-for="HospitalId" asp-items="ViewBag.hospitals">
+                <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="HospitalId" asp-items="ViewBag.hospitals">
                             <option>Select</option>
                         </select>
                     <span asp-validation-for="HospitalId" class="text-danger"></span>
@@ -22,8 +25,8 @@
     <div class="form-group">
         
             
-                    <label class="form-label" asp-for="DayOfWeek"> </label>
-                    <select class="form-select" asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
+                    <label class="form-label" asp-for="DayOfWeek"> </label><br />
+                <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
                 <span asp-validation-for="DayOfWeek" class="text-danger"></span>
           
    

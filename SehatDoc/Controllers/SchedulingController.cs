@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DatabaseContext;
+using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
 using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Interfaces;
@@ -13,17 +14,19 @@ namespace SehatDoc.Controllers
     {
         private readonly ISchedulingInterface _schedule;
         private readonly AppDbContext _context;
-       
+        private readonly IDoctorInteraface _doctor;
 
-        public SchedulingController(ISchedulingInterface schedule,AppDbContext context)
+        public SchedulingController(ISchedulingInterface schedule,AppDbContext context,IDoctorInteraface doctor)
         {
             this._schedule = schedule;
             this._context = context;
+            this._doctor = doctor;
         }
         [HttpGet]
         public IActionResult AddSchedule(int id)
         {
-            var model = new DoctorHospitalSchedule { doctorId = id };
+            var doctor = _doctor.GetDoctor(id);
+            var model = new DoctorHospitalSchedule { doctorId = id };           
             ViewBag.hospitals = new SelectList(_context.HospitalProfiles.ToList(), "HospitalID", "HospitalName");
             return View(model);
         }
@@ -43,7 +46,7 @@ namespace SehatDoc.Controllers
 
                 _schedule.AddSchedule(newSchedule);
                 _context.SaveChanges();
-                return RedirectToAction("GetSchedule", "Doctor", new {model.doctorId});
+                return RedirectToAction("Index", "Doctor");
             }
             return View(model);
         }
