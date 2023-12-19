@@ -17,16 +17,19 @@
                         <div class="form-group">
                             <label asp-for="HospitalName">Name</label>
                             <input asp-for="HospitalName" class="form-control" />
+                            <span asp-validation-for="HospitalName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLocation">Location</label>
                             <input asp-for="HospitalLocation" class="form-control" onclick="openMapModal()" />
+                            <span asp-validation-for="HospitalLocation" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DepartmentIDs">Select Department</label>
                             <select asp-for="DepartmentIDs" class="form-control" asp-items="ViewBag.Departments" id="departmentDropdown">
                                 <option disabled>Select Department</option>
                             </select>
+                            <span asp-validation-for="DepartmentIDs" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
@@ -56,6 +59,7 @@
                         <div class="form-group">
                             <label asp-for="HospitalLogo">Logo</label>
                             <input asp-for="HospitalLogo" class="form-control" />
+                            <span asp-validation-for="HospitalLogo" class="text-danger"></span>
                         </div>
                         <div class="card-footer text-right">
                             <a class="btn btn-danger" asp-controller="HospitalProfile" asp-action="Index">Cancel</a>

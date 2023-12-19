@@ -54,7 +54,7 @@ namespace SehatDoc.Controllers
                 return RedirectToAction("Index", "Speciality");
             }
             var diseases = _disease.GetAllDisease();
-            ViewBag.Diseases = diseases;
+            ViewBag.Diseases = new SelectList(diseases,"DiseaseID","DiseaseName");
             return View(model);
         }
         [HttpGet]

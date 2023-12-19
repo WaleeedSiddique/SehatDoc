@@ -15,9 +15,9 @@
                 <form asp-controller="Speciality" asp-action="CreateSpeciality" method="post">
                     <div class="card-body">
                         <div class="form-group">
-                            <span asp-validation-for="SpecialityName" class="text-danger">@ViewBag.Message</span>
-                            <label asp-for="SpecialityName">Name</label>
+                          <label asp-for="SpecialityName">Name</label>
                             <input class="form-control" type="text" asp-for="SpecialityName" />
+                            <span asp-validation-for="SpecialityName" class="text-danger">@ViewBag.Message</span>
                         </div>
                         <div class="form-group">
                             <label asp-for="SelectedDiseaseIds">Select Disease</label>

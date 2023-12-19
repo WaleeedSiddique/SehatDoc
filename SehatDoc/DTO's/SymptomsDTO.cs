@@ -10,7 +10,7 @@ namespace SehatDoc.SymptomsDTO_s
         [StringLength(20)]
         public string SymptomName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please Add a Symptom Image")]
         public IFormFile SymptomImage { get; set; }
         
 

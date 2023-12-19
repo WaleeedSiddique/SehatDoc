@@ -84,7 +84,9 @@ namespace SehatDoc.Controllers
                 var disease = _diseaseInterface.AddDisease(newDoc);
                 return RedirectToAction("Index", new { newDoc.DiseaseID });
             }
-            return View();
+            var symp = _diseaseInterface.GetAllSymptoms();
+            ViewBag.Symptoms = new SelectList(symp, "SymptomID", "SymptomName");
+            return View(model);
 
         }
         [HttpGet]
