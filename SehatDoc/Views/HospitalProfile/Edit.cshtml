@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLocation">Location</label>
-                            <input asp-for="HospitalLocation" class="form-control" onclick="openMapModal()" />
+                            <input asp-for="HospitalLocation" class="form-control" onkeydown="handleLocationInput(event)" />
                             <span asp-validation-for="HospitalLocation" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -105,60 +105,130 @@
             $("#doctorDropdown").chosen();
         });
     </script>
-    <!-- Your script -->
+
     <script>
-        var defaultCoordinates = [30.3753, 69.3451];
-        var map = L.map('map').setView(defaultCoordinates, 6);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
+        var map, marker;
 
-        var marker = L.marker(defaultCoordinates).addTo(map);
+        function handleLocationInput(event) {
+            if (event.key === 'Enter') {
+                var location = document.getElementById('HospitalLocation').value;
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            var latlng = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                            openMapModal();
+                            createMap(latlng);
+                        } else {
+                            alert('Location not found. Please enter a valid location.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                event.preventDefault();
+            }
+        }
 
-        map.on('click', function (e) {
-            marker.setLatLng(e.latlng);
-        });
+        function createMap(latlng) {
+            if (!map) {
+                map = L.map('map').setView(latlng, 13);
 
-        // Add a search bar to the map
-        var searchControl = L.Control.geocoder({
-            defaultMarkGeocode: false,
-        })
-            .on('markgeocode', function (event) {
-                var latlng = event.geocode.center;
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+
+                var searchControl = L.Control.geocoder({
+                    defaultMarkGeocode: false,
+                }).on('markgeocode', function (event) {
+                    var latlng = event.geocode.center;
+                    updateMarker(latlng);
+                    map.setView(latlng, 13);
+                }).addTo(map);
+
+                map.on('dblclick', function (e) {
+                    var latlng = e.latlng;
+                    openMapModal();
+                    updateMarker(latlng);
+                });
+            } else {
+                map.setView(latlng, 13);
+                updateMarker(latlng);
+            }
+        }
+
+        function updateMarker(latlng) {
+            if (!marker) {
+                marker = L.marker(latlng).addTo(map);
+            } else {
                 marker.setLatLng(latlng);
-                map.setView(latlng, map.getZoom());
-            })
-            .addTo(map);
+            }
+        }
 
-        // Function to open the map modal
         function openMapModal() {
             $('#mapModal').modal('show');
         }
 
-        // Function to handle map resizing when the modal is fully shown
         $('#mapModal').on('shown.bs.modal', function () {
-            map.invalidateSize();
+            if (!map) {
+                createMap([30.3753, 69.3451]);
+            }
+            adjustMapSize();
+            if (marker) {
+                map.setView(marker.getLatLng(), 13);
+            }
         });
 
-        // Function to save the location and close the modal
-        function saveLocation() {
-            var latlng = marker.getLatLng();
-            var lat = latlng.lat;
-            var lng = latlng.lng;
-
-            // Reverse geocoding using Nominatim API
-            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng)
+        $('#HospitalLocation').on('dblclick', function () {
+            var location = document.getElementById('HospitalLocation').value;
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location))
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Location:', data.display_name);
-                    document.getElementById('HospitalLocation').value = data.display_name;
-
-                    // Close the modal after setting the input field value
-                    $('#mapModal').modal('hide');
+                    if (data.length > 0) {
+                        var latlng = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        openMapModal();
+                        createMap(latlng);
+                    } else {
+                        alert('Location not found. Please enter a valid location.');
+                    }
                 })
                 .catch(error => console.error('Error:', error));
+        });
+
+        $('#saveLocationBtn').on('click', function () {
+            saveLocation();
+        });
+
+        $('#mapModal').on('hidden.bs.modal', function () {
+            if (map) {
+                map.remove();
+                map = null;
+                marker = null;
+            }
+        });
+
+        function adjustMapSize() {
+            if (map) {
+                map.invalidateSize();
+            }
         }
 
+        function saveLocation() {
+            if (marker) {
+                var latlng = marker.getLatLng();
+                var lat = latlng.lat;
+                var lng = latlng.lng;
+                fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Location:', data.display_name);
+                        document.getElementById('HospitalLocation').value = data.display_name;
+                        $('#mapModal').modal('hide');
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+ 
+    <script>
         $(document).ready(function () {
             $("#stateDropdown").change(function () {
                 var selectedStateId = $(this).val();

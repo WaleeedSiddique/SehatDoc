@@ -79,9 +79,10 @@ namespace SehatDoc.Controllers
                 if (model.PhotoPath != null)
                 {
                     var imagefolder = Path.Combine(_hosting.WebRootPath, "images");
-                    uniqueName = Guid.NewGuid().ToString()+ "_" + model.PhotoPath.FileName;
-                    string filepath = Path.Combine(imagefolder, uniqueName);
-                    model.PhotoPath.CopyTo(new FileStream(filepath, FileMode.Create));
+                        uniqueName = Guid.NewGuid().ToString() + "_" + model.PhotoPath.FileName;
+                        string filepath = Path.Combine(imagefolder, uniqueName);
+                        model.PhotoPath.CopyTo(new FileStream(filepath, FileMode.Create));
+                   
                 }
                 Doctor newDoc = new Doctor()
                 {
@@ -207,7 +208,6 @@ namespace SehatDoc.Controllers
             var schedules = _doctorInteraface.GetSchedule(id);
             return View(schedules);
         }
-
 
     }
 }
