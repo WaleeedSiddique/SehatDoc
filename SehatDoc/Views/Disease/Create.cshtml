@@ -1,7 +1,6 @@
 ﻿@using SehatDoc.ViewModels;
 @using SehatDoc.DiseaseDTO_s;
 @model DiseaseDTO
-@* @model DiseasesWithSymptomsViewModel *@
 @{
     ViewBag.Message = "Add Disease";
     Layout = "_AdminDashboard";
@@ -35,6 +34,7 @@
                         <div class="form-group">
                             <label asp-for="DiseaseImage">Image</label>
                             <input asp-for="DiseaseImage" class="form-control" />
+                            <span asp-validation-for="DiseaseImage" class="text-danger"></span>
                         </div>
                         <div class="card-footer text-right">
                             <a class="btn btn-danger" asp-controller="Disease" asp-action="Index">Cancel</a>

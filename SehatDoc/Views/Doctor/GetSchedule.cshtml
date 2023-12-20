@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Doctor>
 
 
-
 @* @foreach (var doctor in Model)
 {
     <div class="card "  style="width: auto;">
@@ -53,6 +52,11 @@
 
 @foreach(var doc in Model)
 {
+    <td>
+        <div class="float-end">
+            <a asp-controller="Scheduling" asp-action="AddSchedule" asp-route-id="@doc.DoctorId" class="btn btn-warning">Add Schedule</a>
+        </div>
+    </td>
             @foreach (var hospital in doc.schedules.GroupBy(x => x.Hospitals).Select(g => new { g.Key.HospitalName, g.Key.HospitalID }).ToList())
             {
     <table class="table table-primary">
@@ -60,11 +64,7 @@
             <tr>
                
                         <td><span class="bg-dark text-light p-2">@hospital.HospitalName</span></td>
-                        <td>
-                            <div class="float-end">
-                                <a asp-controller="Scheduling" asp-action="AddSchedule" asp-route-id="@doc.DoctorId" class="btn btn-warning">Add Schedule</a>
-                            </div>
-                        </td>
+                      
 
             </tr>            
         </thead>

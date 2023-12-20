@@ -79,9 +79,10 @@ namespace SehatDoc.Controllers
                 if (model.PhotoPath != null)
                 {
                     var imagefolder = Path.Combine(_hosting.WebRootPath, "images");
-                    uniqueName = Guid.NewGuid().ToString()+ "_" + model.PhotoPath.FileName;
-                    string filepath = Path.Combine(imagefolder, uniqueName);
-                    model.PhotoPath.CopyTo(new FileStream(filepath, FileMode.Create));
+                        uniqueName = Guid.NewGuid().ToString() + "_" + model.PhotoPath.FileName;
+                        string filepath = Path.Combine(imagefolder, uniqueName);
+                        model.PhotoPath.CopyTo(new FileStream(filepath, FileMode.Create));
+                   
                 }
                 Doctor newDoc = new Doctor()
                 {
@@ -130,11 +131,13 @@ namespace SehatDoc.Controllers
                    // ExistingPhotoPath = doc.PhotoPath ?? "",
                     HospitalIDs = doc.DoctorHospitalProfiles?.Select(dhp => dhp.HospitalID ?? 0).ToList() ?? new List<int>(),
                 };
+               
                 ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
 
                 ViewBag.HospitalProfile = new MultiSelectList(hospitals, "HospitalID", "HospitalName", model.HospitalIDs); // Use MultiSelectList for multiple selection
                 return View(model);
             }
+
             return NotFound();
         }
         [HttpPost]
@@ -175,6 +178,10 @@ namespace SehatDoc.Controllers
                 }
                 return View(model);
             }
+            var speclities = _speciality.GetAllSpecialities();
+            var hospitals = _doctorInteraface.GetAllHospitalProfile();
+            ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
+            ViewBag.HospitalProfile = new MultiSelectList(hospitals, "HospitalID", "HospitalName", model.HospitalIDs); // Use MultiSelectList for multiple selection
             return View(model);
 
         }
@@ -201,7 +208,6 @@ namespace SehatDoc.Controllers
             var schedules = _doctorInteraface.GetSchedule(id);
             return View(schedules);
         }
-
 
     }
 }

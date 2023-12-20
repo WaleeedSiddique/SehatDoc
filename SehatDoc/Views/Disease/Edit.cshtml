@@ -16,16 +16,24 @@
                         <div class="form-group">
                             <label asp-for="DiseaseName">Name</label>
                             <input asp-for="DiseaseName" class="form-control" />
+                            <span class="text-danger" asp-validation-for="DiseaseName"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="SymptomsIDs">Select Symptoms</label>
                             <select asp-for="SymptomsIDs" class="form-control" asp-items="ViewBag.Symptoms" id="symptomsDropdown">
                                 <option disabled>Select Symptoms</option>
                             </select>
+                            <span class="text-danger" asp-validation-for="SymptomsIDs"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DiseaseDescription">Description</label>
+                            <input asp-for="DiseaseDescription" class="form-control" />
+                            <span class="text-danger" asp-validation-for="DiseaseDescription"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="DiseaseImage">Image</label>
                             <input asp-for="DiseaseImage" class="form-control" />
+                            <span class="text-danger" asp-validation-for="DiseaseImage"></span>
                         </div>
                         <div class="card-footer text-right">
                             <a class="btn btn-danger" asp-controller="Disease" asp-action="Index">Cancel</a>

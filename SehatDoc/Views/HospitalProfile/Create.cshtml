@@ -21,9 +21,8 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="HospitalLocation">Location</label>
-                            <input asp-for="HospitalLocation" class="form-control" onclick="openMapModal()" />
+                            <input asp-for="HospitalLocation" class="form-control" onkeydown="handleLocationInput(event)" />
                             <span asp-validation-for="HospitalLocation" class="text-danger"></span>
-                         
                         </div>
                         <div class="form-group">
                             <label  asp-for="DepartmentIDs">Select Department</label>
@@ -92,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                
+              
             </div>
         </div>
     </div>
@@ -106,10 +105,157 @@
         });
     </script>
 
+    <script>
+        var map, marker;
+        function handleLocationInput(event) {
+            if (event.key === 'Enter') {
+                var location = document.getElementById('HospitalLocation').value;
+                fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            var latlng = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                            updateMarker(latlng);
+                            openMapModal(); // Ensure the map modal is opened
+                        } else {
+                            alert('Location not found. Please enter a valid location.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                event.preventDefault();
+            }
+        }
 
+        function initializeMap() {
+            map = L.map('map').setView([30.3753, 69.3451], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+
+            var searchControl = L.Control.geocoder({
+                defaultMarkGeocode: false,
+            }).on('markgeocode', function (event) {
+                var latlng = event.geocode.center;
+                updateMarker(latlng);
+                if (marker) {
+                    map.setView(latlng, 13); // Explicitly set the view with a specific zoom level
+                }
+            }).addTo(map);
+
+            map.on('click', function (e) {
+                updateMarker(e.latlng);
+            });
+        }
+
+
+        function updateMarker(latlng) {
+            if (!map) {
+                initializeMap();
+            }
+            if (marker) {
+                marker.setLatLng(latlng);
+            } else {
+                map.setView(latlng, 13);
+                marker = L.marker(latlng).addTo(map);
+            }
+        }
+
+        function openMapModal() {
+            if (!marker) {
+                var defaultLatLng = [30.3753, 69.3451]; // Set default coordinates if marker doesn't exist
+                updateMarker(defaultLatLng);
+                map.setView(defaultLatLng, 6); // Set the view to default coordinates with a specific zoom level
+            }
+            $('#mapModal').modal('show');
+        }
+
+
+        function adjustMapSize() {
+            if (map) {
+                map.invalidateSize();
+                map.setSize([$('#map').width(), $('#map').height()]);
+            }
+        }
+
+        $('#HospitalLocation').on('dblclick', function () {
+            openMapModal();
+        });
+
+        $('#saveLocationBtn').on('click', function () {
+            saveLocation();
+        });
+
+        $('#mapModal').on('shown.bs.modal', function () {
+            if (!map) {
+                initializeMap();
+            }
+            adjustMapSize();
+            if (marker) {
+                map.setView(marker.getLatLng(), 13);
+            }
+        });
+
+        $('#mapModal').on('hidden.bs.modal', function () {
+            if (map) {
+                map.remove();
+                map = null;
+                marker = null;
+            }
+        });
+
+        function saveLocation() {
+            if (marker) {
+                var latlng = marker.getLatLng();
+                var lat = latlng.lat;
+                var lng = latlng.lng;
+                fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lng)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Location:', data.display_name);
+                        document.getElementById('HospitalLocation').value = data.display_name;
+                        $('#mapModal').modal('hide');
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#stateDropdown").change(function () {
+                var selectedStateId = $(this).val();
+                if (selectedStateId !== "") {
+                    $.ajax({
+                        url: '/State/GetCitiesByState',
+                        type: 'GET',
+                        data: { stateId: selectedStateId },
+                        success: function (data) {
+                            console.log(data)
+                            $("#cityDropdown").empty();
+                            $("#cityDropdown").append('<option value="">Select City</option>');
+                            $.each(data, function (index, city) {
+                                $("#cityDropdown").append('<option value="' + city.id + '">' + city.cityName + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $("#cityDropdown").empty();
+                    $("#cityDropdown").append('<option value="">Select City</option>');
+                }
+            });
+
+            $("#submitButton").click(function () {
+                if ($("#cityDropdown").val() === "") {
+                    $("#cityDropdown").next(".text-danger").text("Please select a city.");
+                    return false; // Prevent form submission
+                }
+                return true; // Allow form submission
+            });
+        });
+    </script>
 
     <!-- Your script -->
-    <script>
+ @*    <script>
         var defaultCoordinates = [30.3753, 69.3451];
         var map = L.map('map').setView(defaultCoordinates, 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -192,7 +338,7 @@
                 return true; // Allow form submission
             });
         });
-    </script>
+    </script> *@
 
 
 

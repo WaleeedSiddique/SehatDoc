@@ -1,7 +1,7 @@
 ﻿@using SehatDoc.ViewModels
 @model DoctorDTO
 @{
-    ViewBag.Message = "Add Doctor";
+    ViewBag.Title = "Add Doctor";
     Layout = "_AdminDashboard";
 }
 
@@ -18,43 +18,43 @@
                     <div class="form-group col-md-6 col-12">
                      <label asp-for="FirstName">First Name</label>
                      <input asp-for="FirstName" class="form-control" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                     <span asp-validation-for="FirstName" class="text-danger"></span>
                    </div>
                    <div class="form-group col-md-6 col-12">
                      <label asp-for="LastName">Last Name</label>
                      <input asp-for="LastName" class="form-control" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+                     <span asp-validation-for="LastName" class="text-danger"></span>
                    </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-md-6 col-12">
                      <label asp-for="specialityId">Select Speciality</label>
                      <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities">
-                       <option disabled>Select Speciality</option>
+                       <option >Select Speciality</option>
                      </select>
-                                <span asp-validation-for="specialityId" class="text-danger"></span>
+                      <span asp-validation-for="specialityId" class="text-danger"></span>
                    </div>
                    <div class="form-group col-md-6 col-12">
                      <label asp-for="LicenseNumber">Lisence Number</label>
                      <input asp-for="LicenseNumber" class="form-control" />
-                                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+                     <span asp-validation-for="LicenseNumber" class="text-danger"></span>
                    </div>
                   </div>
                   <div class="row">
                      <div class="form-group col-md-6 col-12">
                         <label asp-for="city">Select City</label>
                         <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
-                            <option disabled>Select City</option>
+                            <option >Select City</option>
                         </select>
-                                <span asp-validation-for="city" class="text-danger"></span>
+                        <span asp-validation-for="city" class="text-danger"></span>
                      </div>
                  
                    <div class="form-group col-md-6 col-12">
                      <label asp-for="gender">Select Gender</label>
                      <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
-                       <option disabled>Select Gender</option>
+                       <option >Select Gender</option>
                      </select>
-                                <span asp-validation-for="gender" class="text-danger"></span>
+                     <span asp-validation-for="gender" class="text-danger"></span>
                    </div>
                  </div>
                  <div class="row">
@@ -66,8 +66,9 @@
                    </div>
                    <div class="form-group col-md-6 col-12">
                     <label asp-for="PhotoPath">Photo</label>
-                    <input asp-for="PhotoPath" class="form-control" />
-                  </div>
+                                <input asp-for="PhotoPath" class="form-control"/>
+                     <span asp-validation-for="PhotoPath" class="text-danger"></span>
+                    </div>
                   </div>
                    <div class="card-footer text-right">
                      <a class="btn btn-danger" asp-controller="Doctor" asp-action="Index">Cancel</a>
@@ -88,5 +89,5 @@
             $("#hospitaldropdown").chosen();
         });
     </script>
- 
+
 }

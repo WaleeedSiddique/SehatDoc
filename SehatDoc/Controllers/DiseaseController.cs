@@ -84,7 +84,9 @@ namespace SehatDoc.Controllers
                 var disease = _diseaseInterface.AddDisease(newDoc);
                 return RedirectToAction("Index", new { newDoc.DiseaseID });
             }
-            return View();
+            var symp = _diseaseInterface.GetAllSymptoms();
+            ViewBag.Symptoms = new SelectList(symp, "SymptomID", "SymptomName");
+            return View(model);
 
         }
         [HttpGet]
@@ -97,6 +99,7 @@ namespace SehatDoc.Controllers
                 DiseaseDTO model = new DiseaseDTO()
                 {
                     DiseaseName = disease.DiseaseName,
+                    DiseaseDescription = disease.DiseaseDescription,
                     SymptomsIDs = disease.DiseaseSymptoms.Select(dhp => dhp.SymptomID).ToList(),
 
                 };
@@ -132,6 +135,10 @@ namespace SehatDoc.Controllers
                 }
                 return View(model);
             }
+            var diseases = _diseaseInterface.GetDiseaseByID(model.ID);
+            var symp = _diseaseInterface.GetAllSymptoms();
+            model.SymptomsIDs = diseases.DiseaseSymptoms.Select(dhp => dhp.SymptomID).ToList();
+                ViewBag.Symptoms = new SelectList(symp, "SymptomID", "SymptomName", model.SymptomsIDs);
             return View(model);
 
         }

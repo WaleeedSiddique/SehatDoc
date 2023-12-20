@@ -111,7 +111,10 @@ namespace SehatDoc.Controllers
 
                 return RedirectToAction("Index", new { id = doc.HospitalID });
             }
-
+            var dept = _department.GetAllDepartment();
+            ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
         }
         [HttpGet]
@@ -119,6 +122,7 @@ namespace SehatDoc.Controllers
         {
             var hospital = _hospitalProfileInterface.GetHospitalProfile(id);
             var departments = _department.GetAllDepartment();
+
            
             if (hospital != null)
             {
@@ -135,7 +139,11 @@ namespace SehatDoc.Controllers
                 };
 
                 ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
-              
+                ViewBag.States = new SelectList(_context.states.ToList(), "Id", "StateName");
+
+                var cities = _context.cities.Where(x => x.StateId == hospital.StateId );
+                ViewBag.Cities = new SelectList(cities, "Id", "CityName", hospital.CityId);
+
                 return View(model);
             }
 
@@ -172,11 +180,14 @@ namespace SehatDoc.Controllers
                     _hospitalProfileInterface.UpdateHospitalProfile(hospital);
                     return RedirectToAction("Index");
                 }
-
+                var departments = _department.GetAllDepartment();
+                ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
                 return View(model);
             }
-
-            // ModelState is not valid, return to the view with the current model
+            var dept = _department.GetAllDepartment();
+            ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View(model);
         }
 

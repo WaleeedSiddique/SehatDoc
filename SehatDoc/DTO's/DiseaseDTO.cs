@@ -12,10 +12,10 @@ namespace SehatDoc.DiseaseDTO_s
         [StringLength(20)]
         public string DiseaseName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please Add a Disease Image")]
         public IFormFile DiseaseImage { get; set; }
         [Required(ErrorMessage = "Please Write Summarized Description")]
-        [StringLength(50)]
+       
         public string DiseaseDescription { get; set; }
         [Required(ErrorMessage = "Please Add at least one symptom")]
         public List<int> SymptomsIDs { get; set; }

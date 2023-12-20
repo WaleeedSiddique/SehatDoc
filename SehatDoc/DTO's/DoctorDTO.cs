@@ -1,7 +1,9 @@
 ﻿using SehatDoc.DoctorEnums;
 using SehatDoc.DoctorModels;
 using SehatDoc.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace SehatDoc.DoctorDTO_s
 {
@@ -16,9 +18,11 @@ namespace SehatDoc.DoctorDTO_s
         public string LastName { get; set; }
         [Required(ErrorMessage ="Speciality must be selected")]
         public int specialityId { get; set; }
-        [Required]
+      
+        [Required(ErrorMessage = "License Number is Required")]
         public string LicenseNumber { get; set; }
         [Required(ErrorMessage ="Please Add a picture of yourself")]
+       
         public IFormFile PhotoPath { get; set; }
         [Required(ErrorMessage ="Gender Cannot be null")]
         public Gender gender { get; set; }
