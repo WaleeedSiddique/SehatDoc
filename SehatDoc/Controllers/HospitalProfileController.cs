@@ -141,7 +141,7 @@ namespace SehatDoc.Controllers
                 ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
                 ViewBag.States = new SelectList(_context.states.ToList(), "Id", "StateName");
 
-                var cities = _context.cities.Where(x => x.StateId == hospital.StateId );
+                var cities = _context.cities.Where(x => x.StateId == hospital.StateId);
                 ViewBag.Cities = new SelectList(cities, "Id", "CityName", hospital.CityId);
 
                 return View(model);

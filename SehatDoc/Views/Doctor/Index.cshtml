@@ -33,6 +33,7 @@
                             <th style="width:250px;"></th>
                             <th style="width:250px;">Full Name</th>
                             <th style="width:250px;">Specialization</th>
+                            <th style="width:250px;">State</th>
                             <th style="width:250px;">City</th>
                             <th style="width:250px;">Hospital</th>
                             <th style="width:250px;">Gender</th>                           
@@ -46,7 +47,8 @@
                                 <td><img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"></td>
                                 <td>@docs.FirstName @docs.LastName</td>
                                 <td>@docs.Speciality.SpecialityName</td>
-                                <td>@docs.City</td>
+                                <td>@docs.State.StateName</td> 
+                                <td>@docs.City.CityName</td>
                                 <td>
                                     <span  style="cursor: pointer; text-decoration:none;" onclick="showHospitalsModal('@docs.DoctorId', [
                                       @foreach (var hospitalprofile in docs.DoctorHospitalProfiles)

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
@@ -15,13 +17,15 @@ namespace SehatDoc.Controllers
         private readonly IHostingEnvironment _hosting;
         private readonly ISpecialityInterface _speciality;
         private readonly IHospitalProfileInterface _hospital;
+        private readonly AppDbContext _context;
 
         public DoctorController
-            (IDoctorInteraface doctorInteraface,IHostingEnvironment hosting,ISpecialityInterface speciality)
+            (IDoctorInteraface doctorInteraface,IHostingEnvironment hosting,ISpecialityInterface speciality, AppDbContext context)
         {
             this._doctorInteraface = doctorInteraface;
             this._hosting = hosting;
             this._speciality = speciality;
+            this._context = context;
         }
         [HttpGet]
         public IActionResult Index()
@@ -68,6 +72,8 @@ namespace SehatDoc.Controllers
             var hospitals = _doctorInteraface.GetAllHospitalProfile();
             ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
             ViewBag.HospitalProfile = new SelectList(hospitals, "HospitalID", "HospitalName");
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
         }
         [HttpPost]
@@ -89,7 +95,8 @@ namespace SehatDoc.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     LicenseNumber = model.LicenseNumber,
-                    City = model.city,
+                    CityId = model.CityId,
+                    StateId = model.StateId,
                     Gender = model.gender,
                     specialityId = model.specialityId,
                     PhotoPath = uniqueName
@@ -107,6 +114,9 @@ namespace SehatDoc.Controllers
             var hospitals = _doctorInteraface.GetAllHospitalProfile();
             ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
             ViewBag.HospitalProfile = new SelectList(hospitals, "HospitalID", "HospitalName");
+
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
             
         }
@@ -124,7 +134,8 @@ namespace SehatDoc.Controllers
                     FirstName = doc.FirstName,
                     LastName = doc.LastName,
                     LicenseNumber = doc.LicenseNumber,
-                    city = doc.City,
+                    CityId = doc.CityId,
+                    StateId = doc.StateId,
                     specialityId = doc.specialityId,
                     gender = doc.Gender,
                     // ExistingPhotoPath = doc.PhotoPath,
@@ -135,6 +146,11 @@ namespace SehatDoc.Controllers
                 ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
 
                 ViewBag.HospitalProfile = new MultiSelectList(hospitals, "HospitalID", "HospitalName", model.HospitalIDs); // Use MultiSelectList for multiple selection
+
+                ViewBag.States = new SelectList(_context.states.ToList(), "Id", "StateName");
+
+                var cities = _context.cities.Where(x => x.StateId == doc.StateId);
+                ViewBag.Cities = new SelectList(cities, "Id", "CityName", doc.CityId);
                 return View(model);
             }
 
@@ -151,7 +167,8 @@ namespace SehatDoc.Controllers
                     doc.FirstName = model.FirstName;
                     doc.LastName = model.LastName;
                     doc.LicenseNumber = model.LicenseNumber;
-                    doc.City = model.city;
+                    doc.CityId = model.CityId;
+                    doc.StateId = model.StateId;
                     doc.Gender = model.gender;
                     doc.specialityId = model.specialityId;
 
@@ -182,6 +199,8 @@ namespace SehatDoc.Controllers
             var hospitals = _doctorInteraface.GetAllHospitalProfile();
             ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
             ViewBag.HospitalProfile = new MultiSelectList(hospitals, "HospitalID", "HospitalName", model.HospitalIDs); // Use MultiSelectList for multiple selection
+            var states = _context.states.ToList();
+            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View(model);
 
         }

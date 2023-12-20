@@ -27,7 +27,11 @@ namespace SehatDoc.DoctorDTO_s
         [Required(ErrorMessage ="Gender Cannot be null")]
         public Gender gender { get; set; }
         [Required(ErrorMessage = "City field is required")]
-        public Cities city { get; set; }
+        public int? CityId { get; set; }
+        public int? StateId { get; set; }
+        public City? city { get; set; }
+ 
+        public State? state { get; set; }
         public List<int>? HospitalIDs { get; set; }
         public ICollection<DoctorHospitalSchedule>? HospitalSchedules { get; set; }
     }

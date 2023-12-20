@@ -41,34 +41,41 @@
                    </div>
                   </div>
                   <div class="row">
-                     <div class="form-group col-md-6 col-12">
-                        <label asp-for="city">Select City</label>
-                        <select asp-for="city" class="form-control" asp-items="Html.GetEnumSelectList<Cities>()">
-                            <option >Select City</option>
+                    <div class="form-group col-md-6 col-12">
+                       <label>State:</label>
+                        <select id="stateDropdown" asp-for="StateId" asp-items="@ViewBag.States" class="form-control">
+                           <option value="">Select State</option>
                         </select>
-                        <span asp-validation-for="city" class="text-danger"></span>
-                     </div>
-                 
+                       <span asp-validation-for="StateId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6 col-12">
+                       <label>City:</label>
+                       <select id="cityDropdown" asp-for="CityId" name="CityId" class="form-control">
+                         <option value="">Select City</option>
+                       </select>
+                       <span asp-validation-for="CityId" class="text-danger"></span>
+                    </div>
+               
+                  </div>
+                 <div class="row">
                    <div class="form-group col-md-6 col-12">
-                     <label asp-for="gender">Select Gender</label>
-                     <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
+                      <label asp-for="gender">Select Gender</label>
+                      <select asp-for="gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
                        <option >Select Gender</option>
-                     </select>
+                      </select>
                      <span asp-validation-for="gender" class="text-danger"></span>
                    </div>
-                 </div>
-                 <div class="row">
                   <div class="form-group col-md-6 col-12">
                     <label asp-for="HospitalIDs">Select Hospital</label>
                       <select asp-for="HospitalIDs" class="form-control" asp-items="ViewBag.HospitalProfile" id="hospitaldropdown">
                           <option disabled>Select Hospital</option>
                       </select>
                    </div>
-                   <div class="form-group col-md-6 col-12">
+                  </div>
+                  <div class="form-group">
                     <label asp-for="PhotoPath">Photo</label>
-                                <input asp-for="PhotoPath" class="form-control"/>
+                     <input asp-for="PhotoPath" class="form-control" />
                      <span asp-validation-for="PhotoPath" class="text-danger"></span>
-                    </div>
                   </div>
                    <div class="card-footer text-right">
                      <a class="btn btn-danger" asp-controller="Doctor" asp-action="Index">Cancel</a>
@@ -89,5 +96,37 @@
             $("#hospitaldropdown").chosen();
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $("#stateDropdown").change(function () {
+                var selectedStateId = $(this).val();
+                if (selectedStateId !== "") {
+                    $.ajax({
+                        url: '/State/GetCitiesByState',
+                        type: 'GET',
+                        data: { stateId: selectedStateId },
+                        success: function (data) {
+                            console.log(data)
+                            $("#cityDropdown").empty();
+                            $("#cityDropdown").append('<option value="">Select City</option>');
+                            $.each(data, function (index, city) {
+                                $("#cityDropdown").append('<option value="' + city.id + '">' + city.cityName + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $("#cityDropdown").empty();
+                    $("#cityDropdown").append('<option value="">Select City</option>');
+                }
+            });
 
+            $("#submitButton").click(function () {
+                if ($("#cityDropdown").val() === "") {
+                    $("#cityDropdown").next(".text-danger").text("Please select a city.");
+                    return false; // Prevent form submission
+                }
+                return true; // Allow form submission
+            });
+        });
+    </script>
 }

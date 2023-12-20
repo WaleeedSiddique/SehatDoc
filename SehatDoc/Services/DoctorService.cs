@@ -34,7 +34,13 @@ namespace SehatDoc.DoctorRepositories
 
         public IEnumerable<Doctor> GetAllDoctors()
         {
-            var docs = _context.Doctors.Include(x => x.Speciality).Include(y => y.DoctorHospitalProfiles).ThenInclude(dh => dh.HospitalProfile).ToList();
+            var docs = _context.Doctors
+                .Include(st => st.State)
+                .Include(ct => ct.City)
+                .Include(x => x.Speciality)
+                .Include(y => y.DoctorHospitalProfiles)
+                .ThenInclude(dh => dh.HospitalProfile)
+                .ToList();
             return docs;
         }
         //public Doctor GetDoctor(int id)
