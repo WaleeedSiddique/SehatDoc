@@ -60,16 +60,17 @@
                                 <a class="nav-link" asp-controller="HospitalProfile" asp-action="GetAllHospitalProfile">Hospitals</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="doctors.html">Surgeries</a>
+                                <a class="nav-link" asp-controller="Auth" asp-action="SignUp">Are Your Doctor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.html">Blog</a>
+                                <a class="nav-link" asp-controller="Auth" asp-action="SignIn">SignIn</a>
                             </li>
-                            <form class="form-inline">
-                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
+                           @*  <form class="form-inline" action="@Url.Action("SignUp", "Auth")">
+                                <button class="btn  my-2 my-sm-0" type="submit" style="border-color: white; color: white;">
+                                 
+                                    Are You Doctor
                                 </button>
-                            </form>
+                            </form> *@
                         </ul>
                     </div>
                 </nav>

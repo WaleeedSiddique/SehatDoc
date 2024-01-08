@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SehatDoc.DoctorModels;
 using SehatDoc.Models;
 
 namespace SehatDoc.DatabaseContext
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Doctor> Doctors { get; set; }
@@ -20,6 +21,7 @@ namespace SehatDoc.DatabaseContext
         public DbSet<DoctorHospitalSchedule> schedules { get; set; }
         public DbSet<State> states { get; set; }
         public DbSet<City> cities { get; set; }
+        public DbSet<Branch> branches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -75,6 +77,22 @@ namespace SehatDoc.DatabaseContext
                 .WithMany(h => h.schedules)
                 .HasForeignKey(dhs => dhs.HospitalId);
 
+            //
+            // Configure ApplicationUser and HospitalProfile relationship
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.hospitalprofile)
+                .WithMany(h => h.ApplicationUser)
+                .HasForeignKey(u => u.HospitalID)
+                .IsRequired(); // If HospitalID is required
+
+            modelBuilder.Entity<ApplicationUser>()
+      .HasOne(u => u.State)
+      .WithMany()
+      .HasForeignKey(u => u.StateId)
+      .OnDelete(DeleteBehavior.Restrict);
+
+
+            base.OnModelCreating(modelBuilder);
 
         }
     }

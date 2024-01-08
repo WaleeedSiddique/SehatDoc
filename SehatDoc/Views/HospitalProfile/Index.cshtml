@@ -37,7 +37,7 @@
                             <tr>
                                 <td><img alt="HospitalLogo" src="@photopath" asp-append-version="true" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;"></td>
                                 <td>@hospital.HospitalName</td>
-                                <td>@hospital.HospitalNumber</td>
+                                @* <td>@hospital.HospitalNumber</td>
                                 <td>
                                     <span style="cursor: pointer; text-decoration:none;" onclick="showDepartmentModal('@hospital.HospitalID', [
                                       @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
@@ -54,7 +54,7 @@
                                        ])">
                                         Show Departments
                                     </span>
-                                </td>
+                                </td> *@
                           @*       <td>
                                     @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
                                     {
@@ -70,8 +70,8 @@
                                         </div>
                                     }
                                 </td> *@
-                                <td>@hospital.State.StateName</td>
-                                <td>@hospital.City.CityName</td>
+                             @*    <td>@hospital.State.StateName</td>
+                                <td>@hospital.City.CityName</td> *@
                                 <td>
                                     <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-success">
                                         <i class="fa-solid fa-edit" style="color:white;"></i>

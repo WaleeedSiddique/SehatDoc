@@ -11,28 +11,30 @@ namespace SehatDoc.Models
         [Key]
         public int HospitalID { get; set; }
         [Required]
-        [StringLength(30)]
         public string HospitalName { get; set; }
         [Required]
-        public string HospitalLocation { get; set; }
-        [Required]
-        public string HospitalNumber { get; set; }
-        [Required]
-        
-        public string HospitalNumber2 { get; set; }
-        [Required]
         public string HospitalLogo { get; set; }
-        public int? CityId { get; set; }
-        public int? StateId { get; set; }
-        
-        public City City { get; set; }
-       
-        public State State { get; set; }
-        public ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
-        public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
-        public ICollection<DoctorHospitalSchedule>? schedules { get; set; }
+        //[Required]
+        //public string HospitalLocation { get; set; }
+        //[Required]
+        //public string HospitalNumber { get; set; }
+        //[Required]
 
-       
+        //public string HospitalNumber2 { get; set; }
+
+
+        //public int? CityId { get; set; }
+        //public int? StateId { get; set; }
+
+        //public City City { get; set; }
+
+        //public State State { get; set; }
+        public ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
+        //public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
+        public ICollection<DoctorHospitalSchedule>? schedules { get; set; }
+        public ICollection<ApplicationUser> ApplicationUser { get; set; }
+
+
     }
 
 }

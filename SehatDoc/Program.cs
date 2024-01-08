@@ -9,6 +9,8 @@ using SehatDoc.Services;
 using SehatDoc.DepartmentInterfaces;
 using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using SehatDoc.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    // Other configuration options
+    // options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false; // Only if email confirmation is not required
+    options.SignIn.RequireConfirmedPhoneNumber = false; // Only if phone number confirmation is not required
+    
+
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+// Additional Identity configurations can be added here
+
 builder.Services.AddScoped<ISpecialityInterface,SpecialityService>();
 builder.Services.AddScoped<IDoctorInteraface,DoctorService>();
 builder.Services.AddScoped<IDiseaseInterface, DiseaseService>();

@@ -1,0 +1,51 @@
+﻿@model SehatDoc.ViewModels.LoginViewModel // Replace with the actual ViewModel if you have one
+@{
+    Layout = "_Layout";
+}
+<!-- contact section -->
+<section class="contact_section layout_padding">
+    <div class="container">
+        <div class="heading_container">
+            <h2>
+                Sign Now
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form_container contact-form">
+                    <form asp-action="SignIn" method="post">
+                        <div class="form-row">
+                            <div class="col-lg-6">
+                                <div class="form-group ">
+                                    <label asp-for="Name">Name</label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                          
+                            <div class="col-lg-6">
+                                <label asp-for="PhoneNumber">Phone Number</label>
+                                <input type="number" asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="Password">Password</label>
+                            <input type="password" asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="btn_box">
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- end contact section -->
+
