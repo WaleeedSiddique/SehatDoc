@@ -1,0 +1,105 @@
+﻿@using SehatDoc.ViewModels
+@model IEnumerable<BranchViewModel>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+               
+                <div class="text-center mx-auto">
+                    <h4>Branch List</h4>
+                </div>
+
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            
+                            <th style="width:250px;">Name</th>
+
+                           
+                            <th style="width:250px;">Contact 1</th>
+                            <th style="width:250px;">Contact 2</th>
+                            @* <th style="width:250px;">Department</th> *@
+                            <td style="width:250px;">State</td>
+                            <td style="width:250px;">City</td>
+                            <td style="width:250px;">Location</td>
+                            <th style="width:320px;">Action</th>
+                        </tr>
+                        @foreach (var branch in Model)
+                        {
+                            
+                            <tr>
+                               
+                               
+                              <td></td>
+                              <td></td>
+                                <td>@branch.BranchName</td>
+                                <td>@branch.Contact1</td>
+                                <td>@branch.Contact2</td>
+                                @* <td>@branch.DepartmentHospitalProfiles</td> *@
+                              @*   <td>@branch.State.StateName</td> *@
+                                @* <td>@branch.City.CityName</td> *@
+                                <td></td>
+                                <td>@branch.Location</td>
+
+                                <td>
+                                    <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@branch.BranchID" class="btn btn-sm btn-success">
+                                        <i class="fa-solid fa-edit" style="color:white;"></i>
+                                    </a>
+
+                                   
+                                    <a asp-controller="HospitalProfile" asp-action="Delete" asp-route-id="@branch.BranchID" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash" style="color:white"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                          
+                       
+
+
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.detail-button', function () {
+                var button = $(this);
+                var hospitalId = button.data('hospital-id');
+                var orderDetailsContainer = button.closest('tr').next().find('.PO-Details');
+                var icon = button.find('i');
+
+                if (orderDetailsContainer.children().length === 0) {
+                    $.ajax({
+                        url: "/Branch/BranchDetail",
+                        type: "GET",
+                        data: { customerId: hospitalId },
+                        success: function (result) {
+                            orderDetailsContainer.html(result);
+                            orderDetailsContainer.closest('tr').show();
+                            icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                } else {
+                    orderDetailsContainer.closest('tr').toggle();
+                    if (icon.hasClass('fa-chevron-down')) {
+                        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                }
+            });
+        });
+    </script>
+
+}

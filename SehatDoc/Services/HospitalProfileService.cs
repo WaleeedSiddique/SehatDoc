@@ -34,10 +34,10 @@ namespace SehatDoc.Services
         {
 
             var hospitals = _context.HospitalProfiles
-                //.Include(st => st.State)
-                //.Include(ct => ct.City)
-                //.Include(x => x.DepartmentHospitalProfiles)
-                //.ThenInclude(dh => dh.DepartmentsDepartment)
+                .Include(st => st.State)
+                .Include(ct => ct.City)
+                .Include(x => x.DepartmentHospitalProfiles)
+                .ThenInclude(dh => dh.DepartmentsDepartment)
                 .ToList();
 
             return hospitals;
@@ -45,8 +45,8 @@ namespace SehatDoc.Services
         public HospitalProfile GetHospitalProfile(int id)
         {
             var hospitals = _context.HospitalProfiles
-            //.Include(x => x.DepartmentHospitalProfiles)
-            //.ThenInclude(dh => dh.DepartmentsDepartment)
+            .Include(x => x.DepartmentHospitalProfiles)
+            .ThenInclude(dh => dh.DepartmentsDepartment)
             .Include(x => x.DoctorHospitalProfiles)
             .ThenInclude(dh => dh.Doctor) 
             .FirstOrDefault(x => x.HospitalID == id);

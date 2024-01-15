@@ -86,10 +86,10 @@ namespace SehatDoc.DatabaseContext
                 .IsRequired(); // If HospitalID is required
 
             modelBuilder.Entity<ApplicationUser>()
-      .HasOne(u => u.State)
-      .WithMany()
-      .HasForeignKey(u => u.StateId)
-      .OnDelete(DeleteBehavior.Restrict);
+           .HasOne(u => u.State)
+           .WithMany()
+           .HasForeignKey(u => u.StateId)
+           .OnDelete(DeleteBehavior.Restrict);
 
 
             base.OnModelCreating(modelBuilder);

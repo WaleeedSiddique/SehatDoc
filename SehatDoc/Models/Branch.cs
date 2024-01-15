@@ -5,6 +5,7 @@ namespace SehatDoc.Models
     public class Branch
     {
         public int BranchID { get; set; }
+      //  public string BranchName { get; set; }
         public int HospitalID { get; set; }
         public HospitalProfile HospitalProfile { get; set; }
         [Required]

@@ -11,6 +11,7 @@ using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using SehatDoc.Models;
+using SehatDoc.BranchInterfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddScoped<ISymptomsInterface, SymptomsService>();
 builder.Services.AddScoped<IDepartmentInterface, DepartmentService>();
 builder.Services.AddScoped<IHospitalProfileInterface, HospitalProfileService>();
 builder.Services.AddScoped<ISchedulingInterface, ScheduleService>();
+builder.Services.AddScoped<IBranchInterface, BranchService>();
 
 var app = builder.Build();
 

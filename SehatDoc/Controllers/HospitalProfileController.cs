@@ -91,22 +91,22 @@ namespace SehatDoc.Controllers
                 HospitalProfile newDoc = new HospitalProfile()
                 {
                     HospitalName = model.HospitalName,
-                    //HospitalLocation = model.HospitalLocation,
-                    //HospitalNumber = model.HospitalNumber,
-                    //HospitalNumber2 =model.HospitalNumber2,
-                    //CityId = model.CityId,
+                    HospitalLocation = model.HospitalLocation,
+                    HospitalNumber = model.HospitalNumber,
+                    HospitalNumber2 = model.HospitalNumber2,
+                    CityId = model.CityId,
                     HospitalLogo = uniqueName,
-                    //StateId = model.StateId
+                    StateId = model.StateId
                 };
 
                 // Associate Department with Hospitals
-                //if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
-                //{
-                //    newDoc.DepartmentHospitalProfiles = model.DepartmentIDs
-                //        .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
-                //        .ToList();
-                //}
-            
+                if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
+                {
+                    newDoc.DepartmentHospitalProfiles = model.DepartmentIDs
+                        .Select(departmentID => new DepartmentHospitalProfile { DepartmentID = departmentID })
+                        .ToList();
+                }
+
                 var doc = _hospitalProfileInterface.AddHospitalProfile(newDoc);
 
                 return RedirectToAction("Index", new { id = doc.HospitalID });
@@ -129,20 +129,20 @@ namespace SehatDoc.Controllers
                 HospitalProfileDTO model = new HospitalProfileDTO()
                 {
                     HospitalName = hospital.HospitalName,
-                    //HospitalLocation = hospital.HospitalLocation,
-                    //HospitalNumber = hospital.HospitalNumber,
-                    //HospitalNumber2 = hospital.HospitalNumber2,
-                    //CityId = hospital.CityId,
-                    //StateId = hospital.StateId,
-                    //DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentsDepartmentID).ToList(),
-                  
+                    HospitalLocation = hospital.HospitalLocation,
+                    HospitalNumber = hospital.HospitalNumber,
+                    HospitalNumber2 = hospital.HospitalNumber2,
+                    CityId = hospital.CityId,
+                    StateId = hospital.StateId,
+                    DepartmentIDs = hospital.DepartmentHospitalProfiles.Select(dhp => dhp.DepartmentID).ToList(),
+
                 };
 
                 ViewBag.Departments = new SelectList(departments, "DepartmentID", "DepartmentName", model.DepartmentIDs);
                 ViewBag.States = new SelectList(_context.states.ToList(), "Id", "StateName");
 
-                //var cities = _context.cities.Where(x => x.StateId == hospital.StateId);
-                //ViewBag.Cities = new SelectList(cities, "Id", "CityName", hospital.CityId);
+                var cities = _context.cities.Where(x => x.StateId == hospital.StateId);
+                ViewBag.Cities = new SelectList(cities, "Id", "CityName", hospital.CityId);
 
                 return View(model);
             }
@@ -158,25 +158,25 @@ namespace SehatDoc.Controllers
                 if (hospital != null)
                 {
                     hospital.HospitalName = model.HospitalName;
-                    //hospital.HospitalLocation = model.HospitalLocation;
-                    //hospital.HospitalNumber = model.HospitalNumber;
-                    //hospital.HospitalNumber2 = model.HospitalNumber2;
-                    //hospital.CityId = model.CityId;
-                    //hospital.StateId = model.StateId;
+                    hospital.HospitalLocation = model.HospitalLocation;
+                    hospital.HospitalNumber = model.HospitalNumber;
+                    hospital.HospitalNumber2 = model.HospitalNumber2;
+                    hospital.CityId = model.CityId;
+                    hospital.StateId = model.StateId;
 
-                    // Update associated departments
-                    //if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
-                    //{
-                    //    hospital.DepartmentHospitalProfiles = model.DepartmentIDs
-                    //        .Select(departmentID => new DepartmentHospitalProfile { DepartmentsDepartmentID = departmentID })
-                    //        .ToList();
-                    //}
-                    //else
-                    //{
-                    //    // If no departments are selected, you may want to clear the existing associations.
-                    //    hospital.DepartmentHospitalProfiles.Clear();
-                    //}
-                   
+                    //Update associated departments
+                    if (model.DepartmentIDs != null && model.DepartmentIDs.Any())
+                    {
+                        hospital.DepartmentHospitalProfiles = model.DepartmentIDs
+                            .Select(departmentID => new DepartmentHospitalProfile { DepartmentID = departmentID })
+                            .ToList();
+                    }
+                    else
+                    {
+                        // If no departments are selected, you may want to clear the existing associations.
+                        hospital.DepartmentHospitalProfiles.Clear();
+                    }
+
                     _hospitalProfileInterface.UpdateHospitalProfile(hospital);
                     return RedirectToAction("Index");
                 }
@@ -211,14 +211,14 @@ namespace SehatDoc.Controllers
         //.ToList();  // Materialize the results by calling ToList()
 
         //    return Json(hospitals);
-           
+
         //}
-        //[HttpGet]
-        //public IActionResult GetHospitalsByCity(int cityId)
-        //{
-        //    var hospitals = _context.HospitalProfiles.Where(c => c.CityId == cityId).ToList();
-        //    return Json(hospitals);
-        //}
+        [HttpGet]
+        public IActionResult GetHospitalsByCity(int cityId)
+        {
+            var hospitals = _context.HospitalProfiles.Where(c => c.CityId == cityId).ToList();
+            return Json(hospitals);
+        }
 
 
     }
