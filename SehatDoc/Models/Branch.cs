@@ -4,12 +4,13 @@ namespace SehatDoc.Models
 {
     public class Branch
     {
+        [Key]
         public int BranchID { get; set; }
-      //  public string BranchName { get; set; }
-        public int HospitalID { get; set; }
-        public HospitalProfile HospitalProfile { get; set; }
+        public string BranchName { get; set; }  
+        public int hospitalid { get; set; }
+        public HospitalProfile? hospital {  get; set; }
         [Required]
-        public string HospitalLocation { get; set; }
+        public string Location { get; set; }
         [Required]
         public string Contact1 { get; set; }
         [Required]
@@ -19,9 +20,9 @@ namespace SehatDoc.Models
         public int? CityId { get; set; }
         public int? StateId { get; set; }
 
-        public City City { get; set; }
+        public City? City { get; set; }
 
-        public State State { get; set; }
-        public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
+        public State? State { get; set; }
+        //public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
     }
 }

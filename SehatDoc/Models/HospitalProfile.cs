@@ -29,6 +29,7 @@ namespace SehatDoc.Models
         public City City { get; set; }
 
         public State State { get; set; }
+        public ICollection<Branch> Branches { get; set; }
         public ICollection<DoctorHospitalProfile> DoctorHospitalProfiles { get; set; }
         public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
         public ICollection<DoctorHospitalSchedule>? schedules { get; set; }

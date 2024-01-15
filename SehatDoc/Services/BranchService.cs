@@ -21,27 +21,27 @@ namespace SehatDoc.Services
             _context.SaveChanges();
             return branch;
         }
-        public IEnumerable<BranchViewModel> GetBranchesForHospital(int? hospitalId)
-        {
-            var branches = _context.branches
-                .Where(b => b.HospitalID == hospitalId)
-                .Select(b => new BranchViewModel
-                {
-                    BranchID = b.BranchID,
-                   // BranchName = b.BranchName,
-                    HospitalID = b.HospitalID,
-                    Contact1 = b.Contact1,
-                    Contact2 = b.Contact2,
-                    //State = b.State,
-                  //  Location = b.Location,
-                  //  DepartmentIDs = (List<int>)b.DepartmentHospitalProfiles
+        //public IEnumerable<BranchViewModel> GetBranchesForHospital(int? hospitalId)
+        //{
+        //    var branches = _context.branches
+        //        .Where(b => b.HospitalID == hospitalId)
+        //        .Select(b => new BranchViewModel
+        //        {
+        //            BranchID = b.BranchID,
+        //           // BranchName = b.BranchName,
+        //            HospitalID = b.HospitalID,
+        //            Contact1 = b.Contact1,
+        //            Contact2 = b.Contact2,
+        //            //State = b.State,
+        //          //  Location = b.Location,
+        //          //  DepartmentIDs = (List<int>)b.DepartmentHospitalProfiles
 
-                    // Map other properties as needed
-                })
-                .ToList();
+        //            // Map other properties as needed
+        //        })
+        //        .ToList();
 
-            return branches;
-        }
+        //    return branches;
+        //}
       
         public void DeleteBranch(int id)
         {

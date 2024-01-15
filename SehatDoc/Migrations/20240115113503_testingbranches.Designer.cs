@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SehatDoc.DatabaseContext;
 
@@ -11,9 +12,10 @@ using SehatDoc.DatabaseContext;
 namespace SehatDoc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240115113503_testingbranches")]
+    partial class testingbranches
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,6 +342,12 @@ namespace SehatDoc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("HospitalID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HospitalProfileHospitalID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -347,16 +355,13 @@ namespace SehatDoc.Migrations
                     b.Property<int?>("StateId")
                         .HasColumnType("int");
 
-                    b.Property<int>("hospitalid")
-                        .HasColumnType("int");
-
                     b.HasKey("BranchID");
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("HospitalProfileHospitalID");
 
-                    b.HasIndex("hospitalid");
+                    b.HasIndex("StateId");
 
                     b.ToTable("branches");
                 });
@@ -742,21 +747,21 @@ namespace SehatDoc.Migrations
                         .WithMany()
                         .HasForeignKey("CityId");
 
+                    b.HasOne("SehatDoc.Models.HospitalProfile", "HospitalProfile")
+                        .WithMany("Branches")
+                        .HasForeignKey("HospitalProfileHospitalID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SehatDoc.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId");
 
-                    b.HasOne("SehatDoc.Models.HospitalProfile", "hospital")
-                        .WithMany("Branches")
-                        .HasForeignKey("hospitalid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("City");
 
-                    b.Navigation("State");
+                    b.Navigation("HospitalProfile");
 
-                    b.Navigation("hospital");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.City", b =>

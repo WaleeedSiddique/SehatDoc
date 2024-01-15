@@ -1,5 +1,4 @@
-﻿using AspNetCore;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SehatDoc.BranchInterfaces;
@@ -34,18 +33,18 @@ namespace SehatDoc.Controllers
         {
             return View();
         }
-        public IActionResult BranchDetail(int hospitalId)
-        {
-            var branchdetail = _branch.GetBranchesForHospital(hospitalId);
-            return PartialView("_BranchDetail",branchdetail);
-        }
+        //public IActionResult BranchDetail(int hospitalId)
+        //{
+        //    var branchdetail = _branch.GetBranchesForHospital(hospitalId);
+        //    return PartialView("_BranchDetail",branchdetail);
+        //}
         [HttpGet]
         public IActionResult AddBranch(int hospitalId)
         {
             var dept = _department.GetAllDepartment();
             ViewBag.Departments = new SelectList(dept, "DepartmentID", "DepartmentName");
             var states = _context.states.ToList();
-            ViewBag.States = new SelectList(states, "Id", "StateName");
+            ViewBag.States = new SelectList(states, "Id", "StateName");            
 
             // Create an instance of BranchViewModel and pass the hospitalId
             var branchViewModel = new BranchViewModel(hospitalId);
@@ -62,21 +61,23 @@ namespace SehatDoc.Controllers
                 Branch newDoc = new Branch()
                 {
                      
-                    HospitalLocation = viewModel.Location,
+                    Location = viewModel.Location,
                     Contact1 = viewModel.Contact1,
                     Contact2 = viewModel.Contact2,
                     CityId = viewModel.CityId,
+                    hospitalid = 1,
+                    BranchName = viewModel.BranchName,
 
                     StateId = viewModel.StateId
                 };
 
                 // Associate Department with Hospitals
-                if (viewModel.DepartmentIDs != null && viewModel.DepartmentIDs.Any())
-                {
-                    newDoc.DepartmentHospitalProfiles = viewModel.DepartmentIDs
-                        .Select(departmentID => new DepartmentHospitalProfile { DepartmentID = departmentID })
-                        .ToList();
-                }
+                //if (viewModel.DepartmentIDs != null && viewModel.DepartmentIDs.Any())
+                //{
+                //    newDoc.DepartmentHospitalProfiles = viewModel.DepartmentIDs
+                //        .Select(departmentID => new DepartmentHospitalProfile { DepartmentID = departmentID })
+                //        .ToList();
+                //}
 
                 var doc = _branch.AddBranch(newDoc);
 

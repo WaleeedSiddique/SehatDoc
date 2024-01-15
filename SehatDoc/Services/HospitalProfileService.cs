@@ -88,5 +88,17 @@ namespace SehatDoc.Services
             var hospitals = _context.HospitalProfiles.ToList();
             return hospitals;
         }
+
+        public HospitalProfile GetHospitalProfilewithbranch(int id)
+        {
+            var hospitals = _context.HospitalProfiles
+            .Include(x => x.DepartmentHospitalProfiles)
+            .ThenInclude(dh => dh.DepartmentsDepartment)
+            .Include(x => x.Branches)
+            .Include(x => x.DoctorHospitalProfiles)
+            .ThenInclude(dh => dh.Doctor)
+            .FirstOrDefault(x => x.HospitalID == id);
+            return hospitals;
+        }
     }
 }

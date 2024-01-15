@@ -37,7 +37,7 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var hospital = _hospitalProfileInterface.GetHospitalProfile(id);
+            var hospital = _hospitalProfileInterface.GetHospitalProfilewithbranch(id);
             if (hospital != null)
             {
                 return View(hospital);

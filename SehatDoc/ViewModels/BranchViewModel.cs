@@ -25,7 +25,7 @@ namespace SehatDoc.ViewModels
        // public City City { get; set; }
 
        // public State State { get; set; }
-        public List<int> DepartmentIDs { get; set; }
+        //public List<int> DepartmentIDs { get; set; }
         //public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
     public BranchViewModel(int hospitalId)
     {
