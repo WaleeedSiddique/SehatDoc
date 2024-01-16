@@ -5,7 +5,7 @@
 }
 <!-- doctor section -->
 
-@* <section class="doctor_section layout_padding">
+<section class="doctor_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
@@ -29,7 +29,7 @@
 
                      @*    <img src="~/user/images/d1.jpg" alt=""> *@
                           
-                     @*    <img src="@photopath" asp-append-version="true" alt="" />
+                       <img src="@photopath" asp-append-version="true" alt="" />
                     </div>
                     <div class="detail-box">
                         <div class="social_box">
@@ -67,10 +67,10 @@
             </a>
         </div>
     </div>
-</section> *@ 
+</section> 
 
 <!-- end doctor section -->
-@* <div class="container">
+<div class="container">
         <div class="row">
             @foreach(var group in Model.GroupBy(d => d.Speciality.SpecialityName))
             {
@@ -91,4 +91,4 @@
         </div>
             }     
     </div>
-</div> *@
+</div>

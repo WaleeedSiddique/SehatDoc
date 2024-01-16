@@ -5,7 +5,9 @@ namespace SehatDoc.ViewModels
 {
     public class BranchViewModel
     {
-        public int BranchID { get; set; }
+        [Key]
+      
+        public int ID { get; set; }
         public string BranchName { get; set; }
         public int HospitalID { get; set; }
        // public HospitalProfile HospitalProfile { get; set; }
@@ -22,9 +24,9 @@ namespace SehatDoc.ViewModels
         public int? CityId { get; set; }
         public int? StateId { get; set; }
 
-       // public City City { get; set; }
+        public City? City { get; set; }
 
-       // public State State { get; set; }
+        public State? State { get; set; }
         //public List<int> DepartmentIDs { get; set; }
         //public virtual ICollection<DepartmentHospitalProfile> DepartmentHospitalProfiles { get; set; }
     public BranchViewModel(int hospitalId)

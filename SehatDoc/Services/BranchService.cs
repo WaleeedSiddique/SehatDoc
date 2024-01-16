@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SehatDoc.BranchInterfaces;
+﻿using SehatDoc.BranchInterfaces;
 using SehatDoc.DatabaseContext;
-using SehatDoc.DoctorModels;
-using SehatDoc.Interfaces;
 using SehatDoc.Models;
 using SehatDoc.ViewModels;
 
@@ -21,28 +18,42 @@ namespace SehatDoc.Services
             _context.SaveChanges();
             return branch;
         }
-        //public IEnumerable<BranchViewModel> GetBranchesForHospital(int? hospitalId)
-        //{
-        //    var branches = _context.branches
-        //        .Where(b => b.HospitalID == hospitalId)
-        //        .Select(b => new BranchViewModel
-        //        {
-        //            BranchID = b.BranchID,
-        //           // BranchName = b.BranchName,
-        //            HospitalID = b.HospitalID,
-        //            Contact1 = b.Contact1,
-        //            Contact2 = b.Contact2,
-        //            //State = b.State,
-        //          //  Location = b.Location,
-        //          //  DepartmentIDs = (List<int>)b.DepartmentHospitalProfiles
+        public IEnumerable<BranchViewModel> GetBranchesForHospital(int? hospitalId)
+        {
+            var branches = _context.branches
+                .Where(b => b.hospitalid == hospitalId)
+                .Select(b => new BranchViewModel
+                {
+                    ID = b.BranchID,
+                    BranchName = b.BranchName,
+                    HospitalID = b.hospitalid,
+                    Contact1 = b.Contact1,
+                    Contact2 = b.Contact2,
+                    StateId = b.StateId,
+                    CityId = b.CityId,
+                     Location = b.Location,
+                    //  DepartmentIDs = (List<int>)b.DepartmentHospitalProfiles
 
-        //            // Map other properties as needed
-        //        })
-        //        .ToList();
+                    // Map other properties as needed
+                })
+                .ToList();
 
-        //    return branches;
-        //}
-      
+            return branches;
+        }
+        public Branch GetBranch(int id)
+        {
+            var branch = _context.branches
+            .FirstOrDefault(x => x.BranchID == id);
+            return branch;
+
+        }
+        public Branch UpdateBranch(Branch branch)
+        {
+            var brnch = _context.branches.Attach(branch);
+            brnch.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+            return branch;
+        }
         public void DeleteBranch(int id)
         {
             var branch = _context.branches.FirstOrDefault(x => x.BranchID == id);
@@ -52,14 +63,7 @@ namespace SehatDoc.Services
                 _context.SaveChanges();
             }
         }
-        //public IEnumerable<Branch> GetBranchesForHospital(int? hospitalId)
-        //{
-        //    var branches = _context.branches
-        //        .Where(b => b.HospitalID == hospitalId)
-        //        .ToList();
-
-        //    return branches;
-        //}
+        
 
     }
 }

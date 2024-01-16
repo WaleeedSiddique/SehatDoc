@@ -19,17 +19,61 @@
                         <div class="pl-md-5" style="margin-left:-220px;">
                             <!-- Use Bootstrap's padding class to add left padding on medium-sized screens and larger -->
                             <strong>@Model.HospitalName</strong>
-                          @*   <h6 class="small">@Model.HospitalLocation</h6>
+                            <h6 class="small">@Model.HospitalLocation</h6>
                             <button class="btn btn-danger">
                                 <i class="fa fa-phone" style="color: white;"></i> @Model.HospitalNumber2
-                            </button> *@
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <br /><br />
+        <!---->
+        <h5 class="card-title">Branches</h5>
+        @if (Model.Branches != null && Model.Branches.Any())
+        {
+            <div class="row">
+                @foreach (var hospitalprofile in Model.Branches)
+                {
+                    <div class="col-md-@{
+                        if(Model.Branches.Count == 1) {
+                @Html.Raw("12")
+; } else {
+                @Html.Raw("6")
+; }
+}">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                @if (hospitalprofile != null && hospitalprofile.BranchID != null)
+                                {
+                                    <strong>@hospitalprofile.BranchName</strong>
+                                    <p>@hospitalprofile.State.StateName</p>
+                                  @*   <p>@hospitalprofile.City.CityName</p> *@
+                                    <p>Location: @hospitalprofile.Location</p>
 
+                                    <button class="btn btn-danger">
+                                        <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.Contact1
+                                    </button>
+                                    <button class="btn btn-danger">
+                                        <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.Contact2
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span>No Branches</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <span>No Branch</span>
+        }
+        <!---->
         @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
         {
             <h5 class="card-title">Doctors In Clinic</h5>

@@ -29,7 +29,7 @@
                                     <a href="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })">@hospital.HospitalName</a>
                                 </h6>
               
-                               @*  @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
+                                @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
                                 {
                                     <p>
                                        
@@ -38,11 +38,11 @@
                                             <span>@departmentProfile.DepartmentsDepartment.DepartmentName</span>
                                            @*  <span class="mx-2">|</span> *@
                                         }
-                                  @*   </p>
-                                } *@
-                               @*  <button class="btn btn-danger">
+                                   </p>
+                                } 
+                                 <button class="btn btn-danger">
                                     <i class="fa fa-phone" style="color: white;"></i> @hospital.HospitalNumber
-                                </button> *@ 
+                                </button> 
                             </div>
                         </div>
                     </div>

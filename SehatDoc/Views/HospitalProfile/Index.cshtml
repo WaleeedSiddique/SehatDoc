@@ -65,30 +65,17 @@
                                         Show Departments
                                     </span>
                                 </td>
-                          @*       <td>
-                                    @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
-                                    {
-                                        <div>
-                                            @if (departmentProfile != null && departmentProfile.DepartmentsDepartment != null)
-                                            {
-                                                @departmentProfile.DepartmentsDepartment.DepartmentName
-                                            }
-                                            else
-                                            {
-                                                <span>No Department</span>
-                                            }
-                                        </div>
-                                    }
-                                </td> *@
+                         
                                 <td>@hospital.State.StateName</td>
                                 <td>@hospital.City.CityName</td>
-                               @*  <td> <button class="btn btn-primary">Add Branch</button></td> *@
+                              
                                <td>
                                 <button type="button" class="btn btn-primary" onclick="loadBranchForm(@hospital.HospitalID)">Add Branch</button></td>
                                 <td>
                                     <a asp-controller="HospitalProfile" asp-action="Edit" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-success">
-                                        <i class="fa-solid fa-edit" style="color:white;"></i>
+                                        <i class="fa-solid fa-edit" style="color:white"></i>
                                     </a>
+                                  
 
                                     <a asp-controller="HospitalProfile" asp-action="Details" asp-route-id="@hospital.HospitalID" class="btn btn-sm btn-info">
                                         <i class="fas fa-info-circle" style="color:white"></i>
@@ -104,7 +91,7 @@
 
                                 <td colspan="11">
 
-                                    <div class="PO-Details"></div>
+                                    <div class="branches"></div>
                                 </td>
 
                             </tr>
@@ -145,26 +132,68 @@
         </div>
     </div>
 </div>
-
-
-@* <!-- Bootstrap modal for displaying the partial view -->
-<div class="modal fade" id="addBranchModal" tabindex="-1" role="dialog" aria-labelledby="addBranchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<!-- Bootstrap modal for the edit form -->
+<div class="modal fade" id="editBranchModal" tabindex="-1" role="dialog" aria-labelledby="editBranchModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addBranchModalLabel">Add Branch</h5>
+                <h5 class="modal-title" id="addBranchModalLabel">Edit Branch</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="addBranchModalBody">
-                <!-- Partial view content will be loaded here -->
-            </div>
+            <div class="modal-body" id="editBranchModalContainer"></div>
         </div>
     </div>
-</div> *@
+</div>
 
 @section scripts {
+    <script>
+        function openEditBranchModal(branchId) {
+            // Make an AJAX request to fetch the edit form partial view
+            $.get('/Branch/EditBranch', { id: branchId }, function (data) {
+                // Load the fetched partial view into the modal content container
+                $('#editBranchModalContainer').html(data);
+                // Show the Bootstrap modal
+                $('#editBranchModal').modal('show');
+            });
+        }
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.detail-button', function () {
+                var button = $(this);
+                var hospitalId = button.data('hospital-id');
+                var orderDetailsContainer = button.closest('tr').next().find('.branches');
+                var icon = button.find('i');
+
+                if (orderDetailsContainer.children().length === 0) {
+                    $.ajax({
+                        url: "/Branch/BranchDetail",
+                        type: "GET",
+                        data: { hospitalID: hospitalId },
+                        success: function (result) {
+                            orderDetailsContainer.html(result);
+                            orderDetailsContainer.closest('tr').show();
+                            icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                } else {
+                    orderDetailsContainer.closest('tr').toggle();
+                    if (icon.hasClass('fa-chevron-down')) {
+                        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                }
+            });
+        });
+    </script>
     <script>
         function loadBranchForm(hospitalId) {
             // Make an AJAX request to fetch the partial view

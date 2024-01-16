@@ -56,10 +56,15 @@ namespace SehatDoc.Services
         public HospitalProfile HospitalProfile(int id)
         {
             var hospitals = _context.HospitalProfiles
-    //.Include(x => x.DepartmentHospitalProfiles)
-    //    .ThenInclude(dh => dh.DepartmentsDepartment)
+    .Include(x => x.DepartmentHospitalProfiles)
+        .ThenInclude(dh => dh.DepartmentsDepartment)
     .Include(x => x.DoctorHospitalProfiles)
-        .ThenInclude(dh => dh.Doctor.Speciality)  // Include Speciality
+        .ThenInclude(dh => dh.Doctor.Speciality) 
+        .Include(x => x.Branches)
+        .Include(x => x.State)
+        .Include(x => x.City)
+
+       // .ThenInclude(dh => dh.BranchName)// Include Speciality
     .FirstOrDefault(x => x.HospitalID == id);
 
             return hospitals;

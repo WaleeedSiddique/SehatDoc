@@ -202,17 +202,7 @@ namespace SehatDoc.Controllers
             }
             return NotFound();
         }
-        //[HttpGet]
-        //public IActionResult GetHospitalsByCity(int cityId)
-        //{
-        //    var hospitals = _context.HospitalProfiles
-        //.Where(h => h.CityId == cityId)
-        //.Select(h => new { h.HospitalID, h.HospitalName })
-        //.ToList();  // Materialize the results by calling ToList()
-
-        //    return Json(hospitals);
-
-        //}
+     
         [HttpGet]
         public IActionResult GetHospitalsByCity(int cityId)
         {

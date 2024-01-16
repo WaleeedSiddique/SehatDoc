@@ -4,48 +4,52 @@
 }
 
 <div class="container">
-<form asp-controller="Scheduling" asp-action="AddSchedule" method="post">
-    <input asp-for="doctorId" hidden />
-    <div class="card" style="width: 20rem;">
-        <div class="card-header">
-            Add Schedule
-        </div>
-        
-            <div class="form-group">
-           
-                
-                        <label class="form-label" asp-for="HospitalId"> </label><br />
-                <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="HospitalId" asp-items="ViewBag.hospitals">
+  <div class="row">
+     <div class="col-6 offset-3" style="margin-top:50px;">
+       <div class="card">
+          <div class="=card-header">
+                <h4 class="text-center my-3">Add Schedule</h4>
+          </div>
+           <form asp-controller="Scheduling" asp-action="AddSchedule" method="post">
+              <input asp-for="doctorId" hidden />
+                    <div class="card-body">
+                 
+                 <div>@ViewBag.AlertMessage</div>
+                 <div class="row">
+                    <div class="form-group col-md-6 col-12">
+                    <label class="form-label" asp-for="HospitalId"> </label><br />
+                    <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="HospitalId" asp-items="ViewBag.hospitals">
                             <option>Select</option>
-                        </select>
+                     </select>
                     <span asp-validation-for="HospitalId" class="text-danger"></span>
-               
-            
-    </div>
-    <div class="form-group">
-        
-            
+                   </div>
+                    <div class="form-group col-md-6 col-12">
                     <label class="form-label" asp-for="DayOfWeek"> </label><br />
-                <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
-                <span asp-validation-for="DayOfWeek" class="text-danger"></span>
-          
-   
-    </div>
-    <div class="form-group">
-       
-                    <label class="form-label" asp-for="StartTime"> </label>
-                <input class="form-control" asp-for="StartTime" type="time" />
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-           
-
-    </div><div class="form-group">
-       
-                <label class="form-label" asp-for="EndTime"> </label>
+                     <select style="width:100%;height:42px;padding:10px 15px;border:1px solid #ced4da;border-radius:0.25rem;" class="form-select" asp-for="DayOfWeek" asp-items="Html.GetEnumSelectList<DayOfWeek>()"></select>
+                      <span asp-validation-for="DayOfWeek" class="text-danger"></span>
+                   </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6 col-12">
+                     <label class="form-label" asp-for="StartTime"> </label>
+                     <input class="form-control" asp-for="StartTime" type="time" />
+                     <span asp-validation-for="StartTime" class="text-danger"></span>
+                   </div>
+                    <div class="form-group col-md-6 col-12">
+                    <label class="form-label" asp-for="EndTime"> </label>
                     <input class="form-control" asp-for="EndTime" type="time" />
-                <span asp-validation-for="EndTime" class="text-danger"></span>
-          
-       
-    </div>
+                    <span asp-validation-for="EndTime" class="text-danger"></span>
+                   </div>
+                   </div>
+                        <div class="card-footer text-right">
+                            <a class="btn btn-danger" asp-controller="Doctor" asp-action="Index">Cancel</a>
+                            <button class="btn btn-primary">Add Schedule</button>
+                        </div>
 
-    <button class="btn btn-warning m-1">Add Schedule</button>
-</form>
+                    @* <button class="btn btn-warning m-1">Add Schedule</button> *@
+               </div>
+           </form>
+         </div>
+      </div>
+    </div>
+</div>

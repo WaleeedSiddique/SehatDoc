@@ -18,7 +18,31 @@ namespace SehatDoc.Services
               _context.schedules.Add(schedule);
             _context.SaveChanges();
             return schedule;
-        }      
+        }
+        public bool IsAlreadyScheduled(int doctorId, TimeSpan startTime, TimeSpan endTime, DayOfWeek dayOfWeek)
+        {
+            DateTime today = DateTime.Today;
+
+            TimeSpan startDateTime = today.Add(startTime).TimeOfDay;
+            TimeSpan endDateTime = today.Add(endTime).TimeOfDay;
+
+            return _context.schedules.Any(s =>
+                s.doctorId == doctorId &&
+                s.DayOfWeek == dayOfWeek &&
+                (
+                    // Check if the new schedule's start time is within the existing schedule
+                    (startDateTime >= s.StartTime && startDateTime < s.EndTime) ||
+
+                    // Check if the new schedule's end time is within the existing schedule
+                    (endDateTime > s.StartTime && endDateTime <= s.EndTime) ||
+
+                    // Check if the new schedule completely overlaps with the existing schedule
+                    (startDateTime <= s.StartTime && endDateTime >= s.EndTime)
+                )
+            );
+        }
+
+
 
         public IEnumerable<DoctorHospitalSchedule> GetSchedules()
         {
