@@ -77,8 +77,11 @@ namespace SehatDoc.DatabaseContext
                 .WithMany(h => h.schedules)
                 .HasForeignKey(dhs => dhs.HospitalId);
 
-            //
-            // Configure ApplicationUser and HospitalProfile relationship
+            modelBuilder.Entity<DoctorHospitalSchedule>()
+            .HasOne(dhs => dhs.Doctor)
+            .WithMany(d => d.schedules)
+            .HasForeignKey(dhs => dhs.doctorId);
+
             modelBuilder.Entity<ApplicationUser>()
                 .HasOne(u => u.hospitalprofile)
                 .WithMany(h => h.ApplicationUser)
@@ -86,10 +89,10 @@ namespace SehatDoc.DatabaseContext
                 .IsRequired(); // If HospitalID is required
 
             modelBuilder.Entity<ApplicationUser>()
-           .HasOne(u => u.State)
-           .WithMany()
-           .HasForeignKey(u => u.StateId)
-           .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(u => u.State)
+                .WithMany()
+                .HasForeignKey(u => u.StateId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             base.OnModelCreating(modelBuilder);

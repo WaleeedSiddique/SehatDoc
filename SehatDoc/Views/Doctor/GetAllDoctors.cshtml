@@ -12,73 +12,96 @@
             <h2 style="color:black">
                 Our Doctors
             </h2>
-            <br/>
-            <br/>
+         
         </div>
-        @{
-            int cardsPerRow = 3;
-        }
-
-        @foreach (var group in Model.GroupBy(d => d.Speciality.SpecialityName))
-        {
-            <h5 class="card-title">@group.Key</h5>
-
-            <div class="row">
-                @foreach (var docs in group.Take(cardsPerRow))
-                {
-                    var photopath = "~/images/" + docs.PhotoPath;
-
-                    <div class="col-md-4 mb-4">
-                        <div class="card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); height: 200px;">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="img-box col-5">
+      
+            @foreach (var docs in Model)
+            {
+                var photopath = "~/images/" + docs.PhotoPath;
+                <div class="container m-5">
+                    <div class="row shadow-sm" style="border-radius: 10px;" >
+                        <!-- First Column -->
+                        <div class="col-sm-10">
+                          
+                            <!-- First Inner Div -->
+                            <div class="row p-1">
+                                <div class="col-sm-2">
                                     <a href="@Url.Action("DoctorProfile", new { id = docs.DoctorId })">
-                                        <img src="@photopath" asp-append-version="true" alt="" style="width: 100%; border-radius: 50%; max-width: 150px; max-height: 150px; object-fit: cover;" />
+                                        <img src="@photopath" asp-append-version="true" alt="" style="width: 100%; max-width: 120px; object-fit: cover; border-radius: 50%;" />
                                     </a>
                                 </div>
-                                <div class="detail-box pl-3">
-                                    <h6 class="small">
-                                        <a href="@Url.Action("DoctorProfile", new { id = docs.DoctorId })">@docs.FirstName @docs.LastName</a>
-                                    </h6>
-                                    <h6 class="small">@docs.Speciality.SpecialityName</h6>
-                                    <h6 class="small">@docs.Gender</h6>
+
+                                <!-- Second Inner Div -->
+                                <div class="col-sm-10">
+                                    <span>
+                                        <a class="text-dark" href="@Url.Action("DoctorProfile", new { id = docs.DoctorId })">@docs.FirstName @docs.LastName</a>
+                                    </span>
+
+                                    <span style="display: block;">@docs.Speciality.SpecialityName</span>
+                                <span style="display: block;">MBBS, FCPS (Cardiology)</span>
+                                   
+                                    <div class="row">
+                                        <div class="col-sm-3">Reviews
+                                            <strong style="display:block;color:#EC8A23">
+                                                <i class="fa-solid fa-thumbs-up"></i>
+                                                463</strong>
+                                        </div>
+                                        <div class="col-sm-3">Experience
+                                            <strong style="display:block;">12 years</strong>
+                                        </div>
+                                        <div class="col-sm-3">Satisfication
+                                            <strong style="display:block;">98%</strong>
+                                        </div>
+                                    </div>
                                 </div>
+                               
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <!-- Content for the second box -->
+                                            <strong class="pt-2 pl-3">Video Consultation</strong>
+                                            <bold class="pt-2 pl-3">Available Today</bold>
+                                            <p class="pt-2 pl-3">Rs. 2,000</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <!-- Content for the second box -->
+                                            <strong class="pt-2 pl-3">Video Consultation</strong>
+                                            <bold class="pt-2 pl-3">Available Today</bold>
+                                            <p class="pt-2 pl-3">Rs. 2,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+
+                        <!-- Second Column -->
+                        <div class="col-sm-2">
+                            <div class="ml-auto p-1">
+                                <button type="button" class="btn btn-success" style="background-color: #3C8066; width: 100%;">Video Call</button>
+                            </div>
+                            <div class="ml-auto p-1">
+                                <button type="button" class="btn btn-info" style="background-color: #234d71; width: 100%;">View Timings</button>
                             </div>
                         </div>
                     </div>
-                }
-            </div>
-            <br />
-        }
 
-     @*    @foreach (var group in Model.GroupBy(d => d.Speciality.SpecialityName))
-        {
-            <div class="row">
-                @foreach (var docs in group.Take(3))
-                {
-                    var photopath = "~/images/" + docs.PhotoPath;
-                    <div class="col-12 col-md-4 mb-4">
-                        <div class="card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); height: 200px;">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="img-box col-5">
-                                    <a href="@Url.Action("DoctorProfile", new { id = docs.DoctorId })">
-                                        <img src="@photopath" asp-append-version="true" alt="" style="width: 100%; border-radius: 50%; max-width: 150px; max-height: 150px; object-fit: cover;" />
-                                    </a>
-                                </div>
-                                <div class="detail-box pl-3">
-                                    <h6 class="small">
-                                        <a href="@Url.Action("DoctorProfile", new { id = docs.DoctorId })">@docs.FirstName @docs.LastName</a>
-                                    </h6>
-                                    <h6 class="small">@docs.Speciality.SpecialityName</h6>
-                                    <h6 class="small">@docs.Gender</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+                    <!-- Third Column -->
+                    
+                </div>
+
+            }
+
+
+
+
+
             <br />
-        } *@
+    
 
     </div>
 </section>

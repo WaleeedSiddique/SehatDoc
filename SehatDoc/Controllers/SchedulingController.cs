@@ -35,17 +35,15 @@ namespace SehatDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check if the doctor is already scheduled at the same time on the same date
+              
                 bool isAlreadyScheduled = _schedule.IsAlreadyScheduled(model.doctorId, model.StartTime, model.EndTime, model.DayOfWeek);
 
                 if (isAlreadyScheduled)
                 {
-                    // Display an alert using JavaScript
+                    
                     ViewBag.AlertMessage = "Doctor is already scheduled at the same time on the same date.";
                     return View(model);
-                    // Show an alert or handle the case where the doctor is already scheduled
-                    //  ModelState.AddModelError(string.Empty, "Doctor is already scheduled at the same time on the same date.");
-                    //return View(model);
+                 
                 }
 
                 var newSchedule = new DoctorHospitalSchedule
@@ -56,11 +54,13 @@ namespace SehatDoc.Controllers
                     StartTime = model.StartTime,
                     EndTime = model.EndTime,
                 };
-
+            
                 _schedule.AddSchedule(newSchedule);
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Doctor");
             }
+            var hospitals = _context.HospitalProfiles.ToArray();
+            ViewBag.hospitals = new SelectList(hospitals, "HospitalID", "HospitalName");
             return View(model);
         }
     }

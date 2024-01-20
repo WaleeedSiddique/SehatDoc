@@ -7,70 +7,87 @@
 <!-- Doctor profile section -->
 <section class="doctor-profile-section layout_padding" style="background-color: white;">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm" style="border-radius: 10px;border: none;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- Doctor image -->
-                        <img src="~/images/@Model.PhotoPath" alt="@Model.FirstName @Model.LastName" class="img-fluid rounded-circle" style="width: 100%; max-width: 150px; max-height: 150px; object-fit: cover;" />
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img src="~/images/@Model.PhotoPath" alt="@Model.FirstName @Model.LastName" class="img-fluid rounded-circle" style="width: 100%; max-width: 150px; max-height: 150px; object-fit: cover;" /></div>
+                            <div class="col-sm-6">
+                                <strong style="font-weight:700;">@Model.FirstName @Model.LastName</strong>
+                                <br />
+                                <p class="text-sm" style="display: block;font-weight:600;">@Model.Speciality.SpecialityName</p>
+                                <span style="display: block;">@Model.City</span>
+                                <span style="display: block;font-size:15px">MBBS, FCPS (Cardiology)</span>
+                                <span style="display: block;font-size:14px">Consultant</span>
+                                <span style="display: block;color:#EC8A23;font-size:14px;"> <i class="fa-solid fa-thumbs-up"></i>111 Reviews</span>
+                                <span style="display: block;font-size:14px;">14 years Experience</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <!-- Doctor details -->
-                        <div class="pl-md-5" style="margin-left:-220px;">
-                            <!-- Use Bootstrap's padding class to add left padding on medium-sized screens and larger -->
-                            <strong>@Model.FirstName @Model.LastName</strong>
-                            <h6 class="small">@Model.City</h6>
-                            <h6 class="small">@Model.Gender</h6>
+                    <div class="col-sm-3">
+                        <div class="ml-auto p-1">
+                            <button type="button" class="btn btn-success" style="background-color: #3C8066; width: 100%;">Consult online</button>
+                        </div>
+                        <div class="ml-auto p-1">
+                            <button type="button" class="btn btn-info" style="background-color: #234d71; width: 100%;">Visit In Clinic</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br/><br/>
-        <!-- Practice details card -->
-                <h5 class="card-title">Practice Details</h5>
-                @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
-                {
-                    <div class="row">
-                        @foreach (var hospitalprofile in Model.DoctorHospitalProfiles)
-                        {
-                            <div class="col-md-@{
-                        if(Model.DoctorHospitalProfiles.Count == 1) {@Html.Raw("12"); } else {@Html.Raw("6"); }}">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
-                                        {
-                                            <strong>@hospitalprofile.HospitalProfile.HospitalName</strong>
-                                            <p>Location: @hospitalprofile.HospitalProfile.HospitalLocation</p>
-                                            <button class="btn btn-danger">
-                                                <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.HospitalProfile.HospitalNumber
-                                            </button>
-                                            <button class="btn btn-danger">
-                                                <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.HospitalProfile.HospitalNumber2
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <span>No Hospital</span>
-                                        }
+        
+        <br/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <!-- Practice details card -->
+                    <h5 class="pl-3 text-small" style="font-weight:600;">Practice Details</h5><br />
+                    @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+                    {
+                            @foreach (var hospitalprofile in Model.DoctorHospitalProfiles)
+                            {
+                                <div class="col-md-12">
+                                  
+                                    <div class="card mb-3 shadow-sm" style="border: none; ">
+                                        <div class="card-body">
+                                            @if (hospitalprofile != null && hospitalprofile.HospitalProfile != null)
+                                            {
+                                                <p style="font-weight:800;">@hospitalprofile.HospitalProfile.HospitalName</p>
+                                                <span style="font-weight:700;">Rs.2,500</span>
+                                                <br />
+                                                <span style="font-weight:700;">Timings:</span>
+
+                                                <span>Mon,Tue, Wed,Thu, Fri, 07:30 PM - 09:15 PM</span>
+                                                <p>Address: @hospitalprofile.HospitalProfile.HospitalLocation</p>
+                                                <button class="btn btn-info" style="background-color: #234d71;">
+                                                    Book Appointment
+                                                </button>
+
+                                            }
+                                            else
+                                            {
+                                                <span>No Hospital</span>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <span>No Hospital</span>
-                }
-                <h5 class="card-title">Specialty</h5>
-                @if (Model.Speciality.SpecialtyDiseases != null && Model.Speciality.SpecialtyDiseases.Any())
-                {
-                    <div class="row">
+                            }
+                      
+                    }
+                    else
+                    {
+                        <span>No Hospital</span>
+                    }
+                    <!---->
+                    <h5 class="pl-3 text-small" style="font-weight:600;">Specialty</h5>
+                    @if (Model.Speciality.SpecialtyDiseases != null && Model.Speciality.SpecialtyDiseases.Any())
+                    {
                         @foreach (var specialty in Model.Speciality.SpecialtyDiseases.Select(sd => sd.Specialty).Distinct())
                         {
-                            <div class="col-md-12 mb-3">
-                                <div class="card">
+                            <div class="col-md-12">
+                                <div class="card shadow-sm" style="border: none;">
                                     <div class="card-body">
                                         <strong>@specialty.SpecialityName</strong>
                                         <p>
@@ -79,23 +96,166 @@
                                             {
                                                 <span>@disease.DiseaseName</span>
                                                 @*  <span class="mx-2">|</span> *@
-                                                <br/>
+                                                <br />
                                                 <span>Description: @disease.DiseaseDescription</span>
-                                                
+
                                             }
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         }
+                       
+                    }
+                    else
+                    {
+                        <span>No Specialties with Diseases</span>
+                    }
+
+                </div>
+             
+                    <div class="col-md-5 card shadow-sm" style="background-color:#EEF4F6;border:none; border-radius: 10px;">
+                        <section class="mt-4 shadow-card">
+                            <span class="text-black p-4 pl-0" style="font-weight:900; font-size:18px;">Book Appointment Now</span>
+                            <div class="col-12">
+                                <div class="img-content mt-10">
+                                    <svg class="mr-10" xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="-1 0 19 19"><path d="M16.417 9.6A7.917 7.917 0 1 1 8.5 1.683 7.917 7.917 0 0 1 16.417 9.6zM9.666 6.508H8.248L6.09 8.09l.806 1.103 1.222-.945v4.816h1.547z"></path></svg>
+                                    <span class="text-bold text-skyblue"> Select Hospital/Clinic </span>
+                                </div>
+                                <div style="cursor: pointer;  border:#02c782 solid 2px;border-radius:8px; padding:10px 15px;margin-top:1rem;display:block;margin-right:10px !important;margin-top:1rem;" id="tab-li-2217" class="mb-2 mr-10  card-hospital bg-white mt-10 hospital-slots" onclick="changeHospital(event, '2217')">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <p class="mb-0 text-sm" style="text-decoration:underline;font-weight:600;">Video Consultation</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="mb-0 price text-sm" style="margin-top:0;margin-bottom:-0 !important;font-size:13px;"><span class="line-through" style="text-decoration:line-through">Rs. 2,500</span> - Rs. 1,500</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm" style="font-size:13px;"><i class="fa-solid fa-circle text-green fa-beat" style="font-size: 8px;color:green;" aria-hidden="true"></i> Available Today - 06:00 PM - 10:00 PM</p>
+                                    <a href="#" class="text-sm font-size-12" style="color: #333">
+                                        <span style="font-size:12px;">Online</span>
+                                    </a>
+                                </div>
+                            </div>
+                           
+@foreach (var schedule in Model.schedules)
+{
+    <div style="cursor: pointer; border: 1px solid #eee; border-radius: 8px; padding: 10px 15px; display: block; margin-right: 10px !important; margin-top: 1rem;" id="tab-li-@schedule.HospitalId" class="mb-2 mr-10 card-hospital bg-white mt-10 hospital-slots" onclick="changeHospital(event, '@schedule.HospitalId')">
+        <div class="row">
+            <div class="col-9">
+                <p class="text-sm" style="font-weight: 600; text-decoration: underline; margin-bottom: 0px !important;">@schedule.Hospitals.HospitalName</p>
+            </div>
+            <div class="col-3">
+                <p class="mb-0 price text-sm" style="font-size: 13px;">Rs. 200</p>
+            </div>
+        </div>
+                                <p class="text-sm" style="font-size: 13px;">
+                                    <i class="fa-solid fa-circle text-green fa-beat" style="font-size: 8px; color:green;" aria-hidden="true"></i>
+
+                                    @{
+                                        DateTime startTime, endTime;
+
+                                        if (DateTime.TryParse(schedule.StartTime.ToString(), out startTime) &&
+                                        DateTime.TryParse(schedule.EndTime.ToString(), out endTime))
+                                        {
+                                            var selectedDays = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday /* Add your selected days here */ };
+
+                                            if (selectedDays.Contains((DayOfWeek)schedule.DayOfWeek) || startTime.Date == DateTime.Now.Date)
+                                            {
+                                                @("Available " + Enum.GetName(typeof(DayOfWeek), schedule.DayOfWeek) + " - " + startTime.ToString("hh:mm tt") + " - " + endTime.ToString("hh:mm tt"))
+                                            }
+                                            else
+                                            {
+                                                @("Available from " + startTime.ToString("MMM dd - hh:mm tt") + " - " + endTime.ToString("hh:mm tt"))
+                                            }
+                                        }
+                                        else
+                                        {
+                                        <p>Schedule not available</p>
+                                        }
+                                    }
+                                </p>
+
+                             <a href="#" class="text-sm font-size-12" style="color: #333">
+                                  <span style="font-size: 12px;">@schedule.Hospitals?.HospitalLocation</span>
+                             </a>
+                         </div>
+                          }
+
+                            <div style="display:flex;align-items:center; margin-top:1rem;">
+                                <svg style="margin-right:10px !important;" xmlns="http://www.w3.org/2000/svg" fill="#000000" width="24px" height="24px" viewBox="-1 0 19 19"><path d="M16.417 9.6A7.917 7.917 0 1 1 8.5 1.683 7.917 7.917 0 0 1 16.417 9.6zm-5.431 2.113H8.309l1.519-1.353q.223-.203.43-.412a2.974 2.974 0 0 0 .371-.449 2.105 2.105 0 0 0 .255-.523 2.037 2.037 0 0 0 .093-.635 1.89 1.89 0 0 0-.2-.889 1.853 1.853 0 0 0-.532-.63 2.295 2.295 0 0 0-.76-.37 3.226 3.226 0 0 0-.88-.12 2.854 2.854 0 0 0-.912.144 2.373 2.373 0 0 0-.764.42 2.31 2.31 0 0 0-.55.666 2.34 2.34 0 0 0-.274.89l1.491.204a1.234 1.234 0 0 1 .292-.717.893.893 0 0 1 1.227-.056.76.76 0 0 1 .222.568 1.002 1.002 0 0 1-.148.536 2.42 2.42 0 0 1-.389.472L6.244 11.77v1.295h4.742z"></path></svg>
+                                <span style="font-weight:600;"> Select Date &amp; Time </span>
+                            </div>
+                            
+                            <form id="booking_form" class="row mt-10">
+                                <div class="col-12" style="display: none; margin-bottom: 3px;" id="error_message">
+                                    <div id="sub_error_message" style="width: 100%; background-color: rgb(242, 145, 145); text-align: center; padding: 2px 0;"></div>
+                                </div>
+                                <div class="col-6">
+                                    <select id="days_slots" aria-label="Select Days" style="padding-right:3rem; background-color:#fff !important;border:0.1rem solid #aaa;border-radius:0.4rem;box-shadow:none;height:3.4rem;padding:0.6rem 1rem 0.7rem; width:100%;-webkit-appearance:none;margin-bottom:1.5rem;">
+                                        <option value="2024-01-18">Thu - 18 Jan</option>
+                                        <option value="2024-01-19">Fri - 19 Jan</option>
+                                        <option value="2024-01-22">Mon - 22 Jan</option>
+                                        <option value="2024-01-23">Tue - 23 Jan</option>
+                                        <option value="2024-01-24">Wed - 24 Jan</option>
+                                        <option value="2024-01-25">Thu - 25 Jan</option>
+                                        <option value="2024-01-26">Fri - 26 Jan</option>
+                                        <option value="2024-01-29">Mon - 29 Jan</option>
+                                        <option value="2024-01-30">Tue - 30 Jan</option>
+                                        <option value="2024-01-31">Wed - 31 Jan</option>
+                                        <option value="2024-02-01">Thu - 01 Feb</option>
+                                        <option value="2024-02-02">Fri - 02 Feb</option>
+                                        <option value="2024-02-05">Mon - 05 Feb</option>
+                                        <option value="2024-02-06">Tue - 06 Feb</option>
+                                        <option value="2024-02-07">Wed - 07 Feb</option>
+                                        <option value="2024-01-18">Thu - 18 Jan</option>
+                                        <option value="2024-01-19">Fri - 19 Jan</option>
+                                        <option value="2024-01-22">Mon - 22 Jan</option>
+                                        <option value="2024-01-23">Tue - 23 Jan</option>
+                                        <option value="2024-01-24">Wed - 24 Jan</option>
+                                        <option value="2024-01-25">Thu - 25 Jan</option>
+                                        <option value="2024-01-26">Fri - 26 Jan</option>
+                                        <option value="2024-01-29">Mon - 29 Jan</option>
+                                        <option value="2024-01-30">Tue - 30 Jan</option>
+                                        <option value="2024-01-31">Wed - 31 Jan</option>
+                                        <option value="2024-02-01">Thu - 01 Feb</option>
+                                        <option value="2024-02-02">Fri - 02 Feb</option>
+                                        <option value="2024-02-05">Mon - 05 Feb</option>
+                                        <option value="2024-02-06">Tue - 06 Feb</option>
+                                        <option value="2024-02-07">Wed - 07 Feb</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <select id="time_slots" aria-label="Select Time Slot" style="padding-right:3rem; background-color:#fff !important;border:0.1rem solid #aaa;border-radius:0.4rem;box-shadow:none;height:3.4rem;padding:0.6rem 1rem 0.7rem; width:100%;-webkit-appearance:none;margin-bottom:1.5rem;">
+                                        <optgroup label="Evening"><option value="06:00 PM">06:00 PM</option><option value="06:15 PM">06:15 PM</option>,<option value="06:30 PM">06:30 PM</option>,<option value="06:45 PM">06:45 PM</option>,<option value="07:00 PM">07:00 PM</option>,<option value="07:15 PM">07:15 PM</option>,<option value="07:30 PM">07:30 PM</option>,<option value="07:45 PM">07:45 PM</option>,<option value="08:00 PM">08:00 PM</option>,<option value="08:15 PM">08:15 PM</option>,<option value="08:30 PM">08:30 PM</option>,<option value="08:45 PM">08:45 PM</option>,<option value="09:00 PM">09:00 PM</option>,<option value="09:15 PM">09:15 PM</option>,<option value="09:30 PM">09:30 PM</option>,<option value="09:45 PM">09:45 PM</option></optgroup>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6 mb-10">
+                                    <input type="number" placeholder="Number" style="padding-right:3rem; background-color:#fff !important;border:0.1rem solid #aaa;border-radius:0.4rem;box-shadow:none;height:3.4rem;padding:0.6rem 1rem 0.7rem; width:100%;-webkit-appearance:none;margin-bottom:1.5rem;">
+                                </div>
+                                <div class="col-12 col-md-6 mb-10">
+                                    <input type="text" name="patient_name" id="patient_name" pattern="[A-Za-z ]+" placeholder="Add patient name" required="" style="padding-right:3rem; background-color:#fff !important;border:0.1rem solid #aaa;border-radius:0.4rem;box-shadow:none;height:3.4rem;padding:0.6rem 1rem 0.7rem; width:100%;-webkit-appearance:none;margin-bottom:1.5rem;">
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" name="promo_code" id="promo_code" placeholder="Add Promo Code" style="padding-right:3rem; background-color:#fff !important;border:0.1rem solid #aaa;border-radius:0.4rem;box-shadow:none;height:3.4rem;padding:0.6rem 1rem 0.7rem; width:100%;-webkit-appearance:none;margin-bottom:1.5rem;">
+                                </div>
+                                <div id="physical-booking-text" class="col-12" style="display: none;">
+                                    <p class="text-sm"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <span id="physical-hospital-address"></span></p>
+                                </div>
+                                <div class="col-12">
+                                    <input class="btn btn-info" value="Book Video Consultation" type="submit" style="margin-bottom:1rem;display: block !important; width:100%;border-color:#3C8066 !important;background-color: #3C8066;border-radius:0.4rem; font-size:1.4rem;color:white;padding:0 1rem; text-align:center; text-decoration:none;height:60px;">
+                                </div>
+                            </form>
+                           
+                        </section>
+
                     </div>
-                }
-                else
-                {
-                    <span>No Specialties with Diseases</span>
-                }
-    
+                </div>
+           
+            </div>
+
+      
 
     </div>
-    
+       
 </section>

@@ -24,8 +24,7 @@ namespace SehatDoc.DoctorModels
         public string PhotoPath { get; set; }
         [Required]
         public Gender Gender { get; set; }
-        //[Required]
-        //public Cities City { get; set; }
+     
         public int? CityId { get; set; }
         public int? StateId { get; set; }
 

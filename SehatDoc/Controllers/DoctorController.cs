@@ -63,6 +63,10 @@ namespace SehatDoc.Controllers
         public IActionResult DoctorProfile(int id)
         {
             var doc = _doctorInteraface.GetDoctorProfile(id);
+            var schedules = _doctorInteraface.GetDoctorHospitalSchedules(id);
+            
+            doc.schedules =schedules;
+            
             return View(doc);
         }
         [HttpGet]
@@ -138,8 +142,6 @@ namespace SehatDoc.Controllers
                     StateId = doc.StateId,
                     specialityId = doc.specialityId,
                     gender = doc.Gender,
-                    // ExistingPhotoPath = doc.PhotoPath,
-                   // ExistingPhotoPath = doc.PhotoPath ?? "",
                     HospitalIDs = doc.DoctorHospitalProfiles?.Select(dhp => dhp.HospitalID ?? 0).ToList() ?? new List<int>(),
                 };
                
@@ -172,13 +174,6 @@ namespace SehatDoc.Controllers
                     doc.Gender = model.gender;
                     doc.specialityId = model.specialityId;
 
-                    // Process and save the new image if provided
-                    //if (model.PhotoPath != null)
-                    //{
-                    //    string uniqueFileName = ProcessAndSaveFile(model.PhotoPath);
-                    //    doc.PhotoPath = uniqueFileName;
-                    //}
-                    // Update the DoctorHospitalProfiles based on the selected hospitals
                     if (model.HospitalIDs != null && model.HospitalIDs.Any())
                     {
                         doc.DoctorHospitalProfiles = model.HospitalIDs

@@ -7,30 +7,48 @@
 <!-- Doctor profile section -->
 <section class="doctor-profile-section layout_padding" style="background-color: white;">
     <div class="container">
-        <div class="card">
+        <div class="card shadow-sm" style="border-radius: 10px;border: none;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <!-- Doctor image -->
                         <img src="~/images/@Model.HospitalLogo" alt="@Model.HospitalName" class="img-fluid rounded-circle" style="width: 100%; max-width: 150px; max-height: 150px; object-fit: cover;" />
                     </div>
-                    <div class="col-md-8">
-                        <!-- Doctor details -->
-                        <div class="pl-md-5" style="margin-left:-220px;">
+                 
+                        <div class="col-md-8 mt-6">
                             <!-- Use Bootstrap's padding class to add left padding on medium-sized screens and larger -->
-                            <strong>@Model.HospitalName</strong>
-                            <h6 class="small">@Model.HospitalLocation</h6>
-                            <button class="btn btn-danger">
-                                <i class="fa fa-phone" style="color: white;"></i> @Model.HospitalNumber2
-                            </button>
+                            <h1 style="font-weight:700;line-height:1.3;font-size:20px;color:black;display:block">@Model.HospitalName</h1>
+                        <span style="margin-top:0;margin-bottom:1rem;font-size:14px;display:block;color:black;">
+                            @Model.HospitalLocation</span>
+                        <div class="row">
+                            <div class="col-md-3 col-6">
+                                <button style="background-color:#4CA585;color:white;border-radius:4px;border-color:#4CA585;display:block;border:none;width:230px;height:2.3rem;">
+                                    Call Helpline
+                                </button>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3 col-6">
+                                <button style="background-color:#234D71;color:white;border-radius:4px;border-color:#4CA585;display:block;border:none;width:230px;height:2.3rem;">
+                                    View Directions
+                                </button>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
         <br /><br />
+        <h5 class="card-title">Specialits In @Model.HospitalName</h5>
+        <div class="row">
+              @foreach (var hospitalProfile in Model.DepartmentHospitalProfiles)
+                {
+            <div class="col-md-6 pt-4">@hospitalProfile.DepartmentsDepartment.DepartmentName</div>
+          
+                }
+        </div>
         <!---->
-        <h5 class="card-title">Branches</h5>
+     @*    <h5 class="card-title">Branches</h5>
         @if (Model.Branches != null && Model.Branches.Any())
         {
             <div class="row">
@@ -50,7 +68,7 @@
                                     <strong>@hospitalprofile.BranchName</strong>
                                     <p>@hospitalprofile.State.StateName</p>
                                   @*   <p>@hospitalprofile.City.CityName</p> *@
-                                    <p>Location: @hospitalprofile.Location</p>
+                                    @* <p>Location: @hospitalprofile.Location</p>
 
                                     <button class="btn btn-danger">
                                         <i class="fa fa-phone" style="color: white;"></i> @hospitalprofile.Contact1
@@ -73,15 +91,16 @@
         {
             <span>No Branch</span>
         }
-        <!---->
-        @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
-        {
-            <h5 class="card-title">Doctors In Clinic</h5>
+        *@ 
+       
+      @*   @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+        { *@
+        <h5 class="card-title">Doctors In @Model.HospitalName</h5>
             <div class="row">
                 @foreach (var doctorProfile in Model.DoctorHospitalProfiles)
                 {
-                    <div class="col-md-4">
-                        <div class="card mb-3">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm mb-3">
                             <div class="card-body">
                                 <div style="display: flex; align-items: flex-start;">
                                     <img src="~/images/@doctorProfile.Doctor.PhotoPath" alt="@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName" class="img-fluid rounded-circle" style="max-width: 100px; max-height: 100px; object-fit: cover; margin-right: 10px;" />
@@ -96,12 +115,12 @@
                     </div>
                 }
             </div>
-        }
+      @*   }
         else
         {
             <p>No associated doctors</p>
         }
-
+ *@
 
     </div>
 
