@@ -1,0 +1,38 @@
+﻿@using SehatDoc.DTO_s;
+@model StateDTO
+@{
+    ViewBag.Title = "Edit State";
+    Layout = "_AdminDashboard";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3" style="margin-top:50px;">
+            <div class="card">
+                <div class="=card-header">
+                    <h4 class="text-center my-3">Add State</h4>
+                </div>
+                <form asp-controller="State" asp-action="Edit" method="post">
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <label asp-for="StateName">Name</label>
+                            <input asp-for="StateName" class="form-control" />
+                            <span asp-validation-for="StateName" class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="card-footer text-right">
+                            <a class="btn btn-danger" asp-controller="State" asp-action="Index">Cancel</a>
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

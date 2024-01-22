@@ -3,93 +3,119 @@
     Layout = "_Layout";
 }
 <!-- contact section -->
-<section class="contact_section layout_padding">
-    <div class="container">
-        <div class="heading_container">
-            <h2>
-                Register Now
-            </h2>
+<body style="background-color:#F7F7F7">
+<section class="contact_section layout_padding" style="background-color:#F7F7F7">
+    <div class="container" style="background-color:#F7F7F7">
+            <div class="heading_container row card-body" style="background-color:white">
+            <h5>
+                Register as Doctor
+            </h5>
         </div>
-        <div class="row">
+        <div class="row  bg-white p-3">
             <div class="col-md-6">
+                    <div class="container mt-5" style="align-items:center;padding-top:5rem">
+                        <h3 style="font-size:18px;font-weight:600;color:#373f50;line-height:1.2;">Welcome to Pakistan's Largest Network of Patients</h3>
+                        <ul>
+                            <li style="display: list-item;">Create your profile and get instant appointments</li>
+                            <li>Setup your online practice clinic</li>
+                            <li>Establish online word of mouth</li>
+                            <li>Manage your schedule efficiently</li>
+                        </ul>
+                </div>
+            </div>
+                
+                <div class="col-md-6 mt-3 mb-3 p-3">
+                    <div class="col-12" style="background-color:#f3f5f9">
+                        <h6 class="pt-3" style="font-weight:700;color:#373f50;line-height:1.2;display:block;">Register Now</h6>
                 <div class="form_container contact-form">
                     <form asp-action="SignUp" method="post">
                         <div class="form-row">
-                            <div class="col-lg-6">
+                            <div class="col-6 col-md-6 mt-2">
                                 <div class="form-group ">
                                     <label asp-for="Name">Name</label>
-                                    <input asp-for="Name" class="form-control" />
+                                    <input asp-for="Name" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                                    <div class="col-6 col-md-6 mt-2">
+                                        <div class="form-group">
                                 <label asp-for="Qualification">Qualification</label>
-                                <input type="text" asp-for="Qualification" class="form-control" />
+                                        <input type="text" asp-for="Qualification" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                 <span asp-validation-for="Qualification" class="text-danger"></span>
+                                        </div>
                             </div>
-                            <div class ="col-lg-6">
+                                    <div class="col-6 col-md-6 mt-2">
+                                        <div class="form-group">
                                 <label asp-for="Email">Email</label>
-                                <input type="email" asp-for="Email" class="form-control" />
+                                        <input type="email" asp-for="Email" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
+                              <div class="col-6 col-md-6 mt-2">
+                                        <div class="form-group">
                                 <label asp-for="PhoneNumber">Phone Number</label>
-                                <input type="number" asp-for="PhoneNumber" class="form-control" />
+                                        <input type="number" asp-for="PhoneNumber" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                              </div>
                             </div>
                          </div>
-                     
-                        <div>
+
+                        <div class="row">
+                                    <div class="form-group col-md-6 col-12">
                             <label asp-for="specialityId">Select Speciality</label>
-                            <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities">
-                                <option>Select Speciality</option>
-                            </select>
+                                        <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
+                                    <option>Select Speciality</option>
+                               </select>
                             <span asp-validation-for="specialityId" class="text-danger"></span>
-                        </div>
-                          <div>
+                          </div>
+                          <div class="form-group col-md-6 col-12">
                             <label>State:</label>
-                            <select id="stateDropdown" asp-for="StateId" asp-items="@ViewBag.States" class="form-control">
+                                        <select id="stateDropdown" asp-for="StateId" asp-items="@ViewBag.States" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
                                 <option value="">Select State</option>
                             </select>
                             <span asp-validation-for="StateId" class="text-danger"></span>
-                      
                           </div>
-                          <div>
+                        </div>
+                        <div class="row">
+                                    <div class="form-group col-md-6 col-12">
                             <label>City:</label>
-                            <select id="cityDropdown" asp-for="CityId" name="CityId" class="form-control">
+                                        <select id="cityDropdown" asp-for="CityId" name="CityId" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
                                 <option value="">Select State</option>
                             </select>
                             <span asp-validation-for="CityId" class="text-danger"></span>
-                     
-                          </div>
-                        <div>
+                                 </div>
+
+                                    <div class="form-group col-md-6 col-12">
                             <label for="hospitalDropdown">Hospital:</label>
-                        
-                            <select id="hospitalDropdown" asp-for="HospitalID" name="HospitalID" class="form-control">
+
+                                        <select id="hospitalDropdown" asp-for="HospitalID" name="HospitalID" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
 
                                 <option value="">Select Hospital</option>
                            
                             </select>
                             
+                          </div>
                         </div>
 
                         <div>
                             <label asp-for="Password">Password</label>
-                            <input type="password" asp-for="Password" class="form-control" />
+                                    <input type="password" asp-for="Password" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <br/>
+                        
                         <div class="btn_box">
-                            <button class="btn btn-primary">Submit</button>
+                                    <button class="btn btn-success" style="margin-bottom:10px;">Submit</button>
                         </div>
                     
                     </form>
+                </div>
                 </div>
             </div>
         
         </div>
     </div>
 </section>
+</body>
 <!-- end contact section -->
 @section Scripts{
     <script>

@@ -115,49 +115,7 @@ namespace SehatDoc.Controllers
             return View(model);
 
         }
-        //[HttpPost]
-        //public IActionResult Edit(SymptomsDTO model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var existingSymptom = _symptomsInterface.GetSymptom(model.id);
-
-        //        if (existingSymptom != null)
-        //        {
-        //            existingSymptom.SymptomName = model.SymptomName;
-        //            existingSymptom.SymptomDescription = model.SymptomDescription;
-
-        //            if (model.SymptomImage != null)
-        //            {
-        //                // Delete existing image file if it exists
-        //                if (!string.IsNullOrEmpty(existingSymptom.SymptomImage))
-        //                {
-        //                    var imagePath = Path.Combine(_hosting.WebRootPath, "images", existingSymptom.SymptomImage);
-        //                    if (System.IO.File.Exists(imagePath))
-        //                    {
-        //                        System.IO.File.Delete(imagePath);
-        //                    }
-        //                }
-
-        //                // Save new image
-        //                var imageFolder = Path.Combine(_hosting.WebRootPath, "images");
-        //                var uniqueName = Guid.NewGuid().ToString() + "_" + model.SymptomImage.FileName;
-        //                var filePath = Path.Combine(imageFolder, uniqueName);
-        //                model.SymptomImage.CopyTo(new FileStream(filePath, FileMode.Create));
-
-        //                existingSymptom.SymptomImage = uniqueName;
-        //            }
-
-        //            _symptomsInterface.UpdateSymptom(existingSymptom);
-        //            return RedirectToAction("Index");
-        //        }
-
-        //        return View(model);
-        //    }
-
-        //    return View(model);
-        //}
-
+       
         [HttpGet]
         public IActionResult Delete(int id)
         {

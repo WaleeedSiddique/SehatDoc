@@ -42,6 +42,8 @@ builder.Services.AddScoped<IDepartmentInterface, DepartmentService>();
 builder.Services.AddScoped<IHospitalProfileInterface, HospitalProfileService>();
 builder.Services.AddScoped<ISchedulingInterface, ScheduleService>();
 builder.Services.AddScoped<IBranchInterface, BranchService>();
+builder.Services.AddScoped<IStateInterface, StateService>();
+builder.Services.AddScoped<ICityInterface, CityService>();
 
 var app = builder.Build();
 

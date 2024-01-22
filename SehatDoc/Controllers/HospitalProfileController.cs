@@ -62,6 +62,7 @@ namespace SehatDoc.Controllers
         public IActionResult HospitalProfile(int id)
         {
             var hospital = _hospitalProfileInterface.HospitalProfile(id);
+           
             return View(hospital);
         }
         [HttpGet]

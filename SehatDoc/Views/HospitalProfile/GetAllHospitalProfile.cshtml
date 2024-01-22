@@ -3,8 +3,7 @@
     ViewBag.Title = "Home Page";
     Layout = "_Layout";
 }
-<!-- doctor section -->
-<!-- Hospital section -->
+
 <section class="hospital_section layout_padding" style="background-color: white;">
     <div class="container">
         <div class="heading_container heading_center">
@@ -32,17 +31,7 @@
                     </span>
                     <br/>
                     <p style="margin-top:0;margin-bottom:1rem;font-size:14px;display:block;color:black;">@hospital.HospitalLocation</p>
-                  @*   @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
-                    {
-                        <p>
-
-                            @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
-                            {
-                                <button style="background-color:#e8f6f9;color:#004D71;border:none;border-radius:4px;font-weight:600;border-color:#00b3d8;"> <span>@departmentProfile.DepartmentsDepartment.DepartmentName</span></button>
-
-                            }
-                        </p>
-                    } *@
+                 
                         @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
                         {
                             <p>
@@ -53,14 +42,10 @@
 
                                 @if (hospital.DepartmentHospitalProfiles.Count() > 4)
                                 {
-                                    <button id="viewAllButton" style="background-color:#e8f6f9;color:#004D71;border:none;border-radius:4px;font-weight:600;border-color:#00b3d8;">
-                                        View All
-                                    </button>
-                                    <script>
-                                        document.getElementById('viewAllButton').addEventListener('click', function () {
-                                            window.location.href = '@Url.Action("HospitalProfile", new { id = hospital.HospitalID })';
-                                        });
-                                    </script>
+                                    <form action="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })" method="get" style="margin-left: 10px;">
+                                        <button type="submit" style="background-color:#e8f6f9;color:#004D71;border:none;border-radius:4px;font-weight:600;border-color:#00b3d8;">View All</button>
+                                    </form>
+                               
                                  
                                 }
                             </p>
@@ -88,43 +73,7 @@
         <br/>
         <br/>
         <br/>
-       @*  <div class="row">
-            @foreach (var hospital in Model)
-            {
-                var photopath = "~/images/" + hospital.HospitalLogo; *@
-                @* <div class="row shadow-sm" style="border-radius: 10px;">
-                    <div class="card" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); height: 200px;">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="img-box col-5">
-                                <a href="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })">
-                                    <img src="@photopath" asp-append-version="true" alt="" style="width: 100%; border-radius: 50%; max-width: 150px; max-height: 150px; object-fit: cover;" />
-                                </a>
-                            </div>
-                            <div class="detail-box pl-3">
-                                <h6 class="small">
-                                    <a href="@Url.Action("HospitalProfile", new { id = hospital.HospitalID })">@hospital.HospitalName</a>
-                                </h6>
-              
-                                @if (hospital.DepartmentHospitalProfiles != null && hospital.DepartmentHospitalProfiles.Any())
-                                {
-                                    <p>
-                                       
-                                        @foreach (var departmentProfile in hospital.DepartmentHospitalProfiles)
-                                        {
-                                            <span>@departmentProfile.DepartmentsDepartment.DepartmentName</span>
-                                         
-                                        }
-                                   </p>
-                                } 
-                                 <button class="btn btn-danger">
-                                    <i class="fa fa-phone" style="color: white;"></i> @hospital.HospitalNumber
-                                </button> 
-                            </div>
-                        </div>
-                    </div>
-                </div> *@
-         @*    }
-        </div> *@
+   
    
     </div>
 </section>

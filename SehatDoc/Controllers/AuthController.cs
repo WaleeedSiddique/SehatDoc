@@ -80,19 +80,14 @@ namespace SehatDoc.Controllers
 
                     if (result.Succeeded)
                     {
-                        // Your registration success logic
-                        // return RedirectToAction("Index");
-                        // After successful registration, sign in the user
+                       
                         await _signInManager.SignInAsync(user, isPersistent: false);
 
-                        // Redirect to the Dashboard with the username as a query parameter
-                      //  return RedirectToAction("Index", new { username = user.UserName });
                         return RedirectToAction("SignIn", new { username = user.UserName });
                     }
                     else
                     {
 
-                        // Handle registration errors
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
@@ -101,10 +96,6 @@ namespace SehatDoc.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Log exception
-
-
-                    // Handle exception
                     ModelState.AddModelError(string.Empty, "An error occurred during user registration.");
                 }
             }

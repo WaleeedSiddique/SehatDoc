@@ -43,16 +43,11 @@ namespace SehatDoc.DoctorRepositories
                 .ToList();
             return docs;
         }
-        //public Doctor GetDoctor(int id)
-        //{
-        //    var doc = _context.Doctors.Include(x => x.Speciality).FirstOrDefault(x => x.DoctorId == id);
-        //    return doc;
-        //}
         public Doctor GetDoctor(int id)
         {
             var doc = _context.Doctors
                 .Include(x => x.Speciality)
-                .Include(x => x.DoctorHospitalProfiles)  // Include DoctorHospitalProfiles
+                .Include(x => x.DoctorHospitalProfiles) 
                 .FirstOrDefault(x => x.DoctorId == id);
             return doc;
         }
@@ -69,16 +64,6 @@ namespace SehatDoc.DoctorRepositories
             return doc;
         }
 
-        //public Doctor GetDoctorProfile(int id)
-        //{
-        //    var doc = _context.Doctors
-        //        .Include(x => x.Speciality)
-        //        .Include(x => x.DoctorHospitalProfiles) // Include DoctorHospitalProfiles
-        //        .ThenInclude(dhp => dhp.HospitalProfile)
-        //        .FirstOrDefault(x => x.DoctorId == id);
-
-        //    return doc;
-        //}
         public Doctor UpdateDoctor(Doctor doctor)
         {
             var doc = _context.Doctors.Attach(doctor);

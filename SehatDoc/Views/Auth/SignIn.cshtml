@@ -2,50 +2,62 @@
 @{
     Layout = "_Layout";
 }
-<!-- contact section -->
-<section class="contact_section layout_padding">
+<body style="background-color:#F7F7F7">
+    <section class="contact_section layout_padding bg-white mt-2">
+
     <div class="container">
-        <div class="heading_container">
+       @*  <div class="heading_container">
             <h2>
                 Sign Now
             </h2>
-        </div>
-        <div class="row">
+        </div> *@
+            <div class="row bg-white p-3">
             <div class="col-md-6">
+                
+                        <img src="~/assets/img/download.jpg" style="vertical-align:middle;width:200px;height:106px;margin-top:30%;margin-left:100px;" />
+                
+                
+            </div>
+                <div class="col-md-6 card-body" style="border-radius:10px;box-shadow: 0 .125rem .3rem -.0625rem rgba(0,0,0,.03),0 .275rem .75rem -.0625rem rgba(0,0,0,.06)!important;">
+                    <div class="col-12 mt-2 p-2 mt-3">
+                        <p class="col-12">Welcome to SehatDoc</p>
+                        <p class="col-12 col-md-6 col-lg-6" style="font-weight:700;color:#014E78;font-size:1.75rem;line-height:1.2">Login to your Account</p>
+                   
                 <div class="form_container contact-form">
                     <form asp-action="SignIn" method="post">
                         <div class="form-row">
                             <div class="col-lg-6">
                                 <div class="form-group ">
                                     <label asp-for="Name">Name</label>
-                                    <input asp-for="Name" class="form-control" />
+                                            <input asp-for="Name" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
                           
                             <div class="col-lg-6">
                                 <label asp-for="PhoneNumber">Phone Number</label>
-                                <input type="number" asp-for="PhoneNumber" class="form-control" />
+                                        <input type="number" asp-for="PhoneNumber" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div>
                             <label asp-for="Password">Password</label>
-                            <input type="password" asp-for="Password" class="form-control" />
+                                    <input type="password" asp-for="Password" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <br />
                         <div class="btn_box">
-                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary">Login</button>
                         </div>
 
                     </form>
+                </div>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
-<!-- end contact section -->
+</body>
 

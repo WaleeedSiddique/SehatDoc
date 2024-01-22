@@ -38,14 +38,19 @@
                 </div>
             </div>
         </div>
-        <br /><br />
-        <h5 class="card-title">Specialits In @Model.HospitalName</h5>
+       
+     
+        <h2 style="font-weight:600;color:black;line-height:1.25; font-size:18px;padding-top:1.5rem;font-family: 'Poppins', sans-serif !important;margin-bottom: 2rem">Specialists in @Model.HospitalName</h2>
         <div class="row">
               @foreach (var hospitalProfile in Model.DepartmentHospitalProfiles)
                 {
-            <div class="col-md-6 pt-4">@hospitalProfile.DepartmentsDepartment.DepartmentName</div>
+                <div class="col-md-6 pt-4" style="color:#004D71;font-weight:500">@hospitalProfile.DepartmentsDepartment.DepartmentName</div>
           
                 }
+                
+               
+
+                
         </div>
         <!---->
      @*    <h5 class="card-title">Branches</h5>
@@ -93,35 +98,88 @@
         }
         *@ 
        
-      @*   @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
-        { *@
-        <h5 class="card-title">Doctors In @Model.HospitalName</h5>
+       @if (Model.DoctorHospitalProfiles != null && Model.DoctorHospitalProfiles.Any())
+        {
+            <h2 style="padding-top:1.5rem;font-size:18px;line-height:2.25;font-weight:600;display:block;font-family: 'Poppins', sans-serif !important;letter-spacing: .03em;">Doctors in @Model.HospitalName</h2>
             <div class="row">
                 @foreach (var doctorProfile in Model.DoctorHospitalProfiles)
                 {
                     <div class="col-md-12">
                         <div class="card shadow-sm mb-3">
                             <div class="card-body">
+                             <div class="row">
+                                    <div class="col-sm-9">
                                 <div style="display: flex; align-items: flex-start;">
+                                    <a href="@Url.Action("DoctorProfile","Doctor", new { id = doctorProfile.DoctorID })">
                                     <img src="~/images/@doctorProfile.Doctor.PhotoPath" alt="@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName" class="img-fluid rounded-circle" style="max-width: 100px; max-height: 100px; object-fit: cover; margin-right: 10px;" />
+                                  </a>
                                     <div>
-                                        <strong>@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName</strong>
+                                                <a href="@Url.Action("DoctorProfile","Doctor", new { id = doctorProfile.DoctorID })">
+                                                    <strong style="color:#004D71">@doctorProfile.Doctor.FirstName @doctorProfile.Doctor.LastName</strong>
+                                        </a>
                                         <p>@doctorProfile?.Doctor?.Speciality?.SpecialityName</p>
+                                        <p>MBBS, FCPS (Oto Rhino Laryngology)</p>
                                     </div>
+                                  
                                 </div>
-                                <!-- Add other doctor details as needed -->
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-3">
+                                                Reviews
+                                                <strong style="display:block;color:#EC8A23">
+                                                    <i class="fa-solid fa-thumbs-up"></i>
+                                                    463
+                                                </strong>
+                                            </div>
+                                            <div class="col-3">
+                                                Experience
+                                                <strong style="display:block;">12 years</strong>
+                                            </div>
+                                            <div class="col-3">
+                                                Satisfication
+                                                <strong style="display:block;">98%</strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                        
+                                            <div class="col-1"></div>
+                                            <div class="col-sm-5  mt-2">
+                                                <div class="card">
+                                                    <!-- Content for the second box -->
+                                                    <strong class="pt-2 pl-3">Video Consultation</strong>
+                                                    <bold class="pt-2 pl-3">Available Today</bold>
+                                                    <p class="pt-2 pl-3">Rs. 2,000</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5 mt-2">
+                                                <div class="card">
+                                                    <!-- Content for the second box -->
+                                                    <strong class="pt-2 pl-3">Video Consultation</strong>
+                                                    <bold class="pt-2 pl-3">Available Today</bold>
+                                                    <p class="pt-2 pl-3">Rs. 2,000</p>
+                                                </div>
+                                            </div>
+                                           
+                                         @*    <div class="col-3" style=" background-color:green">red</div> *@
+                                            </div>
+                             </div>
+                                    <div class="col-sm-3">
+                                        <div class="ml-auto p-1">
+                                            <button type="button" class="btn btn-success" style="background-color: #3C8066; width: 100%;">Video Call</button>
+                                        </div>
+                                        <div class="ml-auto p-1">
+                                            <button type="button" class="btn btn-info" style="background-color: #234d71; width: 100%;">View Timings</button>
+                                        </div>
+                                    </div>  
+                            </div>
+                            
                             </div>
                         </div>
                     </div>
                 }
             </div>
-      @*   }
-        else
-        {
-            <p>No associated doctors</p>
-        }
- *@
-
+            }
+   
     </div>
 
 </section>
