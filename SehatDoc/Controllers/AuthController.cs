@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DatabaseContext;
 using SehatDoc.DoctorInterfaces;
+using SehatDoc.DoctorModels;
 using SehatDoc.HospitalProfileInterfaces;
 using SehatDoc.Models;
 using SehatDoc.ViewModels;
@@ -80,7 +81,15 @@ namespace SehatDoc.Controllers
 
                     if (result.Succeeded)
                     {
-                       
+                       // var doctor = new Doctor()
+                       // {
+                       //     LastName =model.Name;
+
+                       // };
+                       //_context.Doctors.Add(doctor);
+                       // _context.SaveChanges();
+
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
 
                         return RedirectToAction("SignIn", new { username = user.UserName });

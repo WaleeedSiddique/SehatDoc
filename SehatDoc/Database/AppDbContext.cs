@@ -86,7 +86,7 @@ namespace SehatDoc.DatabaseContext
                 .HasOne(u => u.hospitalprofile)
                 .WithMany(h => h.ApplicationUser)
                 .HasForeignKey(u => u.HospitalID)
-                .IsRequired(); // If HospitalID is required
+                .IsRequired(); 
 
             modelBuilder.Entity<ApplicationUser>()
                 .HasOne(u => u.State)
