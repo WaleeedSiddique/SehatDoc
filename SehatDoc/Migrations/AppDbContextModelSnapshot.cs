@@ -163,39 +163,48 @@ namespace SehatDoc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
+                    b.Property<int?>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LicenseNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhotoPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SpecialitiesId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("StateId")
                         .HasColumnType("int");
 
-                    b.Property<int>("specialityId")
+                    b.Property<int?>("specialityId")
                         .HasColumnType("int");
 
                     b.HasKey("DoctorId");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("CityId");
+
+                    b.HasIndex("SpecialitiesId");
 
                     b.HasIndex("StateId");
 
@@ -230,7 +239,6 @@ namespace SehatDoc.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("CityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -244,7 +252,7 @@ namespace SehatDoc.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("HospitalID")
+                    b.Property<int?>("HospitalProfileHospitalID")
                         .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
@@ -274,15 +282,10 @@ namespace SehatDoc.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Qualification")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StateId")
-                        .IsRequired()
+                    b.Property<int?>("SpecialitiesId")
                         .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -292,15 +295,11 @@ namespace SehatDoc.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("specialityId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("HospitalID");
+                    b.HasIndex("HospitalProfileHospitalID");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -310,9 +309,7 @@ namespace SehatDoc.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("specialityId");
+                    b.HasIndex("SpecialitiesId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -359,6 +356,52 @@ namespace SehatDoc.Migrations
                     b.HasIndex("hospitalid");
 
                     b.ToTable("branches");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.BusinessPartner", b =>
+                {
+                    b.Property<int>("BusinessPartnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BusinessPartnerId"), 1L, 1);
+
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicenseNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhotoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("specialityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BusinessPartnerId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("StateId");
+
+                    b.HasIndex("specialityId");
+
+                    b.ToTable("businessPartners");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.City", b =>
@@ -486,7 +529,12 @@ namespace SehatDoc.Migrations
                     b.Property<int?>("HospitalID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BusinessPartnerId")
+                        .HasColumnType("int");
+
                     b.HasKey("DoctorID", "HospitalID");
+
+                    b.HasIndex("BusinessPartnerId");
 
                     b.HasIndex("HospitalID");
 
@@ -500,6 +548,9 @@ namespace SehatDoc.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
+                    b.Property<int?>("BusinessPartnerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("int");
@@ -517,6 +568,8 @@ namespace SehatDoc.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("BusinessPartnerId");
 
                     b.HasIndex("HospitalId");
 
@@ -680,19 +733,29 @@ namespace SehatDoc.Migrations
 
             modelBuilder.Entity("SehatDoc.DoctorModels.Doctor", b =>
                 {
+                    b.HasOne("SehatDoc.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("SehatDoc.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
+
+                    b.HasOne("SehatDoc.DoctorModels.Specialities", null)
+                        .WithMany("doctors")
+                        .HasForeignKey("SpecialitiesId");
 
                     b.HasOne("SehatDoc.Models.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId");
 
                     b.HasOne("SehatDoc.DoctorModels.Specialities", "Speciality")
-                        .WithMany("doctors")
+                        .WithMany()
                         .HasForeignKey("specialityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("City");
 
@@ -703,37 +766,17 @@ namespace SehatDoc.Migrations
 
             modelBuilder.Entity("SehatDoc.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("SehatDoc.Models.City", "City")
+                    b.HasOne("SehatDoc.Models.City", null)
                         .WithMany("ApplicationUser")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
-                    b.HasOne("SehatDoc.Models.HospitalProfile", "hospitalprofile")
+                    b.HasOne("SehatDoc.Models.HospitalProfile", null)
                         .WithMany("ApplicationUser")
-                        .HasForeignKey("HospitalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HospitalProfileHospitalID");
 
-                    b.HasOne("SehatDoc.Models.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SehatDoc.DoctorModels.Specialities", "Speciality")
+                    b.HasOne("SehatDoc.DoctorModels.Specialities", null)
                         .WithMany("ApplicationUser")
-                        .HasForeignKey("specialityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Speciality");
-
-                    b.Navigation("State");
-
-                    b.Navigation("hospitalprofile");
+                        .HasForeignKey("SpecialitiesId");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.Branch", b =>
@@ -757,6 +800,27 @@ namespace SehatDoc.Migrations
                     b.Navigation("State");
 
                     b.Navigation("hospital");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.BusinessPartner", b =>
+                {
+                    b.HasOne("SehatDoc.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("SehatDoc.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.HasOne("SehatDoc.DoctorModels.Specialities", "Speciality")
+                        .WithMany()
+                        .HasForeignKey("specialityId");
+
+                    b.Navigation("City");
+
+                    b.Navigation("Speciality");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.City", b =>
@@ -816,6 +880,10 @@ namespace SehatDoc.Migrations
 
             modelBuilder.Entity("SehatDoc.Models.DoctorHospitalProfile", b =>
                 {
+                    b.HasOne("SehatDoc.Models.BusinessPartner", null)
+                        .WithMany("DoctorHospitalProfiles")
+                        .HasForeignKey("BusinessPartnerId");
+
                     b.HasOne("SehatDoc.DoctorModels.Doctor", "Doctor")
                         .WithMany("DoctorHospitalProfiles")
                         .HasForeignKey("DoctorID")
@@ -835,6 +903,10 @@ namespace SehatDoc.Migrations
 
             modelBuilder.Entity("SehatDoc.Models.DoctorHospitalSchedule", b =>
                 {
+                    b.HasOne("SehatDoc.Models.BusinessPartner", null)
+                        .WithMany("schedules")
+                        .HasForeignKey("BusinessPartnerId");
+
                     b.HasOne("SehatDoc.Models.HospitalProfile", "Hospitals")
                         .WithMany("schedules")
                         .HasForeignKey("HospitalId")
@@ -900,6 +972,13 @@ namespace SehatDoc.Migrations
                     b.Navigation("SpecialtyDiseases");
 
                     b.Navigation("doctors");
+                });
+
+            modelBuilder.Entity("SehatDoc.Models.BusinessPartner", b =>
+                {
+                    b.Navigation("DoctorHospitalProfiles");
+
+                    b.Navigation("schedules");
                 });
 
             modelBuilder.Entity("SehatDoc.Models.City", b =>

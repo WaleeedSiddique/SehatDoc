@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SehatDoc.DatabaseContext;
+using SehatDoc.DoctorDTO_s;
 using SehatDoc.DoctorInterfaces;
 using SehatDoc.DoctorModels;
 using SehatDoc.HospitalProfileInterfaces;
@@ -47,70 +48,76 @@ namespace SehatDoc.Controllers
         [HttpGet]
         public IActionResult SignUp()
         {
-            var speclities = _speciality.GetAllSpecialities();
-            var hospitals = _hospital.GetAllHospitalProfile();
-            ViewBag.Specialities = new SelectList(speclities, "Id", "SpecialityName");
-            ViewBag.HospitalProfile = new SelectList(hospitals, "HospitalID", "HospitalName");
-            var states = _context.states.ToList();
-            ViewBag.states = new SelectList(states, "Id", "StateName");
             return View();
         }
-        [HttpPost]
         public async Task<IActionResult> SignUp(ApplicationUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                try
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    var user = new ApplicationUser
+                    try
                     {
-                        Name = model.Name,
-                        Qualification = model.Qualification,
-                        Email = model.Email,
-                      //  PasswordHash = model.Password,
-                        PhoneNumber = model.PhoneNumber,
-                        StateId = model.StateId,
-                        CityId = model.CityId,
-                        HospitalID = model.HospitalID,
-                        specialityId = model.specialityId,
+                        var existingDoctor = _context.Doctors.FirstOrDefault(d => d.Email == model.Email);
 
-                        UserName = model.Name
-                    };
-
-                    var result = await _userManager.CreateAsync(user,model.Password);
-
-                    if (result.Succeeded)
-                    {
-                       // var doctor = new Doctor()
-                       // {
-                       //     LastName =model.Name;
-
-                       // };
-                       //_context.Doctors.Add(doctor);
-                       // _context.SaveChanges();
-
-
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-
-                        return RedirectToAction("SignIn", new { username = user.UserName });
-                    }
-                    else
-                    {
-
-                        foreach (var error in result.Errors)
+                        var user = new ApplicationUser
                         {
-                            ModelState.AddModelError(string.Empty, error.Description);
+                            Name = model.Name,
+                            Email = model.Email,
+                            PasswordHash = model.Password,
+                            PhoneNumber = model.PhoneNumber,
+                            UserName = model.Name
+                        };
+
+                        var result = await _userManager.CreateAsync(user, model.Password);
+
+                        if (result.Succeeded)
+                        {
+                            if (existingDoctor != null)
+                            {
+                                existingDoctor.ApplicationUserId = user.Id;
+                                _context.SaveChanges();
+                            }
+                            else
+                            {
+                                var doctor = new Doctor()
+                                {
+                                    LastName = model.Name,
+                                    FirstName = model.Name,
+                                    Email = model.Email,
+                                    ApplicationUserId = user.Id,
+                                };
+
+                                _context.Doctors.Add(doctor);
+                                _context.SaveChanges();
+                            }
+
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+
+                            transaction.Commit(); 
+
+                            return RedirectToAction("SignIn", new { username = user.UserName });
+                        }
+                        else
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, "An error occurred during user registration.");
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError(string.Empty, "An error occurred during user registration.");
+                    }
                 }
             }
 
             return View();
         }
+
+
         [HttpGet]
         public IActionResult SignIn()
         {

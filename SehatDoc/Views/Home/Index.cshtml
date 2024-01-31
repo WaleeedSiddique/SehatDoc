@@ -1,122 +1,201 @@
-﻿@{
+﻿@using SehatDoc.ViewModels;
+@model SehatDoc.ViewModels.SymptomDiseaseForHomeViewModel
+@{
    
     Layout = "_Layout";
 }
-<!-- department section -->
 
 <section class="department_section layout_padding">
     <div class="department_container">
-        <div class="container ">
-            <div class="heading_container heading_center">
-                <h2>
-                    Our Departments
-                </h2>
-                <p>
-                    Asperiores sunt consectetur impedit nulla molestiae delectus repellat laborum dolores doloremque accusantium
-                </p>
+        <div class="container horizontal-scrollable">
+            <div class="heading_container">
+                <h4 style="color:#3A3A3A;font-weight:700;font-size:18px;">
+                    Symptoms
+                   
+                </h4>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="box ">
-                        <div class="img-box">
-                            <img src="~/user/images/s1.png" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <h5>
-                                Cardiology
-                            </h5>
-                            <p>
-                                fact that a reader will be distracted by the readable page when looking at its layout.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box ">
-                        <div class="img-box">
-                            <img src="~/user/images/s2.png" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <h5>
-                                Diagnosis
-                            </h5>
-                            <p>
-                                fact that a reader will be distracted by the readable page when looking at its layout.
-                            </p>
+            @if (Model.Symptoms.Count >= 6)
+            {
+                <span style="float: right; color:#014e78; font-size:14px;">View All</span>
+                <span style="float: right;">&rarr;</span>
+            }
+            <div class="row" style="margin-top:-45px;">
+                @foreach (var symptoms in Model.Symptoms)
+                {
+                    var photopath = "~/images/" + symptoms.SymptomImage;
+
+                    <div class="col-sm-2">
+                        <div class="box">
+                            <div class="img-box bg-white" style="box-shadow: 0 0.125rem 0.3rem -0.0625rem rgba(0, 0, 0, 0.03), 0 0.275rem 0.75rem -0.0625rem rgba(0, 0, 0, 0.06) !important;">
+                                <img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width:100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            </div>
+                            <div class="detail-box">
+                                <h5 style="color:#014e78;font-size:14px;font-weight:500;">
+                                    @symptoms.SymptomName
+                                </h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box ">
-                        <div class="img-box">
-                            <img src="~/user/images/s3.png" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <h5>
-                                Surgery
-                            </h5>
-                            <p>
-                                fact that a reader will be distracted by the readable page when looking at its layout.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box ">
-                        <div class="img-box">
-                            <img src="~/user/images/s4.png" alt="">
-                        </div>
-                        <div class="detail-box">
-                            <h5>
-                                First Aid
-                            </h5>
-                            <p>
-                                fact that a reader will be distracted by the readable page when looking at its layout.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
-            <div class="btn-box">
-                <a href="">
-                    View All
-                </a>
+
+            <div class="heading_container">
+                <h4 style="color:#3A3A3A;font-weight:700;font-size:18px;text-align:left;">
+                    Disease
+                </h4>
+
+            </div>
+            @if (Model.Diseases.Count >= 6)
+            {
+                <span style="float: right; color:#014e78; font-size:14px;">View All</span>
+                <span style="float: right;">&rarr;</span>
+            }
+            <div class="row" style="margin-top:-45px;">
+                @foreach (var disease in Model.Diseases)
+                {
+                    var photopath = "~/images/" + disease.DiseaseImage;
+                    <div class="col-sm-2">
+                        <div class="box ">
+                            <div class="img-box bg-white" style="box-shadow: 0 0.125rem 0.3rem -0.0625rem rgba(0, 0, 0, 0.03), 0 0.275rem 0.75rem -0.0625rem rgba(0, 0, 0, 0.06) !important;
+                             }">
+                                <img alt="Doctor Image" src="@photopath" asp-append-version="true" style="width:100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            </div>
+                            <div class="detail-box">
+                                <h5 style="color:#014e78;font-size:14px;font-weight:500;">
+                                    @disease.DiseaseName
+                                </h5>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <!----->
+        <div class="row" style="background-color:#E8F6F9;    border-radius: 0.5rem ">
+            <h2 class="pt-3 font-sm" style="color:#014e78;font-size: 18px;font-weight: 700 !important;">Hospitals in Lahore</h2><br/>
+            <div class="col-md-3 card-body" style="background-color:white;border-radius:5px;border-color: grey;">
+
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+        </div>
+        <!------>
+        <div class=" col-md-11 col-lg-11 col-12 center py-md-3 mt-4 mt-md-0 p-md-0" id="hospital-cards">
+            <div class="hospital-section px-2" style="background-color:#E8F6F9;    border-radius: 0.5rem ">
+                <h2 class="pt-3 font-sm" style="color:#014e78;font-size: 18px;font-weight: 700 !important;">Hospitals in Lahore</h2>
+                <div class="d-flex horizontal-scroll smart-bar">
+                    <div class="   my-2 col-md-5 col-sm-6 col-lg-4 col-11 pl-0 pr-2" >
+                        <a href="https://www.marham.pk/hospitals/lahore/evercare-hospital/nespak-housing-scheme">
+                            @* <div class="p-0 card hospital-cards mix-hsp" data-hospital-name="Evercare Hospital">
+                                <div class="d-flex  hospital-card-contents">
+                                    <div class="py-3 col-11 ">
+                                        <div class="d-flex align-items-center justify-content-between ">
+                                            <h2 class="mb-0 procedure-heading font-weight-base text-black text-md font-sm overflow-dotted">
+                                                <span>
+                                                    <svg class="mb-1 mr-1" width="19" height="19" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M9.16476 0.24707H2.67064C2.02476 0.24707 1.40534 0.503645 0.948632 0.960351C0.491926 1.41706 0.235352 2.03648 0.235352 2.68236L0.235352 19.7294H11.6001V2.68236C11.6001 2.03648 11.3435 1.41706 10.8868 0.960351C10.4301 0.503645 9.81064 0.24707 9.16476 0.24707V0.24707ZM5.10594 15.6706H2.67064V14.0471H5.10594V15.6706ZM5.10594 12.4235H2.67064V10.8H5.10594V12.4235ZM5.10594 9.17648H2.67064V7.55295H5.10594V9.17648ZM5.10594 5.92942H2.67064V4.30589H5.10594V5.92942ZM9.16476 15.6706H6.72947V14.0471H9.16476V15.6706ZM9.16476 12.4235H6.72947V10.8H9.16476V12.4235ZM9.16476 9.17648H6.72947V7.55295H9.16476V9.17648ZM9.16476 5.92942H6.72947V4.30589H9.16476V5.92942ZM17.2824 4.30589H13.2236V19.7294H19.7177V6.74118C19.7177 6.0953 19.4611 5.47588 19.0044 5.01917C18.5477 4.56247 17.9283 4.30589 17.2824 4.30589ZM17.2824 15.6706H15.6589V14.0471H17.2824V15.6706ZM17.2824 12.4235H15.6589V10.8H17.2824V12.4235ZM17.2824 9.17648H15.6589V7.55295H17.2824V9.17648Z" fill="white"></path>
+                                                    </svg>
+                                                </span>
+                                                Evercare Hospital
+                                            </h2>
+                                        </div>
+                                        <div class="d-flex align-items-baseline hospital-content-address">
+                                            <span class="flex-shrink-0">
+                                                <svg class="mr-2 mb-1" width="14" height="19" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8.16428 0.964844C6.22734 0.967238 4.37039 1.77438 3.00077 3.20923C1.63115 4.64407 0.860691 6.58945 0.858406 8.61862C0.856086 10.2769 1.37313 11.8901 2.33021 13.2109C2.33021 13.2109 2.52946 13.4857 2.562 13.5254L8.16428 20.4472L13.7692 13.5219C13.7984 13.485 13.9983 13.2109 13.9983 13.2109L13.999 13.2088C14.9556 11.8886 15.4724 10.2761 15.4701 8.61862C15.4679 6.58945 14.6974 4.64407 13.3278 3.20923C11.9582 1.77438 10.1012 0.967238 8.16428 0.964844ZM8.16428 11.4018C7.63883 11.4018 7.12519 11.2386 6.6883 10.9328C6.25142 10.6269 5.9109 10.1923 5.70982 9.6837C5.50875 9.17514 5.45614 8.61553 5.55864 8.07565C5.66115 7.53576 5.91418 7.03984 6.28572 6.65061C6.65726 6.26137 7.13064 5.9963 7.64598 5.88891C8.16133 5.78152 8.6955 5.83663 9.18094 6.04729C9.66639 6.25794 10.0813 6.61467 10.3732 7.07236C10.6651 7.53006 10.821 8.06816 10.821 8.61862C10.8201 9.35649 10.5399 10.0639 10.0419 10.5856C9.54383 11.1074 8.8686 11.4009 8.16428 11.4018Z" fill="white"></path>
+                                                </svg>
+                                            </span>
+                                            <p class="font-weight-normal text-md text-white font-sm  text-wrap mb-0 text-two-truncate" style="height: 55px;">Nespak Society</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 p-0 d-flex align-items-center justify-content-center">
+                                        <span class="d-flex justify-content-center mt-2">
+                                            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.26288 17.5C1.14552 17.5 1.0312 17.46 0.943143 17.3825C0.659379 17.1324 0.402415 16.8536 0.142292 16.5794C-0.0354728 16.3946 -0.029099 16.18 0.13096 15.9761C0.182154 15.915 0.236775 15.8568 0.29456 15.8019L7.17214 8.92304C7.33786 8.75733 7.33786 8.75734 7.17214 8.59517C4.87371 6.2975 2.57576 3.99936 0.278271 1.70075C0.216332 1.64204 0.158809 1.57884 0.106172 1.51167C-0.0354735 1.3226 -0.0397227 1.12149 0.119628 0.95012C0.390879 0.658368 0.674169 0.377947 0.963125 0.103897C1.0394 0.0377522 1.13675 0.000925527 1.23771 1.72118e-05C1.33868 -0.000891103 1.43667 0.0341778 1.51412 0.0989399C1.57171 0.145545 1.62591 0.196185 1.67631 0.25048C4.36757 2.9414 7.06024 5.63374 9.75433 8.32749C10.0829 8.65607 10.0822 8.86001 9.75008 9.19142L1.6671 17.2812C1.61419 17.3412 1.55399 17.3941 1.48801 17.4388C1.42217 17.4834 1.34239 17.5 1.26288 17.5Z" fill="white"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </a>
+                    </div>
+                    <div class="   my-2 col-md-5 col-sm-6 col-lg-4 col-11 pl-0 pr-2">
+                        <a href="https://www.marham.pk/hospitals/lahore/hameed-latif-hospital/garden-town">
+                            <div class="p-0 card hospital-cards mix-hsp" data-hospital-name="Hameed Latif Hospital">
+                                <div class="d-flex  hospital-card-contents">
+                                    <div class="py-3 col-11 ">
+                                        <div class="d-flex align-items-center justify-content-between ">
+                                            <h2 class="mb-0 procedure-heading font-weight-base text-white text-md font-sm overflow-dotted">
+                                                <span>
+                                                    <svg class="mb-1 mr-1" width="19" height="19" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M9.16476 0.24707H2.67064C2.02476 0.24707 1.40534 0.503645 0.948632 0.960351C0.491926 1.41706 0.235352 2.03648 0.235352 2.68236L0.235352 19.7294H11.6001V2.68236C11.6001 2.03648 11.3435 1.41706 10.8868 0.960351C10.4301 0.503645 9.81064 0.24707 9.16476 0.24707V0.24707ZM5.10594 15.6706H2.67064V14.0471H5.10594V15.6706ZM5.10594 12.4235H2.67064V10.8H5.10594V12.4235ZM5.10594 9.17648H2.67064V7.55295H5.10594V9.17648ZM5.10594 5.92942H2.67064V4.30589H5.10594V5.92942ZM9.16476 15.6706H6.72947V14.0471H9.16476V15.6706ZM9.16476 12.4235H6.72947V10.8H9.16476V12.4235ZM9.16476 9.17648H6.72947V7.55295H9.16476V9.17648ZM9.16476 5.92942H6.72947V4.30589H9.16476V5.92942ZM17.2824 4.30589H13.2236V19.7294H19.7177V6.74118C19.7177 6.0953 19.4611 5.47588 19.0044 5.01917C18.5477 4.56247 17.9283 4.30589 17.2824 4.30589ZM17.2824 15.6706H15.6589V14.0471H17.2824V15.6706ZM17.2824 12.4235H15.6589V10.8H17.2824V12.4235ZM17.2824 9.17648H15.6589V7.55295H17.2824V9.17648Z" fill="white"></path>
+                                                    </svg>
+                                                </span>
+                                                Hameed Latif Hospital
+                                            </h2>
+                                        </div>
+                                        <div class="d-flex align-items-baseline hospital-content-address">
+                                            <span class="flex-shrink-0">
+                                                <svg class="mr-2 mb-1" width="14" height="19" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8.16428 0.964844C6.22734 0.967238 4.37039 1.77438 3.00077 3.20923C1.63115 4.64407 0.860691 6.58945 0.858406 8.61862C0.856086 10.2769 1.37313 11.8901 2.33021 13.2109C2.33021 13.2109 2.52946 13.4857 2.562 13.5254L8.16428 20.4472L13.7692 13.5219C13.7984 13.485 13.9983 13.2109 13.9983 13.2109L13.999 13.2088C14.9556 11.8886 15.4724 10.2761 15.4701 8.61862C15.4679 6.58945 14.6974 4.64407 13.3278 3.20923C11.9582 1.77438 10.1012 0.967238 8.16428 0.964844ZM8.16428 11.4018C7.63883 11.4018 7.12519 11.2386 6.6883 10.9328C6.25142 10.6269 5.9109 10.1923 5.70982 9.6837C5.50875 9.17514 5.45614 8.61553 5.55864 8.07565C5.66115 7.53576 5.91418 7.03984 6.28572 6.65061C6.65726 6.26137 7.13064 5.9963 7.64598 5.88891C8.16133 5.78152 8.6955 5.83663 9.18094 6.04729C9.66639 6.25794 10.0813 6.61467 10.3732 7.07236C10.6651 7.53006 10.821 8.06816 10.821 8.61862C10.8201 9.35649 10.5399 10.0639 10.0419 10.5856C9.54383 11.1074 8.8686 11.4009 8.16428 11.4018Z" fill="white"></path>
+                                                </svg>
+                                            </span>
+                                            <p class="font-weight-normal text-md text-white font-sm  text-wrap mb-0 text-two-truncate" style="height: 55px;">14 New Abu Bakar Block, New Garden Town</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 p-0 d-flex align-items-center justify-content-center">
+                                        <span class="d-flex justify-content-center mt-2">
+                                            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.26288 17.5C1.14552 17.5 1.0312 17.46 0.943143 17.3825C0.659379 17.1324 0.402415 16.8536 0.142292 16.5794C-0.0354728 16.3946 -0.029099 16.18 0.13096 15.9761C0.182154 15.915 0.236775 15.8568 0.29456 15.8019L7.17214 8.92304C7.33786 8.75733 7.33786 8.75734 7.17214 8.59517C4.87371 6.2975 2.57576 3.99936 0.278271 1.70075C0.216332 1.64204 0.158809 1.57884 0.106172 1.51167C-0.0354735 1.3226 -0.0397227 1.12149 0.119628 0.95012C0.390879 0.658368 0.674169 0.377947 0.963125 0.103897C1.0394 0.0377522 1.13675 0.000925527 1.23771 1.72118e-05C1.33868 -0.000891103 1.43667 0.0341778 1.51412 0.0989399C1.57171 0.145545 1.62591 0.196185 1.67631 0.25048C4.36757 2.9414 7.06024 5.63374 9.75433 8.32749C10.0829 8.65607 10.0822 8.86001 9.75008 9.19142L1.6671 17.2812C1.61419 17.3412 1.55399 17.3941 1.48801 17.4388C1.42217 17.4834 1.34239 17.5 1.26288 17.5Z" fill="white"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="   my-2 col-md-5 col-sm-6 col-lg-4 col-11 pl-0 pr-2">
+                        <a href="https://www.marham.pk/hospitals/lahore/doctors-hospital/johar-town">
+                            <div class="p-0 card hospital-cards mix-hsp" data-hospital-name="Doctors Hospital">
+                                <div class="d-flex  hospital-card-contents">
+                                    <div class="py-3 col-11 ">
+                                        <div class="d-flex align-items-center justify-content-between ">
+                                            <h2 class="mb-0 procedure-heading font-weight-base text-white text-md font-sm overflow-dotted">
+                                                <span>
+                                                    <svg class="mb-1 mr-1" width="19" height="19" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M9.16476 0.24707H2.67064C2.02476 0.24707 1.40534 0.503645 0.948632 0.960351C0.491926 1.41706 0.235352 2.03648 0.235352 2.68236L0.235352 19.7294H11.6001V2.68236C11.6001 2.03648 11.3435 1.41706 10.8868 0.960351C10.4301 0.503645 9.81064 0.24707 9.16476 0.24707V0.24707ZM5.10594 15.6706H2.67064V14.0471H5.10594V15.6706ZM5.10594 12.4235H2.67064V10.8H5.10594V12.4235ZM5.10594 9.17648H2.67064V7.55295H5.10594V9.17648ZM5.10594 5.92942H2.67064V4.30589H5.10594V5.92942ZM9.16476 15.6706H6.72947V14.0471H9.16476V15.6706ZM9.16476 12.4235H6.72947V10.8H9.16476V12.4235ZM9.16476 9.17648H6.72947V7.55295H9.16476V9.17648ZM9.16476 5.92942H6.72947V4.30589H9.16476V5.92942ZM17.2824 4.30589H13.2236V19.7294H19.7177V6.74118C19.7177 6.0953 19.4611 5.47588 19.0044 5.01917C18.5477 4.56247 17.9283 4.30589 17.2824 4.30589ZM17.2824 15.6706H15.6589V14.0471H17.2824V15.6706ZM17.2824 12.4235H15.6589V10.8H17.2824V12.4235ZM17.2824 9.17648H15.6589V7.55295H17.2824V9.17648Z" fill="white"></path>
+                                                    </svg>
+                                                </span>
+                                                Doctors Hospital
+                                            </h2>
+                                        </div>
+                                        <div class="d-flex align-items-baseline hospital-content-address">
+                                            <span class="flex-shrink-0">
+                                                <svg class="mr-2 mb-1" width="14" height="19" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8.16428 0.964844C6.22734 0.967238 4.37039 1.77438 3.00077 3.20923C1.63115 4.64407 0.860691 6.58945 0.858406 8.61862C0.856086 10.2769 1.37313 11.8901 2.33021 13.2109C2.33021 13.2109 2.52946 13.4857 2.562 13.5254L8.16428 20.4472L13.7692 13.5219C13.7984 13.485 13.9983 13.2109 13.9983 13.2109L13.999 13.2088C14.9556 11.8886 15.4724 10.2761 15.4701 8.61862C15.4679 6.58945 14.6974 4.64407 13.3278 3.20923C11.9582 1.77438 10.1012 0.967238 8.16428 0.964844ZM8.16428 11.4018C7.63883 11.4018 7.12519 11.2386 6.6883 10.9328C6.25142 10.6269 5.9109 10.1923 5.70982 9.6837C5.50875 9.17514 5.45614 8.61553 5.55864 8.07565C5.66115 7.53576 5.91418 7.03984 6.28572 6.65061C6.65726 6.26137 7.13064 5.9963 7.64598 5.88891C8.16133 5.78152 8.6955 5.83663 9.18094 6.04729C9.66639 6.25794 10.0813 6.61467 10.3732 7.07236C10.6651 7.53006 10.821 8.06816 10.821 8.61862C10.8201 9.35649 10.5399 10.0639 10.0419 10.5856C9.54383 11.1074 8.8686 11.4009 8.16428 11.4018Z" fill="white"></path>
+                                                </svg>
+                                            </span>
+                                            <p class="font-weight-normal text-md text-white font-sm  text-wrap mb-0 text-two-truncate" style="height: 55px;">152-G/1, Canal Bank</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 p-0 d-flex align-items-center justify-content-center">
+                                        <span class="d-flex justify-content-center mt-2">
+                                            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.26288 17.5C1.14552 17.5 1.0312 17.46 0.943143 17.3825C0.659379 17.1324 0.402415 16.8536 0.142292 16.5794C-0.0354728 16.3946 -0.029099 16.18 0.13096 15.9761C0.182154 15.915 0.236775 15.8568 0.29456 15.8019L7.17214 8.92304C7.33786 8.75733 7.33786 8.75734 7.17214 8.59517C4.87371 6.2975 2.57576 3.99936 0.278271 1.70075C0.216332 1.64204 0.158809 1.57884 0.106172 1.51167C-0.0354735 1.3226 -0.0397227 1.12149 0.119628 0.95012C0.390879 0.658368 0.674169 0.377947 0.963125 0.103897C1.0394 0.0377522 1.13675 0.000925527 1.23771 1.72118e-05C1.33868 -0.000891103 1.43667 0.0341778 1.51412 0.0989399C1.57171 0.145545 1.62591 0.196185 1.67631 0.25048C4.36757 2.9414 7.06024 5.63374 9.75433 8.32749C10.0829 8.65607 10.0822 8.86001 9.75008 9.19142L1.6671 17.2812C1.61419 17.3412 1.55399 17.3941 1.48801 17.4388C1.42217 17.4834 1.34239 17.5 1.26288 17.5Z" fill="white"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                  
+                </div>
             </div>
         </div>
+        <!------->
     </div>
 </section>
 
-<!-- end department section -->
-<!-- about section -->
-
-<section class="about_section layout_margin-bottom">
-    <div class="container  ">
-        <div class="row">
-            <div class="col-md-6 ">
-                <div class="img-box">
-                    <img src="~/user/images/about-img.jpg" alt="">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="detail-box">
-                    <div class="heading_container">
-                        <h2>
-                            About <span>Us</span>
-                        </h2>
-                    </div>
-                    <p>
-                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-                        in some form, by injected humour, or randomised words which don't look even slightly believable. If you
-                        are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
-                        the middle of text. All
-                    </p>
-                    <a href="">
-                        Read More
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- end about section -->

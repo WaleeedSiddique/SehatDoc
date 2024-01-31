@@ -42,12 +42,17 @@
      
         <h2 style="font-weight:600;color:black;line-height:1.25; font-size:18px;padding-top:1.5rem;font-family: 'Poppins', sans-serif !important;margin-bottom: 2rem">Specialists in @Model.HospitalName</h2>
         <div class="row">
-              @foreach (var hospitalProfile in Model.DepartmentHospitalProfiles)
+            @foreach (var hospitalProfile in Model.DepartmentHospitalProfiles.Take(6))
                 {
                 <div class="col-md-6 pt-4" style="color:#004D71;font-weight:500">@hospitalProfile.DepartmentsDepartment.DepartmentName</div>
           
                 }
-                
+            @if (Model.DepartmentHospitalProfiles.Count() > 6)
+            {
+               
+                     <div class="col-md-6 pt-4" style="color:#004D71;font-weight:500">View All</div>
+          
+            }
                
 
                 
@@ -123,7 +128,9 @@
                                   
                                 </div>
                                         <div class="row">
-                                            <div class="col-2"></div>
+                                          
+
+                                                <div class="col-2"></div>
                                             <div class="col-3">
                                                 Reviews
                                                 <strong style="display:block;color:#EC8A23">
@@ -139,28 +146,37 @@
                                                 Satisfication
                                                 <strong style="display:block;">98%</strong>
                                             </div>
+                                            
                                         </div>
                                         <div class="row">
-                                        
-                                            <div class="col-1"></div>
-                                            <div class="col-sm-5  mt-2">
+                                            @if (Model.schedules != null)
+                                            {
+                                                @foreach (var schedule in Model.schedules)
+                                                {
+                                                    <div class="col-1"></div>
+                                                    <div class="col-sm-5  mt-2" '@schedule.HospitalId'>
+                                                        <div class="card">
+                                                            <!-- Content for the second box -->
+                                                            <strong class="pt-2 pl-3">@schedule.Hospitals.HospitalName</strong>
+                                                            <bold class="pt-2 pl-3">Available Today</bold>
+                                                            <p class="pt-2 pl-3">Rs. 2,000</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No scheduling</p>
+                                            }
+                                            @*  <div class="col-sm-5 mt-2">
                                                 <div class="card">
                                                     <!-- Content for the second box -->
                                                     <strong class="pt-2 pl-3">Video Consultation</strong>
                                                     <bold class="pt-2 pl-3">Available Today</bold>
                                                     <p class="pt-2 pl-3">Rs. 2,000</p>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-5 mt-2">
-                                                <div class="card">
-                                                    <!-- Content for the second box -->
-                                                    <strong class="pt-2 pl-3">Video Consultation</strong>
-                                                    <bold class="pt-2 pl-3">Available Today</bold>
-                                                    <p class="pt-2 pl-3">Rs. 2,000</p>
-                                                </div>
-                                            </div>
+                                            </div> *@
                                            
-                                         @*    <div class="col-3" style=" background-color:green">red</div> *@
                                             </div>
                              </div>
                                     <div class="col-sm-3">

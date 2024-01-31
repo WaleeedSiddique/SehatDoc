@@ -9,6 +9,7 @@ namespace SehatDoc.Models
         public int HospitalId { get; set; }
         
         public HospitalProfile? Hospitals { get; set; }
+       
         public int doctorId { get; set; }
         public Doctor? Doctor { get; set; }
         
@@ -17,6 +18,8 @@ namespace SehatDoc.Models
         public TimeSpan StartTime { get; set; }
         
         public TimeSpan EndTime { get; set; }
+
+       
 
 
 

@@ -35,14 +35,41 @@
 <body class="sub_page">
     <div class="hero_area">
         <!-- header section strats -->
-        <header class="header_section">
+        <header class="header_section bg-white" style="box-shadow: 0 0.125rem 0.3rem -0.0625rem rgba(0, 0, 0, 0.03), 0 0.275rem 0.75rem -0.0625rem rgba(0, 0, 0, 0.06) !important;
+}
+">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container ">
                     <a class="navbar-brand" asp-action="Dashboard" asp-controller="Admin">
-                        <span>
+                        <span style="color:#014e78;">
                             Sehat
                         </span>
                     </a>
+                    <!---->
+               @*      <div class=" navbar-brand d-none d-lg-block order-lg-1 marham-logo-listing" style="min-width: 180px">
+                        <a class="mr-3 navbar-brand d-block d-lg-block order-lg-1" href="https://www.marham.pk" aria-label="Marham Logo">
+                            <span width="340" height="92"></span>
+                          
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1829.94 432.35">
+                                <defs>
+                                    <style>
+                                        .cls-1-logo {
+                                            fill: #00507a;
+                                        }
+
+                                        .cls-2-logo {
+                                            fill: #fff;
+                                        }
+
+                                        .cls-3-logo {
+                                            fill: #72cbd6;
+                                        }</style>
+                                </defs>
+                                <g id="Layer_logo_desktop" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="blue"><path class="cls-1-logo" d="M217.65,432.35C97.48,432.39,0,335,0,214.84a217.58,217.58,0,0,1,63.76-154c86.55-83.37,224.29-80.79,307.66,5.75,81.17,84.27,81.17,217.64,0,301.91a216.12,216.12,0,0,1-153.77,63.81"></path><path class="cls-2-logo" d="M327.11,313.67H266.57V207.19l-46.52,46.53-40.22-43,88.29-92h59Z"></path><polygon class="cls-3-logo" points="105.19 313.67 156.41 313.67 156.41 188.19 174.94 206.66 209.92 171.82 156.89 118.8 139.81 118.8 120.47 118.68 105.19 118.68 105.19 313.67"></polygon><path class="cls-1-logo" d="M509.16,117.06H556.5L609,201.49l52.48-84.43h47.35V316.72H665.18V186.37L609,271.65h-1.14l-55.62-84.43v129.5H509.16Z"></path><path class="cls-1-logo" d="M825.17,115.63h40.5l85.57,201.09H905.32l-18.26-44.78H802.63l-18.25,44.78H739.6Zm46.21,117.52L844.85,168.4l-26.53,64.75Z"></path><path class="cls-1-logo" d="M982,117.06h91.28c25.38,0,45.06,7.13,58.18,20.25,11.13,11.12,17.12,26.81,17.12,45.64v.57c0,32.23-17.4,52.48-42.79,61.89l48.78,71.31h-51.35l-42.78-63.89H1026v63.89H982Zm88.42,97c21.4,0,33.66-11.41,33.66-28.24v-.57c0-18.83-13.12-28.52-34.51-28.52H1026V214Z"></path><path class="cls-1-logo" d="M1188.22,117.06h43.93v79h81v-79h43.93V316.72h-43.93V236.57h-81v80.15h-43.93Z"></path><path class="cls-1-logo" d="M1473.43,115.63h40.5l85.57,201.09h-45.92l-18.26-44.78h-84.43l-18.25,44.78h-44.78Zm46.21,117.52-26.53-64.75-26.53,64.75Z"></path><path class="cls-1-logo" d="M1630.28,117.06h47.35l52.48,84.43,52.48-84.43h47.35V316.72H1786.3V186.37l-56.19,85.28H1729l-55.62-84.43v129.5h-43.07Z"></path></g></g></g>
+                            </svg>
+                        </a>
+                    </div> *@
+                    <!---->
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class=""> </span>
@@ -51,26 +78,21 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Doctor" asp-action="GetAllDoctors">Doctors</a>
+                                <a class="nav-link" asp-controller="Doctor" asp-action="GetAllDoctors" style="color:#014e78;">Doctors</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Consult Online <span class="sr-only">(current)</span> </a>
+                                <a class="nav-link" href="#" style="color:#014e78;">Consult Online <span class="sr-only">(current)</span> </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="HospitalProfile" asp-action="GetAllHospitalProfile">Hospitals</a>
+                                <a class="nav-link" asp-controller="HospitalProfile" asp-action="GetAllHospitalProfile" style="color:#014e78;">Hospitals</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Auth" asp-action="SignUp">Are Your Doctor</a>
+                                <a class="nav-link" asp-controller="Auth" asp-action="SignUp" style="color:#014e78;">Are Your Doctor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Auth" asp-action="SignIn">SignIn</a>
+                                <a class="nav-link" asp-controller="Auth" asp-action="SignIn" style="color:#014e78;">SignIn</a>
                             </li>
-                           @*  <form class="form-inline" action="@Url.Action("SignUp", "Auth")">
-                                <button class="btn  my-2 my-sm-0" type="submit" style="border-color: white; color: white;">
-                                 
-                                    Are You Doctor
-                                </button>
-                            </form> *@
+                         
                         </ul>
                     </div>
                 </nav>

@@ -14,6 +14,6 @@ namespace SehatDoc.ViewModels
 
         [Required]
         public IFormFile DiseaseImage { get; set; }
-        }
     }
+}
 

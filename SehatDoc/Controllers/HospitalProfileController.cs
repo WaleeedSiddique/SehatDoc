@@ -21,12 +21,14 @@ namespace SehatDoc.Controllers
         private readonly IDoctorInteraface _doctor;
 
         public HospitalProfileController
-            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department,AppDbContext context)
+            (IHospitalProfileInterface hospitalProfileInteraface, IHostingEnvironment hosting, IDepartmentInterface department, IDoctorInteraface doctor,AppDbContext context)
         {
             this._hospitalProfileInterface = hospitalProfileInteraface;
             this._hosting = hosting;
             this._department = department;
+            this._doctor = doctor;
             this._context = context;
+
         }
         [HttpGet]
         public IActionResult Index()
@@ -62,7 +64,10 @@ namespace SehatDoc.Controllers
         public IActionResult HospitalProfile(int id)
         {
             var hospital = _hospitalProfileInterface.HospitalProfile(id);
-           
+            var schedules = _hospitalProfileInterface.GetHospitalDoctorSchedules(id);
+
+            hospital.schedules = schedules;
+
             return View(hospital);
         }
         [HttpGet]

@@ -13,6 +13,8 @@ namespace SehatDoc.DoctorDTO_s
         [Required(ErrorMessage ="First Name is Required")]
         [StringLength(20)]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "The Email is required.")]
+        public string? Email { get; set; }
         [Required(ErrorMessage ="Last Name is Required")]
         [StringLength(20)]
         public string LastName { get; set; }
@@ -34,5 +36,9 @@ namespace SehatDoc.DoctorDTO_s
         public State? state { get; set; }
         public List<int>? HospitalIDs { get; set; }
         public ICollection<DoctorHospitalSchedule>? HospitalSchedules { get; set; }
+
+        // Foreign key to ApplicationUser
+        public string? ApplicationUserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
     }
 }

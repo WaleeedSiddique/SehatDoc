@@ -49,6 +49,8 @@ namespace SehatDoc.Services
             .ThenInclude(dh => dh.DepartmentsDepartment)
             .Include(x => x.DoctorHospitalProfiles)
             .ThenInclude(dh => dh.Doctor) 
+
+          
             .FirstOrDefault(x => x.HospitalID == id);
              return hospitals;
       
@@ -63,8 +65,6 @@ namespace SehatDoc.Services
         .Include(x => x.Branches)
         .Include(x => x.State)
         .Include(x => x.City)
-
-       // .ThenInclude(dh => dh.BranchName)// Include Speciality
     .FirstOrDefault(x => x.HospitalID == id);
 
             return hospitals;
@@ -105,5 +105,13 @@ namespace SehatDoc.Services
             .FirstOrDefault(x => x.HospitalID == id);
             return hospitals;
         }
+        public ICollection<DoctorHospitalSchedule> GetHospitalDoctorSchedules(int hospitalId)
+        {
+            var schedules = _context.schedules.Include(dhs => dhs.Hospitals).Where(dhs => dhs.HospitalId == hospitalId).ToList();
+
+            return schedules;
+        }
+
+
     }
 }

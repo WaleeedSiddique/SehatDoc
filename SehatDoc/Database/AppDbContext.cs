@@ -22,6 +22,7 @@ namespace SehatDoc.DatabaseContext
         public DbSet<State> states { get; set; }
         public DbSet<City> cities { get; set; }
         public DbSet<Branch> branches { get; set; }
+        public DbSet<BusinessPartner> businessPartners { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,7 +66,7 @@ namespace SehatDoc.DatabaseContext
                 .HasForeignKey(dhp => dhp.HospitalID);
 
             modelBuilder.Entity<DoctorHospitalSchedule>()
-      .HasKey(dhs => dhs.id);
+             .HasKey(dhs => dhs.id);
 
             modelBuilder.Entity<DoctorHospitalSchedule>()
                 .HasOne(dhs => dhs.Doctor)
@@ -82,18 +83,46 @@ namespace SehatDoc.DatabaseContext
             .WithMany(d => d.schedules)
             .HasForeignKey(dhs => dhs.doctorId);
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasOne(u => u.hospitalprofile)
-                .WithMany(h => h.ApplicationUser)
-                .HasForeignKey(u => u.HospitalID)
-                .IsRequired(); 
 
-            modelBuilder.Entity<ApplicationUser>()
-                .HasOne(u => u.State)
-                .WithMany()
-                .HasForeignKey(u => u.StateId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //nullable properties
+          
+             modelBuilder.Entity<Doctor>()
+             .Property(e => e.LicenseNumber)
+             .IsRequired(false);
 
+            modelBuilder.Entity<Doctor>()
+        .Property(e => e.specialityId)
+        .IsRequired(false);  // Make specialityId nullable in the database
+
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.Speciality)
+                .WithMany()  // Assuming Speciality has a collection navigation property pointing back to Doctor
+                .HasForeignKey(d => d.specialityId)
+                .IsRequired();
+
+            modelBuilder.Entity<Doctor>()
+            .Property(e => e.PhotoPath)
+            .IsRequired(false);
+
+            modelBuilder.Entity<Doctor>()
+           .Property(e => e.Gender)
+           .IsRequired(false);
+
+            modelBuilder.Entity<Doctor>()
+        .Property(e => e.CityId)
+        .IsRequired(false);
+
+            modelBuilder.Entity<Doctor>()
+                .Property(e => e.StateId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Doctor>()
+      .Property(e => e.Email)
+      .IsRequired(false);
+
+            modelBuilder.Entity<Doctor>()
+      .Property(e => e.ApplicationUserId)
+      .IsRequired(false);
 
             base.OnModelCreating(modelBuilder);
 

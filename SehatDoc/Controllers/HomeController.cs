@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SehatDoc.DatabaseContext;
+using SehatDoc.DiseaseInterfaces;
 using SehatDoc.DoctorModels;
+using SehatDoc.SymptomsInterfaces;
+using SehatDoc.ViewModels;
 using System.Diagnostics;
 
 namespace SehatDoc.Controllers
@@ -7,15 +12,27 @@ namespace SehatDoc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISymptomsInterface _symptom;
+        private readonly IDiseaseInterface _disease;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,ISymptomsInterface symptomInterface,IDiseaseInterface disease, AppDbContext context)
         {
             _logger = logger;
+            this._symptom = symptomInterface;
+            this._disease = disease;
+            this._context = context;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new SymptomDiseaseForHomeViewModel
+            {
+                Symptoms = (List<Models.Symptoms>)_symptom.GetAllSymptoms(),
+                Diseases = (List<Models.Disease>)_disease.GetAllDisease()
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

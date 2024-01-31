@@ -85,7 +85,7 @@ namespace SehatDoc.DoctorRepositories
         public ICollection<DoctorHospitalSchedule> GetDoctorHospitalSchedules(int doctorId)
         {
             var schedules = _context.schedules
-              .Include(dhs => dhs.Hospitals) 
+              .Include(dhs => dhs.Hospitals)
               .Where(dhs => dhs.doctorId == doctorId)
               .ToList();
             return schedules;

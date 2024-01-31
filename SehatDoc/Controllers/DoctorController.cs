@@ -98,6 +98,7 @@ namespace SehatDoc.Controllers
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    Email = model.Email,
                     LicenseNumber = model.LicenseNumber,
                     CityId = model.CityId,
                     StateId = model.StateId,
@@ -140,8 +141,8 @@ namespace SehatDoc.Controllers
                     LicenseNumber = doc.LicenseNumber,
                     CityId = doc.CityId,
                     StateId = doc.StateId,
-                    specialityId = doc.specialityId,
-                    gender = doc.Gender,
+                    specialityId = (int)doc.specialityId,
+                    gender = (DoctorEnums.Gender)doc.Gender,
                     HospitalIDs = doc.DoctorHospitalProfiles?.Select(dhp => dhp.HospitalID ?? 0).ToList() ?? new List<int>(),
                 };
                

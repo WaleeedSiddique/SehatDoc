@@ -30,6 +30,7 @@
                 <div class="form_container contact-form">
                     <form asp-action="SignUp" method="post">
                         <div class="form-row">
+                                    <div>@ViewBag.AlertMessage</div>
                             <div class="col-6 col-md-6 mt-2">
                                 <div class="form-group ">
                                     <label asp-for="Name">Name</label>
@@ -37,14 +38,15 @@
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
-                                    <div class="col-6 col-md-6 mt-2">
+                             @*  <div class="col-6 col-md-6 mt-2">
                                         <div class="form-group">
                                 <label asp-for="Qualification">Qualification</label>
                                         <input type="text" asp-for="Qualification" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
                                 <span asp-validation-for="Qualification" class="text-danger"></span>
                                         </div>
-                            </div>
+                            </div> *@
                                     <div class="col-6 col-md-6 mt-2">
+                                        
                                         <div class="form-group">
                                 <label asp-for="Email">Email</label>
                                         <input type="email" asp-for="Email" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;" />
@@ -59,8 +61,14 @@
                               </div>
                             </div>
                          </div>
-
-                        <div class="row">
+                                @* <div class="form-group col-md-6 col-12">
+                                    <label asp-for="specialityId">Select Speciality</label>
+                                    <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
+                                        <option>Select Speciality</option>
+                                    </select>
+                                    <span asp-validation-for="specialityId" class="text-danger"></span>
+                                </div> *@
+                       @*  <div class="row">
                                     <div class="form-group col-md-6 col-12">
                             <label asp-for="specialityId">Select Speciality</label>
                                         <select asp-for="specialityId" class="form-control" asp-items="ViewBag.Specialities" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
@@ -75,8 +83,8 @@
                             </select>
                             <span asp-validation-for="StateId" class="text-danger"></span>
                           </div>
-                        </div>
-                        <div class="row">
+                        </div> *@
+                    @*     <div class="row">
                                     <div class="form-group col-md-6 col-12">
                             <label>City:</label>
                                         <select id="cityDropdown" asp-for="CityId" name="CityId" class="form-control" style="background-color:white;border:1px solid #dae1ef;border-radius:0.3125rem;background-clip:padding-box;    height: calc(1.5em + 1.25rem + 2px);">
@@ -95,7 +103,7 @@
                             </select>
                             
                           </div>
-                        </div>
+                        </div> *@
 
                         <div>
                             <label asp-for="Password">Password</label>
